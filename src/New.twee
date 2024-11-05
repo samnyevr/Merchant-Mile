@@ -7,7 +7,7 @@ ALPHA.v2.8.6
   "ifid": "a4616cc7-9c51-4f5e-83ab-35fd582ad1fb",
   "format": "SugarCube",
   "format-version": "2.37.3",
-  "start": "Market",
+  "start": "Start",
   "tag-colors": {
     "Outside": "green",
     "Indoor": "orange",
