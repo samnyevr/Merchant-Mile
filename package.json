@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "compile": "tweego -o index.html src/",
-    "watch": "tweego -o -w index.html src/",
+    "watch": "tweego -o index.html src/ -w",
     "open": "open index.html"
   },
   "author": "",
