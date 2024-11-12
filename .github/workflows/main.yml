@@ -16,7 +16,7 @@ jobs:
       - name: FTP Deploy
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
-          server: ftp://ftp.inklings.live  # Your FTP server
+          server: ftp.inklings.live  # Your FTP server
           username: ${{ secrets.username }}  # Add this in GitHub Secrets
           password: ${{ secrets.password }}  # Add this in GitHub Secrets
           local-dir: ./  # Adjust to the directory you want to upload
