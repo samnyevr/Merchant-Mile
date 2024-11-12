@@ -20,4 +20,4 @@ jobs:
           username: ${{ secrets.username }}  # Add this in GitHub Secrets
           password: ${{ secrets.password }}  # Add this in GitHub Secrets
           local-dir: ./build/  # Adjust to the directory you want to upload
-          server-dir: /public_html/  # Adjust to target directory on server
+          server-dir: /public_html/Twines/  # Adjust to target directory on server
