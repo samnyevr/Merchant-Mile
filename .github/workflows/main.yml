@@ -11,8 +11,8 @@ jobs:
     - name: 📂 Sync files
       uses: SamKirkland/FTP-Deploy-Action@v4.3.5
       with:
-        server: ftp.samkirkland.com
-        username: myFtpUserName
+        server: ftp.inklings.live
+        username: u296776012.inklings.live
         password: ${{ secrets.password }}
         protocol: ftps
-        port: 1234 # todo replace with your web hosts ftps port
+        server-dir: public_html/Twines
