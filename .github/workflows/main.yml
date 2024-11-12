@@ -15,4 +15,4 @@ jobs:
         username: u296776012.inklings.live
         password: ${{ secrets.password }}
         protocol: ftps
-        server-dir: public_html/Twines
+        server-dir: public_html/Twines/
