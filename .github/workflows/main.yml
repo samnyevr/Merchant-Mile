@@ -1,18 +1,23 @@
-on: push
-name: 🚀 Deploy website on push
-jobs:
-  web-deploy:
-    name: 🎉 Deploy
-    runs-on: ubuntu-latest
-    steps:
-    - name: 🚚 Get latest code
-      uses: actions/checkout@v4
+name: Deploy to inklings.live
 
-    - name: 📂 Sync files
-      uses: SamKirkland/FTP-Deploy-Action@v4.3.5
-      with:
-        server: ftp.inklings.live
-        username: u296776012.inklings.live
-        password: ${{ secrets.password }}
-        protocol: ftps
-        server-dir: public_html/Twines/
+on:
+  push:
+    branches:
+      - main  # Trigger deployment on push to the main branch
+
+jobs:
+  ftp-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: FTP Deploy
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ftp://ftp.inklings.live  # Your FTP server
+          username: ${{ secrets.username }}  # Add this in GitHub Secrets
+          password: ${{ secrets.password }}  # Add this in GitHub Secrets
+          local-dir: ./  # Adjust to the directory you want to upload
+          server-dir: /public_html/  # Adjust to target directory on server
