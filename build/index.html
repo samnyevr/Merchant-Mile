@@ -104,7 +104,7 @@ var LZString=function(){var r=String.fromCharCode,o="ABCDEFGHIJKLMNOPQRSTUVWXYZa
 		<div id="init-lacking"><p>Browser lacks capabilities required to play.</p><p>Upgrade or switch to another browser.</p></div>
 		<div id="init-loading"><div>Loading&hellip;</div></div>
 	</div>
-	<!-- UUID://C606C113-539E-46F6-A082-F3DBF61619F3// --><tw-storydata name="ALPHA.v0.8" startnode="51" creator="Tweego" creator-version="2.1.1+81d1d71" ifid="C606C113-539E-46F6-A082-F3DBF61619F3" zoom="0.6" format="SugarCube" format-version="2.37.3" options="" hidden><style role="stylesheet" id="twine-user-stylesheet" type="text/twine-css">/* twine-user-stylesheet #1: "external.css" */
+	<!-- UUID://C606C113-539E-46F6-A082-F3DBF61619F3// --><tw-storydata name="ALPHA.v0.8" startnode="61" creator="Tweego" creator-version="2.1.1+81d1d71" ifid="C606C113-539E-46F6-A082-F3DBF61619F3" zoom="0.6" format="SugarCube" format-version="2.37.3" options="" hidden><style role="stylesheet" id="twine-user-stylesheet" type="text/twine-css">/* twine-user-stylesheet #1: "external.css" */
 /* Simple Inventory, for SugarCube 2, by Chapel 
 v3.0.1, 2024-07-22, 8c9749dbafa5f12948d743a8dedd4e1c74bb9e26 */
 
@@ -2129,21 +2129,289 @@ window.toggleAudio = function () {
 // Function to adjust volume
 window.adjustVolume = function (volume) {
     window.audioElement.volume = parseFloat(volume);
-};</script><tw-tag name="Special" color="purple"></tw-tag><tw-tag name="DO-NOT-TOUCH-BELOW" color="red"></tw-tag><tw-tag name="Outside" color="green"></tw-tag><tw-tag name="Indoor" color="orange"></tw-tag><tw-passagedata pid="1" name="Bandit Dock" tags="Outside" position="1700,1300" size="100,100">A poorly maintained dock lies before you, at this time no boat to unload is present, nor any bandits...
+};</script><tw-tag name="Special" color="purple"></tw-tag><tw-tag name="DO-NOT-TOUCH-BELOW" color="red"></tw-tag><tw-tag name="Outside" color="green"></tw-tag><tw-tag name="Indoor" color="orange"></tw-tag><tw-passagedata pid="1" name="ShopRnd1" tags="" position="3400,1700" size="100,100">&lt;!-- Randomly select a single item from the $allItems list --&gt;
+&lt;&lt;set _randomItem to $allItems.random()&gt;&gt;
+
+&lt;div class=&quot;shop&quot;&gt;
+    &lt;div id=&quot;feedback&quot;&gt;&lt;/div&gt; &lt;!-- Message area for purchase feedback --&gt;
+
+    &lt;!-- Display the randomly chosen item --&gt;
+    &lt;div class=&quot;item&quot;&gt;
+        &lt;strong&gt;&lt;&lt;=_randomItem.name&gt;&gt;&lt;/strong&gt;&lt;br&gt;
+        &lt;&lt;=_randomItem.description&gt;&gt;&lt;br&gt;
+        Price: &lt;&lt;=_randomItem.value&gt;&gt; coins&lt;br&gt;
+        
+        &lt;&lt;button &quot;Buy&quot;&gt;&gt;
+            &lt;&lt;if $funds &gt;= _randomItem.value&gt;&gt;
+                &lt;&lt;set $funds -= _randomItem.value&gt;&gt;
+                &lt;&lt;pickup $player _randomItem.name 1&gt;&gt; &lt;!-- Add the random item to inventory --&gt;
+                &lt;&lt;replace &quot;#feedback&quot;&gt;&gt;You purchased &lt;&lt;=_randomItem.name&gt;&gt;!&lt;&lt;/replace&gt;&gt;
+            &lt;&lt;else&gt;&gt;
+                &lt;&lt;replace &quot;#feedback&quot;&gt;&gt;Not enough coins for this item.&lt;&lt;/replace&gt;&gt;
+            &lt;&lt;/if&gt;&gt;
+        &lt;&lt;/button&gt;&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+[[BazaarShop]]</tw-passagedata><tw-passagedata pid="2" name="ShopRnd2" tags="" position="3500,1700" size="100,100">\:: RandomItemShop
+&lt;!-- This passage displays one random item for sale each time it&#39;s accessed --&gt;
+
+&lt;&lt;set _randomItem to $allItems.random()&gt;&gt;
+
+&lt;div class=&quot;shop&quot;&gt;
+    &lt;div id=&quot;feedback&quot;&gt;&lt;/div&gt; &lt;!-- Message area for purchase feedback --&gt;
+
+    &lt;!-- Display the randomly chosen item --&gt;
+    &lt;div class=&quot;item&quot;&gt;
+        &lt;strong&gt;&lt;&lt;=_randomItem.name&gt;&gt;&lt;/strong&gt;&lt;br&gt;
+        &lt;&lt;=_randomItem.description&gt;&gt;&lt;br&gt;
+        Price: &lt;&lt;=_randomItem.value&gt;&gt; coins&lt;br&gt;
+        
+        &lt;&lt;button &quot;Buy&quot;&gt;&gt;
+            &lt;&lt;if $funds &gt;= _randomItem.value&gt;&gt;
+                &lt;&lt;set $funds -= _randomItem.value&gt;&gt;
+                &lt;&lt;pickup $player _randomItem.name 1&gt;&gt; &lt;!-- Add the random item to inventory --&gt;
+                &lt;&lt;replace &quot;#feedback&quot;&gt;&gt;You purchased &lt;&lt;=_randomItem.name&gt;&gt;!&lt;&lt;/replace&gt;&gt;
+            &lt;&lt;else&gt;&gt;
+                &lt;&lt;replace &quot;#feedback&quot;&gt;&gt;Not enough coins for this item.&lt;&lt;/replace&gt;&gt;
+            &lt;&lt;/if&gt;&gt;
+        &lt;&lt;/button&gt;&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+[[Market]]</tw-passagedata><tw-passagedata pid="3" name="Market" tags="" position="3625,1700" size="100,100">&lt;&lt;nobr&gt;&gt;&lt;html&gt;&lt;img src=&quot;https://inklings.live/Twines/icons/abstract-062.svg&quot; alt=&quot;&lt;&lt;_item1.name&gt;&gt; icon&quot; style=&quot;width: 50px; height: 50px; margin-bottom: 10px;&quot; &lt;big&gt;&lt;b&gt;Crowl |&lt;/big&gt;&lt;/b&gt;&lt;/html&gt;
+
+&lt;!-- Filter items by &quot;bazaar&quot; category and shuffle to pick 6 random items --&gt;
+&lt;&lt;set $bazaarItems to $allItems.filter(item =&gt; item.category === &quot;bazaar&quot;)&gt;&gt;
+&lt;&lt;set $displayItems to $bazaarItems.slice().sort(() =&gt; Math.random() - 0.5).slice(0, 6)&gt;&gt; &lt;!-- Shuffle and select 6 items --&gt;
+
+\:: BazaarShopTest
+&lt;!-- Setting up feedback area for purchase confirmation --&gt;
+&lt;div id=&quot;feedback&quot; style=&quot;width: 100%; margin-bottom: 15px; color: green;&quot;&gt;&lt;/div&gt;
+
+&lt;!-- Display each item with manual purchase links --&gt;
+&lt;div style=&quot;display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;&quot;&gt;
+
+    &lt;!-- Item 1 --&gt;
+    &lt;&lt;set _item1 to $displayItems[0]&gt;&gt;
+    &lt;div&gt;
+&lt;img @src=&quot;_item1.icon&quot; style=&quot;width: 50px; height: 50px; margin-bottom: 10px;&quot;&gt;
+        &lt;strong&gt;&lt;&lt;=_item1.name&gt;&gt;&lt;/strong&gt; - Price: &lt;&lt;=_item1.value&gt;&gt; funds&lt;br&gt;
+        &lt;&lt;link &quot;Buy &lt;&lt;=_item1.name&gt;&gt;&quot;&gt;&gt;
+            &lt;&lt;if $funds &gt;= _item1.value&gt;&gt;
+                &lt;&lt;set $funds -= _item1.value&gt;&gt;
+                &lt;&lt;set $mgcoffer += Math.floor(_item1.value / 5)&gt;&gt;
+                &lt;&lt;pickup $player _item1.name 1&gt;&gt;
+                &lt;&lt;replace &quot;#feedback&quot;&gt;&gt;You purchased &lt;&lt;=_item1.name&gt;&gt;! Funds left: &lt;&lt;=$funds&gt;&gt;&lt;&lt;/replace&gt;&gt;
+            &lt;&lt;else&gt;&gt;
+                &lt;&lt;replace &quot;#feedback&quot;&gt;&gt;Not enough funds to buy &lt;&lt;=_item1.name&gt;&gt;&lt;&lt;/replace&gt;&gt;
+            &lt;&lt;/if&gt;&gt;
+        &lt;&lt;/link&gt;&gt;
+    &lt;/div&gt;
+
+    &lt;!-- Item 2 --&gt;
+    &lt;&lt;set _item2 to $displayItems[1]&gt;&gt;
+    &lt;div&gt;
+    &lt;img @src=&quot;_item2.icon&quot; style=&quot;width: 50px; height: 50px; margin-bottom: 10px;&quot;&gt;
+        &lt;strong&gt;&lt;&lt;=_item2.name&gt;&gt;&lt;/strong&gt; - Price: &lt;&lt;=_item2.value&gt;&gt; funds&lt;br&gt;
+        &lt;&lt;link &quot;Buy &lt;&lt;=_item2.name&gt;&gt;&quot;&gt;&gt;
+            &lt;&lt;if $funds &gt;= _item2.value&gt;&gt;
+                &lt;&lt;set $funds -= _item2.value&gt;&gt;
+                &lt;&lt;set $mgcoffer += Math.floor(_item2.value / 5)&gt;&gt;
+                &lt;&lt;pickup $player _item2.name 1&gt;&gt;
+                &lt;&lt;replace &quot;#feedback&quot;&gt;&gt;You purchased &lt;&lt;=_item2.name&gt;&gt;! Funds left: &lt;&lt;=$funds&gt;&gt;&lt;&lt;/replace&gt;&gt;
+            &lt;&lt;else&gt;&gt;
+                &lt;&lt;replace &quot;#feedback&quot;&gt;&gt;Not enough funds to buy &lt;&lt;=_item2.name&gt;&gt;&lt;&lt;/replace&gt;&gt;
+            &lt;&lt;/if&gt;&gt;
+        &lt;&lt;/link&gt;&gt;
+    &lt;/div&gt;
+
+    &lt;!-- Item 3 --&gt;
+    &lt;&lt;set _item3 to $displayItems[2]&gt;&gt;
+    &lt;div&gt;
+    &lt;img @src=&quot;_item3.icon&quot; style=&quot;width: 50px; height: 50px; margin-bottom: 10px;&quot;&gt;
+        &lt;strong&gt;&lt;&lt;=_item3.name&gt;&gt;&lt;/strong&gt; - Price: &lt;&lt;=_item3.value&gt;&gt; funds&lt;br&gt;
+        &lt;&lt;link &quot;Buy &lt;&lt;=_item3.name&gt;&gt;&quot;&gt;&gt;
+            &lt;&lt;if $funds &gt;= _item3.value&gt;&gt;
+                &lt;&lt;set $funds -= _item3.value&gt;&gt;
+                &lt;&lt;set $mgcoffer += Math.floor(_item3.value / 5)&gt;&gt;
+                &lt;&lt;pickup $player _item3.name 1&gt;&gt;
+                &lt;&lt;replace &quot;#feedback&quot;&gt;&gt;You purchased &lt;&lt;=_item3.name&gt;&gt;! Funds left: &lt;&lt;=$funds&gt;&gt;&lt;&lt;/replace&gt;&gt;
+            &lt;&lt;else&gt;&gt;
+                &lt;&lt;replace &quot;#feedback&quot;&gt;&gt;Not enough funds to buy &lt;&lt;=_item3.name&gt;&gt;&lt;&lt;/replace&gt;&gt;
+            &lt;&lt;/if&gt;&gt;
+        &lt;&lt;/link&gt;&gt;
+    &lt;/div&gt;
+
+    &lt;!-- Item 4 --&gt;
+    &lt;&lt;set _item4 to $displayItems[3]&gt;&gt;
+    &lt;div&gt;
+    &lt;img @src=&quot;_item4.icon&quot; style=&quot;width: 50px; height: 50px; margin-bottom: 10px;&quot;&gt;
+        &lt;strong&gt;&lt;&lt;=_item4.name&gt;&gt;&lt;/strong&gt; - Price: &lt;&lt;=_item4.value&gt;&gt; funds&lt;br&gt;
+        &lt;&lt;link &quot;Buy &lt;&lt;=_item4.name&gt;&gt;&quot;&gt;&gt;
+            &lt;&lt;if $funds &gt;= _item4.value&gt;&gt;
+                &lt;&lt;set $funds -= _item4.value&gt;&gt;
+                &lt;&lt;set $mgcoffer += Math.floor(_item4.value / 5)&gt;&gt;
+                &lt;&lt;pickup $player _item4.name 1&gt;&gt;
+                &lt;&lt;replace &quot;#feedback&quot;&gt;&gt;You purchased &lt;&lt;=_item4.name&gt;&gt;! Funds left: &lt;&lt;=$funds&gt;&gt;&lt;&lt;/replace&gt;&gt;
+            &lt;&lt;else&gt;&gt;
+                &lt;&lt;replace &quot;#feedback&quot;&gt;&gt;Not enough funds to buy &lt;&lt;=_item4.name&gt;&gt;&lt;&lt;/replace&gt;&gt;
+            &lt;&lt;/if&gt;&gt;
+        &lt;&lt;/link&gt;&gt;
+    &lt;/div&gt;
+
+    &lt;!-- Item 5 --&gt;
+    &lt;&lt;set _item5 to $displayItems[4]&gt;&gt;
+    &lt;div&gt;
+    &lt;img @src=&quot;_item5.icon&quot; style=&quot;width: 50px; height: 50px; margin-bottom: 10px;&quot;&gt;
+        &lt;strong&gt;&lt;&lt;=_item5.name&gt;&gt;&lt;/strong&gt; - Price: &lt;&lt;=_item5.value&gt;&gt; funds&lt;br&gt;
+        &lt;&lt;link &quot;Buy &lt;&lt;=_item5.name&gt;&gt;&quot;&gt;&gt;
+            &lt;&lt;if $funds &gt;= _item5.value&gt;&gt;
+                &lt;&lt;set $funds -= _item5.value&gt;&gt;
+                &lt;&lt;set $mgcoffer += Math.floor(_item5.value / 5)&gt;&gt;
+                &lt;&lt;pickup $player _item5.name 1&gt;&gt;
+                &lt;&lt;replace &quot;#feedback&quot;&gt;&gt;You purchased &lt;&lt;=_item5.name&gt;&gt;! Funds left: &lt;&lt;=$funds&gt;&gt;&lt;&lt;/replace&gt;&gt;
+            &lt;&lt;else&gt;&gt;
+                &lt;&lt;replace &quot;#feedback&quot;&gt;&gt;Not enough funds to buy &lt;&lt;=_item5.name&gt;&gt;&lt;&lt;/replace&gt;&gt;
+            &lt;&lt;/if&gt;&gt;
+        &lt;&lt;/link&gt;&gt;
+    &lt;/div&gt;
+
+    &lt;!-- Item 6 --&gt;
+    &lt;&lt;set _item6 to $displayItems[5]&gt;&gt;
+    &lt;div&gt;
+    &lt;img @src=&quot;_item6.icon&quot; style=&quot;width: 50px; height: 50px; margin-bottom: 10px;&quot;&gt;
+        &lt;strong&gt;&lt;&lt;=_item6.name&gt;&gt;&lt;/strong&gt; - Price: &lt;&lt;=_item6.value&gt;&gt; funds&lt;br&gt;
+        &lt;&lt;link &quot;Buy &lt;&lt;=_item6.name&gt;&gt;&quot;&gt;&gt;
+            &lt;&lt;if $funds &gt;= _item6.value&gt;&gt;
+                &lt;&lt;set $funds -= _item6.value&gt;&gt;
+                &lt;&lt;set $mgcoffer += Math.floor(_item6.value / 5)&gt;&gt;
+                &lt;&lt;pickup $player _item6.name 1&gt;&gt;
+                &lt;&lt;replace &quot;#feedback&quot;&gt;&gt;You purchased &lt;&lt;=_item6.name&gt;&gt;! Funds left: &lt;&lt;=$funds&gt;&gt;&lt;&lt;/replace&gt;&gt;
+            &lt;&lt;else&gt;&gt;
+                &lt;&lt;replace &quot;#feedback&quot;&gt;&gt;Not enough funds to buy &lt;&lt;=_item6.name&gt;&gt;&lt;&lt;/replace&gt;&gt;
+            &lt;&lt;/if&gt;&gt;
+        &lt;&lt;/link&gt;&gt;
+    &lt;/div&gt;
+
+&lt;/div&gt;&lt;&lt;/nobr&gt;&gt;
+
+
+[[ShopRnd2]]</tw-passagedata><tw-passagedata pid="4" name="BazaarShop" tags="" position="3625,1825" size="100,100">&lt;html&gt;&lt;img src=&quot;https://inklings.live/Twines/icons/abstract-062.svg&quot; alt=&quot;&lt;&lt;_item1.name&gt;&gt; icon&quot; style=&quot;width: 50px; height: 50px; margin-bottom: 10px;&quot; /&gt;&lt;big&gt;&lt;b&gt;Crowl&lt;/big&gt;&lt;/b&gt;&lt;/html&gt;
+&lt;!-- Setting up feedback area for purchase confirmation --&gt;
+&lt;div id=&quot;feedback&quot; style=&quot;width: 100%; margin-bottom: 15px; color: green;&quot;&gt;&lt;/div&gt;
+
+&lt;!-- Display focus-based purchase counter --&gt;
+&lt;&lt;set $maxPurchases to Math.floor($focus / 20)&gt;&gt; &lt;!-- Set max purchases based on focus (e.g., 1 purchase per 20 focus) --&gt;
+&lt;&lt;set $purchasesLeft to $maxPurchases&gt;&gt;
+&lt;div&gt;Purchases available: &lt;span id=&quot;purchase-counter&quot;&gt;&lt;&lt;=$purchasesLeft&gt;&gt;&lt;/span&gt;&lt;/div&gt;
+&lt;div&gt;&lt;em&gt;&quot;I can tell you’re feeling a bit weary,&quot; says the shopkeeper, glancing at your posture.&lt;/em&gt;&lt;/div&gt;
+
+&lt;!-- Display item pool with manual purchase links --&gt;
+&lt;div style=&quot;display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;&quot;&gt;
+
+    &lt;!-- Item 1 --&gt;
+    &lt;&lt;set _item1 to $displayItems[0]&gt;&gt;
+    &lt;div&gt;
+        &lt;html&gt;&lt;img src=&quot;&lt;&lt;print _item1.icon&gt;&gt;&quot; alt=&quot;&lt;&lt;_item1.name&gt;&gt; icon&quot; style=&quot;width: 50px; height: 50px; margin-bottom: 10px;&quot; /&gt;&lt;/html&gt;
+        &lt;strong&gt;&lt;&lt;=_item1.name&gt;&gt;&lt;/strong&gt; - Price: &lt;&lt;=_item1.value&gt;&gt; funds&lt;br&gt;
+        &lt;&lt;link &quot;Buy &lt;&lt;=_item1.name&gt;&gt;&quot;&gt;&gt;
+            &lt;&lt;if $funds &gt;= _item1.value and _item1.quantity &gt; 0 and $purchasesLeft &gt; 0&gt;&gt;
+                &lt;&lt;set $funds -= _item1.value&gt;&gt;
+                &lt;&lt;set $mgcoffer += Math.floor(_item1.value / 5)&gt;&gt;
+                &lt;&lt;pickup $player _item1.name 1&gt;&gt;
+                &lt;&lt;set _item1.quantity -= 1&gt;&gt;
+                &lt;&lt;set $purchasesLeft -= 1&gt;&gt;
+
+                &lt;!-- Update quantity and purchase counter --&gt;
+                &lt;&lt;replace &quot;#feedback&quot;&gt;&gt;You purchased &lt;&lt;=_item1.name&gt;&gt;! Funds left: &lt;&lt;=$funds&gt;&gt;&lt;&lt;/replace&gt;&gt;
+                &lt;&lt;replace &quot;#purchase-counter&quot;&gt;&gt;&lt;&lt;=$purchasesLeft&gt;&gt;&lt;&lt;/replace&gt;&gt;
+
+                &lt;!-- Sidebar Update for Funds --&gt;
+                &lt;&lt;run UI.update()&gt;&gt;
+
+                &lt;!-- Notify when out of purchases --&gt;
+                &lt;&lt;if $purchasesLeft === 0&gt;&gt;
+                    &lt;&lt;replace &quot;#feedback&quot;&gt;&gt;&quot;You seem to be out of energy to make more purchases,&quot; the shopkeeper observes.&lt;&lt;/replace&gt;&gt;
+                &lt;&lt;/if&gt;&gt;
+
+            &lt;&lt;elseif $purchasesLeft &lt;= 0&gt;&gt;
+                &lt;&lt;replace &quot;#feedback&quot;&gt;&gt;&quot;It looks like you’re too tired to continue shopping,&quot; the shopkeeper remarks.&lt;&lt;/replace&gt;&gt;
+            &lt;&lt;elseif $funds &lt; _item1.value&gt;&gt;
+                &lt;&lt;replace &quot;#feedback&quot;&gt;&gt;Not enough funds to buy &lt;&lt;=_item1.name&gt;&gt;&lt;&lt;/replace&gt;&gt;
+            &lt;&lt;/if&gt;&gt;
+        &lt;&lt;/link&gt;&gt;
+    &lt;/div&gt;
+
+    &lt;!-- Repeat this block for each item (2-6) --&gt;
+
+&lt;/div&gt;
+
+&lt;&lt;set $shopVisitCount to $shopVisitCount + 1&gt;&gt;
+&lt;&lt;if $shopVisitCount &gt;= 12&gt;&gt;
+    &lt;&lt;set $shopVisitCount to 0&gt;&gt;
+    &lt;&lt;set $displayItems to $bazaarItems.slice().sort(() =&gt; Math.random() - 0.5).slice(0, 6)&gt;&gt;
+&lt;&lt;/if&gt;&gt;
+
+[[ShopRnd2]]
+
+[[ShopRnd1]]</tw-passagedata><tw-passagedata pid="5" name="Caretakers" tags="" position="2400,625" size="100,100">&lt;b&gt;&lt;i&gt;Do you..&lt;/i&gt;&lt;/b&gt;
+- [[Back to Barn.|CityFarm]]
+- [[Look around East.|Wheatfield]]
+- [[Look around north.|Stalls]]
+
+&lt;sub&gt;&lt;u&gt;Back to Crowl&lt;/u&gt;&lt;/sub&gt;
+- [[Slums]] 
+- [[Lower Slums]]</tw-passagedata><tw-passagedata pid="6" name="CityFarm" tags="Outside" position="2400,400" size="200,200">A massive farm sprawls the area from where you stand. Up ahead a handful of land caretakers seem to be in a meeting...
+
+&lt;b&gt;&lt;i&gt;Do you..&lt;/i&gt;&lt;/b&gt;
+- [[Inquire the huddle.|Caretakers]]
+- [[Look around north.|Stalls]]
+- [[Look around East.|Wheatfield]]
+
+&lt;sub&gt;&lt;u&gt;Back to Crowl&lt;/u&gt;&lt;/sub&gt;
+- [[Slums]] 
+- [[Lower Slums]]</tw-passagedata><tw-passagedata pid="7" name="Lower Slums" tags="Outside" position="2100,900" size="100,200">&lt;html&gt;&lt;img src=&quot;https://inklings.live/Twines/icons/abstract-062.svg&quot; alt=&quot;&lt;&lt;_item1.name&gt;&gt; icon&quot; style=&quot;width: 50px; height: 50px; margin-bottom: 10px;&quot; /&gt;&lt;big&gt;&lt;b&gt;Crowl&lt;/big&gt;&lt;/b&gt;&lt;/html&gt;
+&lt;b&gt;&lt;u&gt;&lt;&lt;=passage()&gt;&gt;&lt;/u&gt;&lt;/b&gt;
+&lt;b&gt;&lt;i&gt;Where to?&lt;/i&gt;&lt;/b&gt;
+-&lt;&lt;link &quot; South&quot;&gt;&gt;
+    &lt;&lt;goto &quot;SouthGate&quot;&gt;&gt;
+&lt;&lt;/link&gt;&gt;
+- [[Slums]]
+- [[CityFarm]]</tw-passagedata><tw-passagedata pid="8" name="Stalls" tags="" position="2400,250" size="100,100">&lt;b&gt;&lt;i&gt;Do you..&lt;/i&gt;&lt;/b&gt;
+- [[Back to Barn.|CityFarm]]
+- [[Look around East.|Wheatfield]]
+- [[Inquire the huddle.|Caretakers]]
+
+&lt;sub&gt;&lt;u&gt;Back to Crowl&lt;/u&gt;&lt;/sub&gt;
+- [[Slums]] 
+- [[Lower Slums]]</tw-passagedata><tw-passagedata pid="9" name="Slums" tags="Indoor" position="2000,200" size="100,200">&lt;html&gt;&lt;img src=&quot;https://inklings.live/Twines/icons/abstract-062.svg&quot; alt=&quot;&lt;&lt;_item1.name&gt;&gt; icon&quot; style=&quot;width: 50px; height: 50px; margin-bottom: 10px;&quot; /&gt;&lt;big&gt;&lt;b&gt;Crowl&lt;/big&gt;&lt;/b&gt;&lt;/html&gt;
+&lt;b&gt;&lt;u&gt;&lt;&lt;=passage()&gt;&gt;&lt;/u&gt;&lt;/b&gt;
+&lt;b&gt;&lt;i&gt;Where to?&lt;/i&gt;&lt;/b&gt;
+-&lt;&lt;link &quot;Toward the Norther Gate.&quot;&gt;&gt;
+    &lt;&lt;goto &quot;North Gate&quot;&gt;&gt;
+&lt;&lt;/link&gt;&gt;
+- [[CityFarm]]
+- [[Lower Slums]]</tw-passagedata><tw-passagedata pid="10" name="Wheatfield" tags="" position="2650,450" size="100,100">&lt;b&gt;&lt;i&gt;Do you..&lt;/i&gt;&lt;/b&gt;
+- [[Back to Barn.|CityFarm]]
+- [[Look around north.|Stalls]]
+- [[Inquire the huddle.|Caretakers]]
+
+&lt;sub&gt;&lt;u&gt;Back to Crowl&lt;/u&gt;&lt;/sub&gt;
+- [[Slums]] 
+- [[Lower Slums]]</tw-passagedata><tw-passagedata pid="11" name="Bandit Dock" tags="Outside" position="1700,1300" size="100,100">A poorly maintained dock lies before you, at this time no boat to unload is present, nor any bandits...
 
 &lt;b&gt;&lt;i&gt;Back to..&lt;/i&gt;&lt;/b&gt;
-- [[Bandits]]</tw-passagedata><tw-passagedata pid="2" name="Bandits" tags="Outside" position="1700,1150" size="100,100">&lt;b&gt;&lt;i&gt;Where to?&lt;/i&gt;&lt;/b&gt;
+- [[Bandits]]</tw-passagedata><tw-passagedata pid="12" name="Bandits" tags="Outside" position="1700,1150" size="100,100">&lt;b&gt;&lt;i&gt;Where to?&lt;/i&gt;&lt;/b&gt;
 - [[SouthGate]]
-- [[Bandit Dock]]</tw-passagedata><tw-passagedata pid="3" name="Barracks" tags="Indoor" position="1550,1100" size="100,100">Musty interior tells you how likely anyone bathes between posts.
+- [[Bandit Dock]]</tw-passagedata><tw-passagedata pid="13" name="Barracks" tags="Indoor" position="1550,1100" size="100,100">Musty interior tells you how likely anyone bathes between posts.
 
 &lt;b&gt;&lt;i&gt;Where to?&lt;/i&gt;&lt;/b&gt;
 - [[SouthGate]]
-- [[Bandits]]</tw-passagedata><tw-passagedata pid="4" name="Bazaar" tags="Indoor" position="1200,500" size="100,200">&lt;html&gt;&lt;img src=&quot;https://inklings.live/Twines/icons/abstract-062.svg&quot; alt=&quot;&lt;&lt;_item1.name&gt;&gt; icon&quot; style=&quot;width: 50px; height: 50px; margin-bottom: 10px;&quot; /&gt;&lt;big&gt;&lt;b&gt;Crowl&lt;/big&gt;&lt;/b&gt;&lt;/html&gt;
+- [[Bandits]]</tw-passagedata><tw-passagedata pid="14" name="Bazaar" tags="Indoor" position="1200,500" size="100,200">&lt;html&gt;&lt;img src=&quot;https://inklings.live/Twines/icons/abstract-062.svg&quot; alt=&quot;&lt;&lt;_item1.name&gt;&gt; icon&quot; style=&quot;width: 50px; height: 50px; margin-bottom: 10px;&quot; /&gt;&lt;big&gt;&lt;b&gt;Crowl&lt;/big&gt;&lt;/b&gt;&lt;/html&gt;
 &lt;b&gt;&lt;u&gt;&lt;&lt;=passage()&gt;&gt;&lt;/u&gt;&lt;/b&gt;
 &lt;b&gt;&lt;i&gt;Where to?&lt;/i&gt;&lt;/b&gt;
 - [[Square]] 
 - [[Southern Pass|T2]] 
-- [[Witches]]</tw-passagedata><tw-passagedata pid="5" name="BlackoutPassage" tags="" position="1100,200" size="100,100">\:: BlackoutPassage
+- [[Witches]]</tw-passagedata><tw-passagedata pid="15" name="BlackoutPassage" tags="" position="1100,200" size="100,100">\:: BlackoutPassage
 You feel the world spinning... and then everything goes black.
 
 &lt;&lt;set $focus to 50&gt;&gt;  &lt;!-- Restore focus --&gt;
@@ -2163,7 +2431,7 @@ You lost &lt;&lt;print _fundsLoss&gt;&gt; coins during the blackout.
 When you awaken, a few coins seem to be missing, but you&#39;re not quite sure what happened...
 
 [[North Gate]] 
-[[Continue|View Cart]]</tw-passagedata><tw-passagedata pid="6" name="BlankAccording" tags="" position="4400,1200" size="100,100">&lt;&lt;nobr&gt;&gt;
+[[Continue|View Cart]]</tw-passagedata><tw-passagedata pid="16" name="BlankAccording" tags="" position="4400,1200" size="100,100">&lt;&lt;nobr&gt;&gt;
 &lt;div class=&quot;accordion-container&quot;&gt;
     &lt;div class=&quot;accordion-content&quot;&gt;
         &lt;div id=&quot;corePassage&quot; class=&quot;accordion-panel show&quot;&gt;
@@ -2234,18 +2502,18 @@ When you awaken, a few coins seem to be missing, but you&#39;re not quite sure w
         &lt;button class=&quot;accordion-button&quot; onclick=&quot;togglePanel(&#39;inventory&#39;)&quot;&gt;Inventory&lt;/button&gt;
     &lt;/div&gt;
 &lt;/div&gt;
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="7" name="CBridgeA" tags="Outside" position="975,575" size="100,100">&lt;html&gt;&lt;img src=&quot;https://inklings.live/Twines/icons/abstract-062.svg&quot; alt=&quot;&lt;&lt;_item1.name&gt;&gt; icon&quot; style=&quot;width: 50px; height: 50px; margin-bottom: 10px;&quot; /&gt;&lt;big&gt;&lt;b&gt;Crowl&lt;/big&gt;&lt;/b&gt;&lt;/html&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="17" name="CBridgeA" tags="Outside" position="975,575" size="100,100">&lt;html&gt;&lt;img src=&quot;https://inklings.live/Twines/icons/abstract-062.svg&quot; alt=&quot;&lt;&lt;_item1.name&gt;&gt; icon&quot; style=&quot;width: 50px; height: 50px; margin-bottom: 10px;&quot; /&gt;&lt;big&gt;&lt;b&gt;Crowl&lt;/big&gt;&lt;/b&gt;&lt;/html&gt;
 &lt;b&gt;&lt;u&gt;&lt;&lt;=passage()&gt;&gt;&lt;/u&gt;&lt;/b&gt;
 &lt;b&gt;&lt;i&gt;Where to?&lt;/i&gt;&lt;/b&gt;
 - [[North Path|T1]] 
 - [[Witches]] 
 - [[MayorOffice]]
 &lt;sub&gt;&lt;u&gt;Toward Moon Docks&lt;/u&gt;&lt;/sub&gt;
-- [[Moonligh Path|T4]]</tw-passagedata><tw-passagedata pid="8" name="CReg" tags="" position="700,725" size="100,100">- &lt;&lt;link &quot;Main Hall&quot;&gt;&gt;
+- [[Moonligh Path|T4]]</tw-passagedata><tw-passagedata pid="18" name="CReg" tags="" position="700,725" size="100,100">- &lt;&lt;link &quot;Main Hall&quot;&gt;&gt;
     &lt;&lt;goto &quot;MayorOffice&quot;&gt;&gt;
-&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="9" name="CStorage" tags="" position="700,825" size="100,100">- &lt;&lt;link &quot;Main Hall&quot;&gt;&gt;
+&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="19" name="CStorage" tags="" position="700,825" size="100,100">- &lt;&lt;link &quot;Main Hall&quot;&gt;&gt;
     &lt;&lt;goto &quot;MayorOffice&quot;&gt;&gt;
-&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="10" name="ClickMap" tags="" position="4100,1200" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="20" name="ClickMap" tags="" position="4100,1200" size="100,100">&lt;&lt;nobr&gt;&gt;
 	&lt;div class=&quot;resizable imageMapObserve&quot;&gt;
     	&lt;img src=&quot;https://media.discordapp.net/attachments/1295277017167691846/1304700483243606027/Cape_Crowl_mp.jpg?ex=67305883&amp;is=672f0703&amp;hm=e2e99dfee886067d58a730e5a43fb336d96b049677d4362e2d99f5cb61afb29e&amp;=&amp;format=webp&amp;width=619&amp;height=619&quot; usemap=&quot;#image-map&quot;&gt;
 	&lt;/div&gt;
@@ -2298,7 +2566,7 @@ When you awaken, a few coins seem to be missing, but you&#39;re not quite sure w
 		});
 	&lt;&lt;/script&gt;&gt;
 &lt;&lt;/done&gt;&gt;
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="11" name="Crafting" tags="" position="2625,800" size="100,100">&lt;html&gt;&lt;img src=&quot;https://inklings.live/Twines/icons/house.svg&quot; alt=&quot;&lt;&lt;_item1.name&gt;&gt; icon&quot; style=&quot;width: 50px; height: 50px; margin-bottom: 10px;&quot; /&gt;&lt;img src=&quot;https://inklings.live/Twines/icons/toolbox.svg&quot; alt=&quot;&lt;&lt;_item1.name&gt;&gt; icon&quot; style=&quot;width: 50px; height: 50px; margin-bottom: 10px;&quot; /&gt;&lt;big&gt;&lt;b&gt;Crowl&lt;/big&gt;&lt;/b&gt;&lt;/html&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="21" name="Crafting" tags="" position="2625,800" size="100,100">&lt;html&gt;&lt;img src=&quot;https://inklings.live/Twines/icons/house.svg&quot; alt=&quot;&lt;&lt;_item1.name&gt;&gt; icon&quot; style=&quot;width: 50px; height: 50px; margin-bottom: 10px;&quot; /&gt;&lt;img src=&quot;https://inklings.live/Twines/icons/toolbox.svg&quot; alt=&quot;&lt;&lt;_item1.name&gt;&gt; icon&quot; style=&quot;width: 50px; height: 50px; margin-bottom: 10px;&quot; /&gt;&lt;big&gt;&lt;b&gt;Crowl&lt;/big&gt;&lt;/b&gt;&lt;/html&gt;
 &lt;b&gt;&lt;u&gt;&lt;&lt;=passage()&gt;&gt;&lt;/u&gt;&lt;/b&gt;
 &lt;i&gt;You continue further to the clanking and sounds of forced fusion. You see a plethora of tables with odds and ends of repurposed materials. A blacksmith nearby yells out after noticing you:&lt;/i&gt;
 &lt;i&gt;&lt;b&gt;&quot;YA frae to use, just bring your own supplies to bully!&quot;&lt;/b&gt;&lt;/i&gt;
@@ -2308,7 +2576,7 @@ When you awaken, a few coins seem to be missing, but you&#39;re not quite sure w
 &lt;u&gt;&lt;b&gt;Choose an item to craft:&lt;/b&gt;&lt;/u&gt;&gt;
 &lt;div id=&quot;crafting-interface&quot;&gt;
     &lt;&lt;include &quot;CraftingUI&quot;&gt;&gt;
-&lt;/div&gt;</tw-passagedata><tw-passagedata pid="12" name="CraftingUI" tags="" position="2800,850" size="100,100">&lt;ul&gt;
+&lt;/div&gt;</tw-passagedata><tw-passagedata pid="22" name="CraftingUI" tags="" position="2800,850" size="100,100">&lt;ul&gt;
     &lt;&lt;for _item, _materials range setup.recipes&gt;&gt;
         &lt;&lt;capture _materials _item&gt;&gt;
             &lt;li&gt;_item (Requires: &lt;&lt;for _mat, _num range _materials&gt;&gt;&lt;&lt;= _mat + &quot; x&quot; + _num + &quot; &quot;&gt;&gt;&lt;&lt;/for&gt;&gt;)
@@ -2324,7 +2592,7 @@ When you awaken, a few coins seem to be missing, but you&#39;re not quite sure w
             &lt;/li&gt;
         &lt;&lt;/capture&gt;&gt;
     &lt;&lt;/for&gt;&gt;
-&lt;/ul&gt;</tw-passagedata><tw-passagedata pid="13" name="Crowl Opener" tags="" position="1100,0" size="100,100">[[North Gate|North Gate]]</tw-passagedata><tw-passagedata pid="14" name="DO NOT TOUCH BELOW" tags="DO-NOT-TOUCH-BELOW" position="0,0" size="100,100"></tw-passagedata><tw-passagedata pid="15" name="Dock.1" tags="Outside" position="500,1300" size="200,200">&lt;html&gt;&lt;img src=&quot;https://inklings.live/Twines/icons/abstract-062.svg&quot; alt=&quot;&lt;&lt;_item1.name&gt;&gt; icon&quot; style=&quot;width: 50px; height: 50px; margin-bottom: 10px;&quot; /&gt;&lt;big&gt;&lt;b&gt;Crowl&lt;/big&gt;&lt;/b&gt;&lt;/html&gt;
+&lt;/ul&gt;</tw-passagedata><tw-passagedata pid="23" name="Crowl Opener" tags="" position="1100,0" size="100,100">[[North Gate|North Gate]]</tw-passagedata><tw-passagedata pid="24" name="DO NOT TOUCH BELOW" tags="DO-NOT-TOUCH-BELOW" position="0,0" size="100,100"></tw-passagedata><tw-passagedata pid="25" name="Dock.1" tags="Outside" position="500,1300" size="200,200">&lt;html&gt;&lt;img src=&quot;https://inklings.live/Twines/icons/abstract-062.svg&quot; alt=&quot;&lt;&lt;_item1.name&gt;&gt; icon&quot; style=&quot;width: 50px; height: 50px; margin-bottom: 10px;&quot; /&gt;&lt;big&gt;&lt;b&gt;Crowl&lt;/big&gt;&lt;/b&gt;&lt;/html&gt;
 &lt;b&gt;&lt;u&gt;&lt;&lt;=passage()&gt;&gt;&lt;/u&gt;&lt;/b&gt;
 Fresh sea breeze rushes your nostrils. The scent of worn copper passing many hands lingers.
 
@@ -2334,7 +2602,7 @@ Fresh sea breeze rushes your nostrils. The scent of worn copper passing many han
 - [[MerchantGuild]] 
 - [[Southern Dock|Dock.2]]
 &lt;sub&gt;&lt;u&gt;To Moon Dock&lt;/u&gt;&lt;/sub&gt;
-- [[Moon Pass|T4]]</tw-passagedata><tw-passagedata pid="16" name="Dock.2" tags="Outside" position="300,1600" size="100,200">&lt;html&gt;&lt;img src=&quot;https://inklings.live/Twines/icons/abstract-062.svg&quot; alt=&quot;&lt;&lt;_item1.name&gt;&gt; icon&quot; style=&quot;width: 50px; height: 50px; margin-bottom: 10px;&quot; /&gt;&lt;big&gt;&lt;b&gt;Crowl&lt;/big&gt;&lt;/b&gt;&lt;/html&gt;
+- [[Moon Pass|T4]]</tw-passagedata><tw-passagedata pid="26" name="Dock.2" tags="Outside" position="300,1600" size="100,200">&lt;html&gt;&lt;img src=&quot;https://inklings.live/Twines/icons/abstract-062.svg&quot; alt=&quot;&lt;&lt;_item1.name&gt;&gt; icon&quot; style=&quot;width: 50px; height: 50px; margin-bottom: 10px;&quot; /&gt;&lt;big&gt;&lt;b&gt;Crowl&lt;/big&gt;&lt;/b&gt;&lt;/html&gt;
 &lt;b&gt;&lt;u&gt;&lt;&lt;=passage()&gt;&gt;&lt;/u&gt;&lt;/b&gt;
 Fresh sea breeze rushes your nostrils. The scent of worn copper passing many hands lingers.
 
@@ -2342,7 +2610,7 @@ Fresh sea breeze rushes your nostrils. The scent of worn copper passing many han
 - [[Northern Dock|Dock.1]]
 - [[Quarters|DockQrts]] 
 - [[MerchantGuild]] 
-- [[Homes]]</tw-passagedata><tw-passagedata pid="17" name="DockQrts" tags="Outside" position="700,1700" size="200,200">&lt;html&gt;&lt;img src=&quot;https://inklings.live/Twines/icons/abstract-062.svg&quot; alt=&quot;&lt;&lt;_item1.name&gt;&gt; icon&quot; style=&quot;width: 50px; height: 50px; margin-bottom: 10px;&quot; /&gt;&lt;big&gt;&lt;b&gt;Crowl&lt;/big&gt;&lt;/b&gt;&lt;/html&gt;
+- [[Homes]]</tw-passagedata><tw-passagedata pid="27" name="DockQrts" tags="Outside" position="700,1700" size="200,200">&lt;html&gt;&lt;img src=&quot;https://inklings.live/Twines/icons/abstract-062.svg&quot; alt=&quot;&lt;&lt;_item1.name&gt;&gt; icon&quot; style=&quot;width: 50px; height: 50px; margin-bottom: 10px;&quot; /&gt;&lt;big&gt;&lt;b&gt;Crowl&lt;/big&gt;&lt;/b&gt;&lt;/html&gt;
 &lt;b&gt;&lt;u&gt;&lt;&lt;=passage()&gt;&gt;&lt;/u&gt;&lt;/b&gt;
 Spwarling with live of all kinds is the coastal neighborhood of Crowl. Some are well off, then others just linger...
 
@@ -2351,15 +2619,15 @@ Spwarling with live of all kinds is the coastal neighborhood of Crowl. Some are 
 - [[Northern Dock|Dock.1]] 
 - [[Southern Dock|Dock.2]]
 - [[MerchantGuild]]
-- [[Homes]]</tw-passagedata><tw-passagedata pid="18" name="Dream" tags="" position="550,0" size="100,100">&lt;h2&gt;Late that Night&lt;/h2&gt;
+- [[Homes]]</tw-passagedata><tw-passagedata pid="28" name="Dream" tags="" position="550,0" size="100,100">&lt;h2&gt;Late that Night&lt;/h2&gt;
 &lt;&lt;fadein 10s&gt;&gt;The voices drift into your half-conscious mind—snatches of conversations that sound like riddles folded over riddles. You aren’t sure who’s speaking, but the tales are clear enough. They whisper of Crowl, of merchants who speak in riddles, cursed bazaars where every bargain costs more than coin, and a mayor whose smile could hide a dagger. Someone mutters about a &quot;cart without wheels, sitting forever at a farmhouse, its price rising like a snake uncoiling in the sun.&quot;&lt;&lt;/fadein&gt;&gt;
 
-&lt;&lt;fadein 5s 11s&gt;&gt;[[Then you hear the strangest thing of all.|Listen...]]&lt;&lt;/fadein&gt;&gt;</tw-passagedata><tw-passagedata pid="19" name="End Game" tags="" position="825,275" size="100,100">\::End Game
+&lt;&lt;fadein 5s 11s&gt;&gt;[[Then you hear the strangest thing of all.|Listen...]]&lt;&lt;/fadein&gt;&gt;</tw-passagedata><tw-passagedata pid="29" name="End Game" tags="" position="825,275" size="100,100">\::End Game
 &lt;h1&gt;The Cart Without Wheels is Yours!&lt;/h1&gt;
 &lt;p&gt;You’ve finally acquired the cart... and with it, the dream of creating The Merchant Mile feels closer than ever.&lt;/p&gt;
 &lt;p&gt;But deep down, you know—this is only the beginning of a grander journey.&lt;/p&gt;
 
-&lt;p&gt;(To be continued...)&lt;/p&gt;</tw-passagedata><tw-passagedata pid="20" name="EndIntro" tags="" position="950,0" size="100,100">&lt;!-- Background image styling --&gt;
+&lt;p&gt;(To be continued...)&lt;/p&gt;</tw-passagedata><tw-passagedata pid="30" name="EndIntro" tags="" position="950,0" size="100,100">&lt;!-- Background image styling --&gt;
 &lt;style&gt;
   #passage {
     background-image: url(&#39;images/background.jpg&#39;); /* Replace with your background image path */
@@ -2383,7 +2651,7 @@ nothing in Crowl is ever exactly as it seems. Whispers travel through the street
 connecting everyone to something bigger.
 &lt;/i&gt;
 
-[[ Crowl Intro|Crowl Opener]]</tw-passagedata><tw-passagedata pid="21" name="EquipmentInventory" tags="" position="2800,1050" size="100,100">&lt;&lt;inv $equipment&gt;&gt;</tw-passagedata><tw-passagedata pid="22" name="Ex 3" tags="" position="3400,700" size="100,100">&lt;&lt;set $rndchest1 = $rndchest1 || false&gt;&gt; &lt;!-- Initialize chest flag --&gt;
+[[ Crowl Intro|Crowl Opener]]</tw-passagedata><tw-passagedata pid="31" name="EquipmentInventory" tags="" position="2800,1050" size="100,100">&lt;&lt;inv $equipment&gt;&gt;</tw-passagedata><tw-passagedata pid="32" name="Ex 3" tags="" position="3400,700" size="100,100">&lt;&lt;set $rndchest1 = $rndchest1 || false&gt;&gt; &lt;!-- Initialize chest flag --&gt;
 &lt;&lt;set _secretNumber = random(1, 5)&gt;&gt; &lt;!-- Generate a secret number between 1 and 5 --&gt;
 &lt;&lt;set $focus = $focus || 100&gt;&gt; &lt;!-- Initialize focus if not already set --&gt;
 &lt;&lt;set _guessCount = _guessCount || 0&gt;&gt; &lt;!-- Initialize guess counter --&gt;
@@ -2429,7 +2697,7 @@ connecting everyone to something bigger.
 &lt;/div&gt;
 
 &lt;div id=&quot;result&quot;&gt;&lt;/div&gt; &lt;!-- Placeholder for the result message --&gt;
-&lt;div id=&quot;attempts&quot;&gt;&lt;/div&gt; &lt;!-- Placeholder for attempts or success message --&gt;</tw-passagedata><tw-passagedata pid="23" name="Examples" tags="" position="3200,700" size="100,100">&lt;&lt;link &quot;Steak&quot; &quot;Next Passage&quot;&gt;&gt;
+&lt;div id=&quot;attempts&quot;&gt;&lt;/div&gt; &lt;!-- Placeholder for attempts or success message --&gt;</tw-passagedata><tw-passagedata pid="33" name="Examples" tags="" position="3200,700" size="100,100">&lt;&lt;link &quot;Steak&quot; &quot;Next Passage&quot;&gt;&gt;
     &lt;&lt;set $multipleChoiceSelection to &#39;Steak&#39;&gt;&gt;
     &lt;&lt;run send_multiple_choice()&gt;&gt;
 &lt;&lt;/link&gt;&gt;
@@ -2491,7 +2759,7 @@ hat&#39;s your favorite pie?
 
 → Creates a text block that modifies $pieEssay
 Write a short essay about pies:
-&lt;&lt;textarea &quot;$pieEssay&quot; &quot;&quot;&gt;&gt;</tw-passagedata><tw-passagedata pid="24" name="Examples 2" tags="" position="3300,700" size="100,100">→ Given the following
+&lt;&lt;textarea &quot;$pieEssay&quot; &quot;&quot;&gt;&gt;</tw-passagedata><tw-passagedata pid="34" name="Examples 2" tags="" position="3300,700" size="100,100">→ Given the following
 I&#39;d like a &lt;span id=&quot;huge-cupcake&quot;&gt;humongous &lt;/span&gt;cupcake, please.
 
 → Remove the target element
@@ -2511,11 +2779,11 @@ I saw a &lt;span id=&quot;dog&quot;&gt;dog&lt;/span&gt;.
 &lt;&lt;/link&gt;&gt;
 
 → Result, after clicking
-I saw a &lt;span id=&quot;dog&quot;&gt;&lt;span class=&quot;macro-replace-insert&quot;&gt;Catahoula Cur&lt;/span&gt;&lt;/span&gt;.</tw-passagedata><tw-passagedata pid="25" name="FarmC" tags="" position="825,150" size="100,100">[[View Cart]]
+I saw a &lt;span id=&quot;dog&quot;&gt;&lt;span class=&quot;macro-replace-insert&quot;&gt;Catahoula Cur&lt;/span&gt;&lt;/span&gt;.</tw-passagedata><tw-passagedata pid="35" name="FarmC" tags="" position="825,150" size="100,100">[[View Cart]]
 
 &lt;if/else&gt;
 
-[[Wake|Wake]]</tw-passagedata><tw-passagedata pid="26" name="HallOfRecords" tags="" position="800,725" size="100,100">Along the entirety of the walls in this room hold all the statistics of an individual, as if they were being watched. Almost every decision they&#39;ve ever made has appeared here...
+[[Wake|Wake]]</tw-passagedata><tw-passagedata pid="36" name="HallOfRecords" tags="" position="800,725" size="100,100">Along the entirety of the walls in this room hold all the statistics of an individual, as if they were being watched. Almost every decision they&#39;ve ever made has appeared here...
 
 
 &lt;div class=&quot;hall-of-records&quot;&gt;
@@ -2553,12 +2821,12 @@ I saw a &lt;span id=&quot;dog&quot;&gt;&lt;span class=&quot;macro-replace-insert
 
 - &lt;&lt;link &quot;Main Hall&quot;&gt;&gt;
     &lt;&lt;goto &quot;MayorOffice&quot;&gt;&gt;
-&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="27" name="Homes" tags="Outside" position="700,1975" size="200,100">&lt;html&gt;&lt;img src=&quot;https://inklings.live/Twines/icons/abstract-062.svg&quot; alt=&quot;&lt;&lt;_item1.name&gt;&gt; icon&quot; style=&quot;width: 50px; height: 50px; margin-bottom: 10px;&quot; /&gt;&lt;big&gt;&lt;b&gt;Crowl&lt;/big&gt;&lt;/b&gt;&lt;/html&gt;
+&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="37" name="Homes" tags="Outside" position="700,1975" size="200,100">&lt;html&gt;&lt;img src=&quot;https://inklings.live/Twines/icons/abstract-062.svg&quot; alt=&quot;&lt;&lt;_item1.name&gt;&gt; icon&quot; style=&quot;width: 50px; height: 50px; margin-bottom: 10px;&quot; /&gt;&lt;big&gt;&lt;b&gt;Crowl&lt;/big&gt;&lt;/b&gt;&lt;/html&gt;
 &lt;b&gt;&lt;u&gt;&lt;&lt;=passage()&gt;&gt;&lt;/u&gt;&lt;/b&gt;
 &lt;b&gt;&lt;i&gt;Where to?&lt;/i&gt;&lt;/b&gt;
 - [[Dock.2]] 
 - [[DockQrts]] 
-- [[Post]]</tw-passagedata><tw-passagedata pid="28" name="INTRO" tags="" position="300,125" size="100,100">This is the &lt;h1&gt;NO BEEF&lt;/h1&gt; 
+- [[Post]]</tw-passagedata><tw-passagedata pid="38" name="INTRO" tags="" position="300,125" size="100,100">This is the &lt;h1&gt;NO BEEF&lt;/h1&gt; 
 &lt;img src=&quot;https://inklings.live/Twines/MMP/BeefX.webp&quot; alt=&quot;No Beef Icon&quot; style=&quot;width: 50px; height: 50px;&quot;&gt;
 Alpha release.
 Its core purpose is to show the idea, get a feel for th navigational taste, and filter ideas from the tester community on what would be neat to see.
@@ -2576,7 +2844,7 @@ Until then try this out imagine its potential and help me push its limits.
 &lt;sub&gt;I appreciate your time into viewing this project.&lt;/sub&gt;
 
 
-[[Begin the Demo|Opener]]</tw-passagedata><tw-passagedata pid="29" name="Iron" tags="" position="2600,1500" size="100,100">&lt;&lt;if $ironcache is true&gt;&gt;&lt;img src=&quot;https://inklings.live/Twines/icons/hand%20%(2).svg&quot; alt=&quot;Hand icon&quot; style=&quot;width: 50px; height: 50px; margin-bottom: 10px;&quot; /&gt;&lt;&lt;/if&gt;&gt;
+[[Begin the Demo|Opener]]</tw-passagedata><tw-passagedata pid="39" name="Iron" tags="" position="2600,1500" size="100,100">&lt;&lt;if $ironcache is true&gt;&gt;&lt;img src=&quot;https://inklings.live/Twines/icons/hand%20%(2).svg&quot; alt=&quot;Hand icon&quot; style=&quot;width: 50px; height: 50px; margin-bottom: 10px;&quot; /&gt;&lt;&lt;/if&gt;&gt;
 &lt;&lt;if $equipment.has(&quot;pickaxe&quot;)&gt;&gt;&lt;html&gt;&lt;img src=&quot;https://inklings.live/Twines/icons/battered-axe.svg&quot; alt=&quot;Axe icon&quot; style=&quot;width: 50px; height: 50px; margin-bottom: 10px;&quot; /&gt;&lt;big&gt;&lt;b&gt;Wilds&lt;/big&gt;&lt;/b&gt;&lt;/html&gt;&lt;&lt;/if&gt;&gt;
 &lt;b&gt;&lt;u&gt;&lt;&lt;=passage()&gt;&gt;&lt;/u&gt;&lt;/b&gt;
 Iron: @@#mats;&lt;&lt;= $materials.count(&quot;iron&quot;)&gt;&gt;@@
@@ -2613,13 +2881,13 @@ No loose iron nearby.
     &lt;p&gt;Your focus is too low for this task. You need at least 10 focus to continue.&lt;/p&gt;
 &lt;&lt;/if&gt;&gt;
 
-[[Back to Crowl|SouthGate]]</tw-passagedata><tw-passagedata pid="30" name="JewelerBuy" tags="" position="900,1600" size="100,100">&lt;h2&gt;Items for sale:&lt;/h2&gt;
+[[Back to Crowl|SouthGate]]</tw-passagedata><tw-passagedata pid="40" name="JewelerBuy" tags="" position="900,1600" size="100,100">&lt;h2&gt;Items for sale:&lt;/h2&gt;
 
 
-[[Go back|Jewelers]]</tw-passagedata><tw-passagedata pid="31" name="JewelerSell" tags="" position="1000,1600" size="100,100">&lt;h2&gt;Items on hand:&lt;/h2&gt;
+[[Go back|Jewelers]]</tw-passagedata><tw-passagedata pid="41" name="JewelerSell" tags="" position="1000,1600" size="100,100">&lt;h2&gt;Items on hand:&lt;/h2&gt;
 
 
-[[Go back|Jewelers]]</tw-passagedata><tw-passagedata pid="32" name="Jewelers" tags="Indoor" position="900,1450" size="200,100">&lt;html&gt;&lt;img src=&quot;https://inklings.live/Twines/icons/abstract-062.svg&quot; alt=&quot;&lt;&lt;_item1.name&gt;&gt; icon&quot; style=&quot;width: 50px; height: 50px; margin-bottom: 10px;&quot; /&gt;&lt;big&gt;&lt;b&gt;Crowl&lt;/big&gt;&lt;/b&gt;&lt;/html&gt;
+[[Go back|Jewelers]]</tw-passagedata><tw-passagedata pid="42" name="Jewelers" tags="Indoor" position="900,1450" size="200,100">&lt;html&gt;&lt;img src=&quot;https://inklings.live/Twines/icons/abstract-062.svg&quot; alt=&quot;&lt;&lt;_item1.name&gt;&gt; icon&quot; style=&quot;width: 50px; height: 50px; margin-bottom: 10px;&quot; /&gt;&lt;big&gt;&lt;b&gt;Crowl&lt;/big&gt;&lt;/b&gt;&lt;/html&gt;
 &lt;b&gt;&lt;u&gt;&lt;&lt;=passage()&gt;&gt;&lt;/u&gt;&lt;/b&gt;
 A fine looking establishment, oddly though adhesive strips seem to be patching a massive part of the west wall...
 
@@ -2630,31 +2898,31 @@ A fine looking establishment, oddly though adhesive strips seem to be patching a
 &lt;b&gt;&lt;i&gt;Where to?&lt;/i&gt;&lt;/b&gt;
 - &lt;&lt;link &quot;Center of Town&quot;&gt;&gt;
     &lt;&lt;goto &quot;T3&quot;&gt;&gt;
-&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="33" name="JimsTavern" tags="Indoor" position="1500,850" size="100,100">&lt;html&gt;&lt;img src=&quot;https://inklings.live/Twines/icons/abstract-062.svg&quot; alt=&quot;&lt;&lt;_item1.name&gt;&gt; icon&quot; style=&quot;width: 50px; height: 50px; margin-bottom: 10px;&quot; /&gt;&lt;big&gt;&lt;b&gt;Crowl&lt;/big&gt;&lt;/b&gt;&lt;/html&gt;
+&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="43" name="JimsTavern" tags="Indoor" position="1500,850" size="100,100">&lt;html&gt;&lt;img src=&quot;https://inklings.live/Twines/icons/abstract-062.svg&quot; alt=&quot;&lt;&lt;_item1.name&gt;&gt; icon&quot; style=&quot;width: 50px; height: 50px; margin-bottom: 10px;&quot; /&gt;&lt;big&gt;&lt;b&gt;Crowl&lt;/big&gt;&lt;/b&gt;&lt;/html&gt;
 &lt;b&gt;&lt;u&gt;&lt;&lt;=passage()&gt;&gt;&lt;/u&gt;&lt;/b&gt;
 &lt;b&gt;&lt;i&gt;Where to?&lt;/i&gt;&lt;/b&gt;
-- [[South Pass|T2]]</tw-passagedata><tw-passagedata pid="34" name="Listen..." tags="" position="675,0" size="100,100">&lt;&lt;fadein 5s 1s&gt;&gt;
+- [[South Pass|T2]]</tw-passagedata><tw-passagedata pid="44" name="Listen..." tags="" position="675,0" size="100,100">&lt;&lt;fadein 5s 1s&gt;&gt;
 	&lt;&lt;fadeout 5s 6s&gt;&gt;
 &quot;The cart calls. It waits for someone foolish enough to answer. Buy it once, and you’re cursed to buy it again... and again... until nothing remains but desire itself.”
 	&lt;&lt;/fadeout&gt;&gt;
 &lt;&lt;/fadein&gt;&gt;
 &lt;&lt;fadein 2s 6s&gt;&gt;
 [[Wake yourself up.|Wake]] &lt;br&gt; [[Sleep through it.|FarmC]]
-&lt;&lt;/fadein&gt;&gt;</tw-passagedata><tw-passagedata pid="35" name="Loc1" tags="Indoor" position="1600,400" size="200,100">&lt;html&gt;&lt;img src=&quot;https://inklings.live/Twines/icons/abstract-062.svg&quot; alt=&quot;&lt;&lt;_item1.name&gt;&gt; icon&quot; style=&quot;width: 50px; height: 50px; margin-bottom: 10px;&quot; /&gt;&lt;big&gt;&lt;b&gt;Crowl&lt;/big&gt;&lt;/b&gt;&lt;/html&gt;
+&lt;&lt;/fadein&gt;&gt;</tw-passagedata><tw-passagedata pid="45" name="Loc1" tags="Indoor" position="1600,400" size="200,100">&lt;html&gt;&lt;img src=&quot;https://inklings.live/Twines/icons/abstract-062.svg&quot; alt=&quot;&lt;&lt;_item1.name&gt;&gt; icon&quot; style=&quot;width: 50px; height: 50px; margin-bottom: 10px;&quot; /&gt;&lt;big&gt;&lt;b&gt;Crowl&lt;/big&gt;&lt;/b&gt;&lt;/html&gt;
 &lt;b&gt;&lt;u&gt;&lt;&lt;=passage()&gt;&gt;&lt;/u&gt;&lt;/b&gt;
 &lt;&lt;pickup $player &#39;potion&#39; 2&gt;&gt;  &lt;!-- Add 2 potions to the player --&gt;
 &lt;&lt;pickup $player &#39;elixir&#39; 1&gt;&gt;  &lt;!-- Add 1 elixir to the player --&gt;
 
 &lt;b&gt;&lt;i&gt;Where to?&lt;/i&gt;&lt;/b&gt;
 - [[To Square|Square]]
-- [[Well|Well]]</tw-passagedata><tw-passagedata pid="36" name="Loc2" tags="Indoor" position="1700,800" size="200,100">&lt;html&gt;&lt;img src=&quot;https://inklings.live/Twines/icons/abstract-062.svg&quot; alt=&quot;&lt;&lt;_item1.name&gt;&gt; icon&quot; style=&quot;width: 50px; height: 50px; margin-bottom: 10px;&quot; /&gt;&lt;big&gt;&lt;b&gt;Crowl&lt;/big&gt;&lt;/b&gt;&lt;/html&gt;
+- [[Well|Well]]</tw-passagedata><tw-passagedata pid="46" name="Loc2" tags="Indoor" position="1700,800" size="200,100">&lt;html&gt;&lt;img src=&quot;https://inklings.live/Twines/icons/abstract-062.svg&quot; alt=&quot;&lt;&lt;_item1.name&gt;&gt; icon&quot; style=&quot;width: 50px; height: 50px; margin-bottom: 10px;&quot; /&gt;&lt;big&gt;&lt;b&gt;Crowl&lt;/big&gt;&lt;/b&gt;&lt;/html&gt;
 &lt;b&gt;&lt;u&gt;&lt;&lt;=passage()&gt;&gt;&lt;/u&gt;&lt;/b&gt;
 As you linger by the buildings nearby you hear tinks, and hammering nearby...
 
 &lt;b&gt;&lt;i&gt;Where to?&lt;/i&gt;&lt;/b&gt;
 [[To Square|Square]]
 [[Well|Well]]
-[[SoundsofCreation|Workshop]]</tw-passagedata><tw-passagedata pid="37" name="Lottery Bd" tags="" position="4025,1525" size="100,100">\::Trading Lottery
+[[SoundsofCreation|Workshop]]</tw-passagedata><tw-passagedata pid="47" name="Lottery Bd" tags="" position="4025,1525" size="100,100">\::Trading Lottery
 &lt;&lt;set $funds to 100&gt;&gt;  &lt;!-- Starting funds --&gt;
 &lt;&lt;set $player to []&gt;&gt;    &lt;!-- Player&#39;s inventory, initialized as an array --&gt;
 
@@ -2703,7 +2971,7 @@ As you linger by the buildings nearby you hear tinks, and hammering nearby...
     &lt;&lt;for _item range $player&gt;&gt;
         * &lt;&lt;print _item&gt;&gt;&lt;br&gt;
     &lt;&lt;/for&gt;&gt;
-&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="38" name="M&amp;M Services" tags="" position="300,2200" size="100,100">\:: Bank Actions
+&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="48" name="M&amp;M Services" tags="" position="300,2200" size="100,100">\:: Bank Actions
 Enter the amount to deposit or withdraw:
 
 &lt;input type=&quot;number&quot; id=&quot;transactionAmount&quot; placeholder=&quot;Enter amount&quot;&gt;
@@ -2722,7 +2990,7 @@ Enter the amount to deposit or withdraw:
 &lt;b&gt;&lt;i&gt;Back&lt;/i&gt;&lt;/b&gt;
 - &lt;&lt;link &quot;Main Hall&quot;&gt;&gt;
     &lt;&lt;goto &quot;MerchantGuild&quot;&gt;&gt;
-&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="39" name="MaterialInventory" tags="" position="2800,950" size="100,100">&lt;&lt;inv $materials&gt;&gt;</tw-passagedata><tw-passagedata pid="40" name="MayorOffice" tags="Indoor" position="700,500" size="200,200">&lt;html&gt;&lt;img src=&quot;https://inklings.live/Twines/icons/abstract-062.svg&quot; alt=&quot;&lt;&lt;_item1.name&gt;&gt; icon&quot; style=&quot;width: 50px; height: 50px; margin-bottom: 10px;&quot; /&gt;&lt;big&gt;&lt;b&gt;Crowl&lt;/big&gt;&lt;/b&gt;&lt;/html&gt;
+&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="49" name="MaterialInventory" tags="" position="2800,950" size="100,100">&lt;&lt;inv $materials&gt;&gt;</tw-passagedata><tw-passagedata pid="50" name="MayorOffice" tags="Indoor" position="700,500" size="200,200">&lt;html&gt;&lt;img src=&quot;https://inklings.live/Twines/icons/abstract-062.svg&quot; alt=&quot;&lt;&lt;_item1.name&gt;&gt; icon&quot; style=&quot;width: 50px; height: 50px; margin-bottom: 10px;&quot; /&gt;&lt;big&gt;&lt;b&gt;Crowl&lt;/big&gt;&lt;/b&gt;&lt;/html&gt;
 &lt;b&gt;&lt;u&gt;&lt;&lt;=passage()&gt;&gt;&lt;/u&gt;&lt;/b&gt;
 &lt;b&gt;&lt;i&gt;Where to?&lt;/i&gt;&lt;/b&gt;
 - [[CBridgeA]] 
@@ -2733,7 +3001,7 @@ Enter the amount to deposit or withdraw:
 &lt;&lt;/link&gt;&gt;
 - &lt;&lt;link &quot;Record Hall&quot;&gt;&gt;
     &lt;&lt;goto &quot;HallOfRecords&quot;&gt;&gt;
-&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="41" name="MerchantGuild" tags="Indoor" position="500,1575" size="100,200">&lt;html&gt;&lt;img src=&quot;https://inklings.live/Twines/icons/abstract-062.svg&quot; alt=&quot;&lt;&lt;_item1.name&gt;&gt; icon&quot; style=&quot;width: 50px; height: 50px; margin-bottom: 10px;&quot; /&gt;&lt;big&gt;&lt;b&gt;Crowl&lt;/big&gt;&lt;/b&gt;&lt;/html&gt;
+&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="51" name="MerchantGuild" tags="Indoor" position="500,1575" size="100,200">&lt;html&gt;&lt;img src=&quot;https://inklings.live/Twines/icons/abstract-062.svg&quot; alt=&quot;&lt;&lt;_item1.name&gt;&gt; icon&quot; style=&quot;width: 50px; height: 50px; margin-bottom: 10px;&quot; /&gt;&lt;big&gt;&lt;b&gt;Crowl&lt;/big&gt;&lt;/b&gt;&lt;/html&gt;
 &lt;b&gt;&lt;u&gt;&lt;&lt;=passage()&gt;&gt;&lt;/u&gt;&lt;/b&gt;
 &lt;b&gt;&lt;i&gt;Where to?&lt;/i&gt;&lt;/b&gt;
 - [[North Dock|Dock.1]] 
@@ -2750,27 +3018,27 @@ Enter the amount to deposit or withdraw:
 &lt;&lt;/link&gt;&gt;
 - &lt;&lt;link &quot;Money Services&quot;&gt;&gt;
     &lt;&lt;goto &quot;M&amp;M Services&quot;&gt;&gt;
-&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="42" name="MoonBr" tags="Outside Special" position="50,900" size="100,100">&lt;html&gt;&lt;img src=&quot;https://inklings.live/Twines/icons/abstract-062.svg&quot; alt=&quot;&lt;&lt;_item1.name&gt;&gt; icon&quot; style=&quot;width: 50px; height: 50px; margin-bottom: 10px;&quot; /&gt;&lt;big&gt;&lt;b&gt;Crowl&lt;/big&gt;&lt;/b&gt;&lt;/html&gt;
+&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="52" name="MoonBr" tags="Outside Special" position="50,900" size="100,100">&lt;html&gt;&lt;img src=&quot;https://inklings.live/Twines/icons/abstract-062.svg&quot; alt=&quot;&lt;&lt;_item1.name&gt;&gt; icon&quot; style=&quot;width: 50px; height: 50px; margin-bottom: 10px;&quot; /&gt;&lt;big&gt;&lt;b&gt;Crowl&lt;/big&gt;&lt;/b&gt;&lt;/html&gt;
 &lt;b&gt;&lt;u&gt;&lt;&lt;=passage()&gt;&gt;&lt;/u&gt;&lt;/b&gt;
 &lt;b&gt;&lt;i&gt;Where to?&lt;/i&gt;&lt;/b&gt;
 - [[Moon Dock|MoonDock]]
 
 &lt;sub&gt;&lt;u&gt;Back to Crowl.&lt;/u&gt;&lt;/sub&gt;
-- [[Moon Pass|T4]]</tw-passagedata><tw-passagedata pid="43" name="MoonDock" tags="Outside Special" position="0,750" size="200,100">&lt;html&gt;&lt;img src=&quot;https://inklings.live/Twines/icons/abstract-062.svg&quot; alt=&quot;&lt;&lt;_item1.name&gt;&gt; icon&quot; style=&quot;width: 50px; height: 50px; margin-bottom: 10px;&quot; /&gt;&lt;big&gt;&lt;b&gt;Crowl&lt;/big&gt;&lt;/b&gt;&lt;/html&gt;
+- [[Moon Pass|T4]]</tw-passagedata><tw-passagedata pid="53" name="MoonDock" tags="Outside Special" position="0,750" size="200,100">&lt;html&gt;&lt;img src=&quot;https://inklings.live/Twines/icons/abstract-062.svg&quot; alt=&quot;&lt;&lt;_item1.name&gt;&gt; icon&quot; style=&quot;width: 50px; height: 50px; margin-bottom: 10px;&quot; /&gt;&lt;big&gt;&lt;b&gt;Crowl&lt;/big&gt;&lt;/b&gt;&lt;/html&gt;
 &lt;b&gt;&lt;u&gt;&lt;&lt;=passage()&gt;&gt;&lt;/u&gt;&lt;/b&gt;
 &lt;b&gt;&lt;i&gt;Where to?&lt;/i&gt;&lt;/b&gt;
 - [[MoonIsle]]
 - [[Moon Bridge|MoonBr]]
 
 &lt;sub&gt;&lt;u&gt;Back to Crowl.&lt;/u&gt;&lt;/sub&gt;
-- [[Moon Pass|T4]]</tw-passagedata><tw-passagedata pid="44" name="MoonIsle" tags="Outside Special" position="0,500" size="200,200">&lt;html&gt;&lt;img src=&quot;https://inklings.live/Twines/icons/abstract-062.svg&quot; alt=&quot;&lt;&lt;_item1.name&gt;&gt; icon&quot; style=&quot;width: 50px; height: 50px; margin-bottom: 10px;&quot; /&gt;&lt;big&gt;&lt;b&gt;Crowl&lt;/big&gt;&lt;/b&gt;&lt;/html&gt;
+- [[Moon Pass|T4]]</tw-passagedata><tw-passagedata pid="54" name="MoonIsle" tags="Outside Special" position="0,500" size="200,200">&lt;html&gt;&lt;img src=&quot;https://inklings.live/Twines/icons/abstract-062.svg&quot; alt=&quot;&lt;&lt;_item1.name&gt;&gt; icon&quot; style=&quot;width: 50px; height: 50px; margin-bottom: 10px;&quot; /&gt;&lt;big&gt;&lt;b&gt;Crowl&lt;/big&gt;&lt;/b&gt;&lt;/html&gt;
 &lt;b&gt;&lt;u&gt;&lt;&lt;=passage()&gt;&gt;&lt;/u&gt;&lt;/b&gt;
 &lt;b&gt;&lt;i&gt;Where to?&lt;/i&gt;&lt;/b&gt;
 - [[Moon Dock|MoonDock]]
 - [[Moon Brigde|MoonBr]]
 
 &lt;sub&gt;&lt;u&gt;Back to Crowl.&lt;/u&gt;&lt;/sub&gt;
-- [[Moon Pass|T4]]</tw-passagedata><tw-passagedata pid="45" name="NestingPage" tags="" position="4200,1300" size="100,100">&lt;h1&gt;&lt;u&gt;M&amp;M Service Cart&lt;/u&gt;&lt;/h1&gt;
+- [[Moon Pass|T4]]</tw-passagedata><tw-passagedata pid="55" name="NestingPage" tags="" position="4200,1300" size="100,100">&lt;h1&gt;&lt;u&gt;M&amp;M Service Cart&lt;/u&gt;&lt;/h1&gt;
 &lt;&lt;nobr&gt;&gt;
 &lt;div class=&quot;accordion-container&quot;&gt;
     &lt;div class=&quot;accordion-content&quot;&gt;
@@ -2898,7 +3166,7 @@ Enter the amount to deposit or withdraw:
         &lt;button class=&quot;accordion-button&quot; onclick=&quot;togglePanel(&#39;inventory&#39;)&quot;&gt;Storage&lt;/button&gt;
     &lt;/div&gt;
 &lt;/div&gt;
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="46" name="NextPath" tags="" position="2900,225" size="100,100">\:: Dream Sequence
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="56" name="NextPath" tags="" position="2900,225" size="100,100">\:: Dream Sequence
 &lt;div id=&quot;typewriter-container&quot; class=&quot;typewriter&quot;&gt;&lt;/div&gt;
 
 &lt;&lt;script&gt;&gt;
@@ -2923,7 +3191,7 @@ Enter the amount to deposit or withdraw:
     }
 &lt;&lt;/script&gt;&gt;
 
-[[Wake up.|NextPath]]</tw-passagedata><tw-passagedata pid="47" name="North Gate" tags="zone_forest" position="1400,200" size="100,100">&lt;html&gt;&lt;img src=&quot;https://inklings.live/Twines/icons/abstract-062.svg&quot; alt=&quot;&lt;&lt;_item1.name&gt;&gt; icon&quot; style=&quot;width: 50px; height: 50px; margin-bottom: 10px;&quot; /&gt;&lt;big&gt;&lt;b&gt;Crowl |&lt;/big&gt;&lt;/b&gt;&lt;/html&gt;&lt;b&gt;&lt;u&gt;&lt;&lt;=passage()&gt;&gt;&lt;/u&gt;&lt;/b&gt;
+[[Wake up.|NextPath]]</tw-passagedata><tw-passagedata pid="57" name="North Gate" tags="zone_forest" position="1400,200" size="100,100">&lt;html&gt;&lt;img src=&quot;https://inklings.live/Twines/icons/abstract-062.svg&quot; alt=&quot;&lt;&lt;_item1.name&gt;&gt; icon&quot; style=&quot;width: 50px; height: 50px; margin-bottom: 10px;&quot; /&gt;&lt;big&gt;&lt;b&gt;Crowl |&lt;/big&gt;&lt;/b&gt;&lt;/html&gt;&lt;b&gt;&lt;u&gt;&lt;&lt;=passage()&gt;&gt;&lt;/u&gt;&lt;/b&gt;
 
 &lt;h3&gt;Crowl’s Key Locations&lt;/h3&gt;
 *&lt;b&gt; The Bazaar:&lt;/b&gt; Enchanted wares and mysterious artifacts are sold, each item hiding a secret enchantment or curse.
@@ -2936,19 +3204,19 @@ Enter the amount to deposit or withdraw:
 - [[Travelers Square|Square]]
 -&lt;&lt;link &quot; Toward the Slums...&quot;&gt;&gt;
     &lt;&lt;goto &quot;Slums&quot;&gt;&gt;
-&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="48" name="North Gate T." tags="" position="1475,0" size="100,100">Whatever pull this cart has its strong, and now you realize how strong....
+&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="58" name="North Gate T." tags="" position="1475,0" size="100,100">Whatever pull this cart has its strong, and now you realize how strong....
 
 
 
 
 
 [[Continue to North Gates|North Gate]]
-[[Walk along the river.|River]]</tw-passagedata><tw-passagedata pid="49" name="NoticeRandom" tags="" position="3350,975" size="100,100">&lt;p&gt;You notice something glinting under the rubble. 
+[[Walk along the river.|River]]</tw-passagedata><tw-passagedata pid="59" name="NoticeRandom" tags="" position="3350,975" size="100,100">&lt;p&gt;You notice something glinting under the rubble. 
 &lt;&lt;link &quot;Investigate&quot;&gt;&gt;
     &lt;&lt;pickup $player &quot;key to the airship&quot; 1&gt;&gt; &lt;!-- Adds the key to the backpack --&gt;
     You found a **key to the airship**!
 &lt;&lt;/link&gt;&gt;
-&lt;/p&gt;</tw-passagedata><tw-passagedata pid="50" name="Ongoing Conversation" tags="" position="2900,100" size="100,100">\:: Conversation
+&lt;/p&gt;</tw-passagedata><tw-passagedata pid="60" name="Ongoing Conversation" tags="" position="2900,100" size="100,100">\:: Conversation
 &lt;div id=&quot;npc-response&quot; class=&quot;response-box&quot;&gt;
     &lt;p&gt;&quot;So, what brings you to Crowl?&quot;&lt;/p&gt;  &lt;!-- Initial question --&gt;
 &lt;/div&gt;
@@ -3029,14 +3297,14 @@ Enter the amount to deposit or withdraw:
             &lt;/div&gt;
         &lt;&lt;/replace&gt;&gt;
     &lt;&lt;/button&gt;&gt;
-&lt;/div&gt;</tw-passagedata><tw-passagedata pid="51" name="Opener" tags="" position="300,0" size="100,100">\:: Prologue
+&lt;/div&gt;</tw-passagedata><tw-passagedata pid="61" name="Opener" tags="" position="300,0" size="100,100">\:: Prologue
 
 
 &lt;&lt;fadein 5s 1s&gt;&gt;\
         &quot;The Wishbone hums with the sound of murmuring voices, the low crackle of a campfire, and the occasional clink of worn coin. It’s the kind of place where travelers meet on accident, stay too long by misfortune, and leave with stories they’ll never tell the same way twice. Tonight, a subtle sense of unease lingers in the air, carried by the way the flames dance just a bit too wildly in the evening breeze.&quot;!\
 &lt;&lt;/fadein&gt;&gt;
 
-[[While at the Wishbone...|Wishbone]]</tw-passagedata><tw-passagedata pid="52" name="PInventory" tags="" position="2800,750" size="100,100">&lt;&lt;inv $player use drop inspect all filter&gt;&gt;</tw-passagedata><tw-passagedata pid="53" name="PassageDone" tags="PassageDone" position="125,250" size="100,100">&lt;&lt;script&gt;&gt;
+[[While at the Wishbone...|Wishbone]]</tw-passagedata><tw-passagedata pid="62" name="PInventory" tags="" position="2800,750" size="100,100">&lt;&lt;inv $player use drop inspect all filter&gt;&gt;</tw-passagedata><tw-passagedata pid="63" name="PassageDone" tags="PassageDone" position="125,250" size="100,100">&lt;&lt;script&gt;&gt;
 
 // Apply maphilight to all images that have a usemap attribute, e.g.
 // all the maps that are in this twine. This sets the default styling
@@ -3066,16 +3334,16 @@ $(&quot;img[usemap]&quot;).maphilight({
   shadowFrom: false
 });
 
-&lt;&lt;/script&gt;&gt;</tw-passagedata><tw-passagedata pid="54" name="PlayerStats" tags="" position="2925,850" size="100,100">Focus: &lt;&lt;print $focus&gt;&gt;
+&lt;&lt;/script&gt;&gt;</tw-passagedata><tw-passagedata pid="64" name="PlayerStats" tags="" position="2925,850" size="100,100">Focus: &lt;&lt;print $focus&gt;&gt;
 Funds: &lt;&lt;print $funds&gt;&gt;
-Prestige: &lt;&lt;print $prestige&gt;&gt;</tw-passagedata><tw-passagedata pid="55" name="Post" tags="Indoor" position="1200,1500" size="200,200">&lt;html&gt;&lt;img src=&quot;https://inklings.live/Twines/icons/abstract-062.svg&quot; alt=&quot;&lt;&lt;_item1.name&gt;&gt; icon&quot; style=&quot;width: 50px; height: 50px; margin-bottom: 10px;&quot; /&gt;&lt;big&gt;&lt;b&gt;Crowl&lt;/big&gt;&lt;/b&gt;&lt;/html&gt;
+Prestige: &lt;&lt;print $prestige&gt;&gt;</tw-passagedata><tw-passagedata pid="65" name="Post" tags="Indoor" position="1200,1500" size="200,200">&lt;html&gt;&lt;img src=&quot;https://inklings.live/Twines/icons/abstract-062.svg&quot; alt=&quot;&lt;&lt;_item1.name&gt;&gt; icon&quot; style=&quot;width: 50px; height: 50px; margin-bottom: 10px;&quot; /&gt;&lt;big&gt;&lt;b&gt;Crowl&lt;/big&gt;&lt;/b&gt;&lt;/html&gt;
 &lt;b&gt;&lt;u&gt;&lt;&lt;=passage()&gt;&gt;&lt;/u&gt;&lt;/b&gt;
 &lt;b&gt;&lt;i&gt;Where to?&lt;/i&gt;&lt;/b&gt;
 - &lt;&lt;link &quot;Center of Town&quot;&gt;&gt;
     &lt;&lt;goto &quot;T3&quot;&gt;&gt;
 &lt;&lt;/link&gt;&gt;
 - [[Homes]] 
-- [[DockQrts]]</tw-passagedata><tw-passagedata pid="56" name="PreviousPage" tags="" position="3400,825" size="100,100"></tw-passagedata><tw-passagedata pid="57" name="Registration" tags="" position="200,2000" size="100,100">&lt;b&gt;&lt;i&gt;A long desk made of mahogony is present, on it three different stacks of aggressive paperwork. The current receptionist reacts to your arrival:&lt;/i&gt;&lt;/b&gt;
+- [[DockQrts]]</tw-passagedata><tw-passagedata pid="66" name="PreviousPage" tags="" position="3400,825" size="100,100"></tw-passagedata><tw-passagedata pid="67" name="Registration" tags="" position="200,2000" size="100,100">&lt;b&gt;&lt;i&gt;A long desk made of mahogony is present, on it three different stacks of aggressive paperwork. The current receptionist reacts to your arrival:&lt;/i&gt;&lt;/b&gt;
 &lt;&lt;set _greetings = [
     &quot;Hi traveler, looks like you&#39;re in the trade.&quot;,
     &quot;Welcome, please take a form and return it with the proper funds.&quot;,
@@ -3167,11 +3435,11 @@ Prestige: &lt;&lt;print $prestige&gt;&gt;</tw-passagedata><tw-passagedata pid="5
 &lt;b&gt;&lt;i&gt;Back&lt;/i&gt;&lt;/b&gt;
 - &lt;&lt;link &quot;Main Hall&quot;&gt;&gt;
     &lt;&lt;goto &quot;MerchantGuild&quot;&gt;&gt;
-&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="58" name="River" tags="" position="1625,0" size="100,100">Reflection
+&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="68" name="River" tags="" position="1625,0" size="100,100">Reflection
 
 *Here you see your progression throughout the game.
 
-[[North Gate]]</tw-passagedata><tw-passagedata pid="59" name="SouthGate" tags="Outside" position="1700,1000" size="100,100">The southern gate of Crowl, facing the coast and nothing much more, mostly acting as a small buffer from nearby bandits south of here.
+[[North Gate]]</tw-passagedata><tw-passagedata pid="69" name="SouthGate" tags="Outside" position="1700,1000" size="100,100">The southern gate of Crowl, facing the coast and nothing much more, mostly acting as a small buffer from nearby bandits south of here.
 
 The lower slums is also accesible from here but venture those parts is &lt;i&gt;risky.&lt;/i&gt;
 
@@ -3184,7 +3452,7 @@ The lower slums is also accesible from here but venture those parts is &lt;i&gt;
 &lt;&lt;/link&gt;&gt;
 &lt;sub&gt;&lt;u&gt;Resources&lt;/u&gt;&lt;/sub&gt;
 - [[Quarry|Stone]] 
-- [[Mine|Iron]]</tw-passagedata><tw-passagedata pid="60" name="Square" tags="Outside" position="1350,400" size="200,200">&lt;html&gt;&lt;img src=&quot;https://inklings.live/Twines/icons/abstract-062.svg&quot; alt=&quot;&lt;&lt;_item1.name&gt;&gt; icon&quot; style=&quot;width: 50px; height: 50px; margin-bottom: 10px;&quot; /&gt;&lt;big&gt;&lt;b&gt;Crowl&lt;/big&gt;&lt;/b&gt;&lt;/html&gt;
+- [[Mine|Iron]]</tw-passagedata><tw-passagedata pid="70" name="Square" tags="Outside" position="1350,400" size="200,200">&lt;html&gt;&lt;img src=&quot;https://inklings.live/Twines/icons/abstract-062.svg&quot; alt=&quot;&lt;&lt;_item1.name&gt;&gt; icon&quot; style=&quot;width: 50px; height: 50px; margin-bottom: 10px;&quot; /&gt;&lt;big&gt;&lt;b&gt;Crowl&lt;/big&gt;&lt;/b&gt;&lt;/html&gt;
 &lt;b&gt;&lt;u&gt;&lt;&lt;=passage()&gt;&gt;&lt;/u&gt;&lt;/b&gt;
 The fresh air here makes you feel like anything is possible until you witness the amount of endless merchants offering trade and barter... &lt;i&gt;how will you stand among them?&lt;/i&gt;
 
@@ -3206,7 +3474,7 @@ The fresh air here makes you feel like anything is possible until you witness th
 &lt;sub&gt;&lt;u&gt;Futher Into Crowl&lt;/u&gt;&lt;/sub&gt;
 - [[To the tents|Bazaar]]
 - [[North Path|T1]]
-- [[South Path|T2]]</tw-passagedata><tw-passagedata pid="61" name="Stone" tags="" position="2500,1300" size="100,100">&lt;html&gt;&lt;img src=&quot;https://inklings.live/Twines/icons/hand%20%(2).svg&quot; alt=&quot;&lt;&lt;Hand&gt;&gt; icon&quot; style=&quot;width: 50px; height: 50px; margin-bottom: 10px;&quot; /&gt;&lt;/html&gt;&lt;&lt;if $equipment.has(&quot;axe&quot;)&gt;&gt;&lt;html&gt;&lt;img src=&quot;https://inklings.live/Twines/icons/battered-axe.svg&quot; alt=&quot;&lt;&lt;Axe&gt;&gt; icon&quot; style=&quot;width: 50px; height: 50px; margin-bottom: 10px;&quot; /&gt;&lt;big&gt;&lt;b&gt;Wilds&lt;/big&gt;&lt;/b&gt;&lt;/html&gt;&lt;&lt;/if&gt;&gt;
+- [[South Path|T2]]</tw-passagedata><tw-passagedata pid="71" name="Stone" tags="" position="2500,1300" size="100,100">&lt;html&gt;&lt;img src=&quot;https://inklings.live/Twines/icons/hand%20%(2).svg&quot; alt=&quot;&lt;&lt;Hand&gt;&gt; icon&quot; style=&quot;width: 50px; height: 50px; margin-bottom: 10px;&quot; /&gt;&lt;/html&gt;&lt;&lt;if $equipment.has(&quot;axe&quot;)&gt;&gt;&lt;html&gt;&lt;img src=&quot;https://inklings.live/Twines/icons/battered-axe.svg&quot; alt=&quot;&lt;&lt;Axe&gt;&gt; icon&quot; style=&quot;width: 50px; height: 50px; margin-bottom: 10px;&quot; /&gt;&lt;big&gt;&lt;b&gt;Wilds&lt;/big&gt;&lt;/b&gt;&lt;/html&gt;&lt;&lt;/if&gt;&gt;
 &lt;b&gt;&lt;u&gt;&lt;&lt;=passage()&gt;&gt;&lt;/u&gt;&lt;/b&gt;
 Stones: @@#mats;&lt;&lt;= $materials.count(&quot;stone&quot;)&gt;&gt;@@
 Amongst the quarry are a handeful of pockets previous visitors have had at. Perhaps theres a few loose stones for you nearby.
@@ -3240,16 +3508,16 @@ No loose stones nearby.
     &lt;p&gt;Your focus is too low for this task. You need at least 10 focus to continue.&lt;/p&gt;
 &lt;&lt;/if&gt;&gt;
 
-[[Back to Crowl|SouthGate]]</tw-passagedata><tw-passagedata pid="62" name="Storage" tags="" position="200,2100" size="100,100">&lt;h2&gt;On hand:&lt;/h2&gt;\
+[[Back to Crowl|SouthGate]]</tw-passagedata><tw-passagedata pid="72" name="Storage" tags="" position="200,2100" size="100,100">&lt;h2&gt;On hand:&lt;/h2&gt;\
 &lt;&lt;give $player $storage stack all filter&gt;&gt;
 &lt;h2&gt;In storage:&lt;/h2&gt;\
 &lt;&lt;take $storage $player stack all filter&gt;&gt;
 
 - &lt;&lt;link &quot;Main Hall&quot;&gt;&gt;
     &lt;&lt;goto &quot;MerchantGuild&quot;&gt;&gt;
-&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="63" name="StoryCaption" tags="" position="0,200" size="100,100">&lt;u&gt;&lt;big&gt;&lt;b&gt;Focus::&lt;/b&gt;&lt;/big&gt;&lt;/u&gt; @@#focus;&lt;&lt;= $focus&gt;&gt;@@
+&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="73" name="StoryCaption" tags="" position="0,200" size="100,100">&lt;u&gt;&lt;big&gt;&lt;b&gt;Focus::&lt;/b&gt;&lt;/big&gt;&lt;/u&gt; @@#focus;&lt;&lt;= $focus&gt;&gt;@@
 &lt;u&gt;&lt;big&gt;&lt;b&gt;Funds:&lt;/b&gt;&lt;/big&gt;&lt;/u&gt; @@#funds;&lt;&lt;= $funds&gt;&gt;@@
-&lt;&lt;= $sidebarMessage&gt;&gt;</tw-passagedata><tw-passagedata pid="64" name="StoryInit" tags="" position="400,200" size="100,100">&lt;&lt;set setup.storylets = [
+&lt;&lt;= $sidebarMessage&gt;&gt;</tw-passagedata><tw-passagedata pid="74" name="StoryInit" tags="" position="400,200" size="100,100">&lt;&lt;set setup.storylets = [
   {
   	title: &quot;Planting&quot;,
     desc: &quot;Spring Planting&quot;,
@@ -3440,7 +3708,7 @@ No loose stones nearby.
       window.updatePassageCount();
       window.checkRentDue();
    });
-&lt;/script&gt;</tw-passagedata><tw-passagedata pid="65" name="StoryMenu" tags="" position="0,100" size="100,100">&lt;&lt;link &quot;Player Stats&quot;&gt;&gt;
+&lt;/script&gt;</tw-passagedata><tw-passagedata pid="75" name="StoryMenu" tags="" position="0,100" size="100,100">&lt;&lt;link &quot;Player Stats&quot;&gt;&gt;
     &lt;&lt;run Dialog.setup(&quot;Player Stats&quot;, &quot;player-stats&quot;); Dialog.wiki(Story.get(&quot;PlayerStats&quot;).text); Dialog.open()&gt;&gt;
 &lt;&lt;/link&gt;&gt;
 &lt;&lt;link &quot;Player Inventory&quot;&gt;&gt;
@@ -3451,11 +3719,11 @@ No loose stones nearby.
 &lt;&lt;/link&gt;&gt;
 &lt;&lt;link &quot;Materials&quot;&gt;&gt;
     &lt;&lt;run Dialog.setup(&quot;Materials&quot;, &quot;inventory&quot;); Dialog.wiki(Story.get(&quot;MaterialInventory&quot;).text); Dialog.open()&gt;&gt;
-&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="66" name="T1" tags="Outside" position="975,400" size="200,100">&lt;html&gt;&lt;img src=&quot;https://inklings.live/Twines/icons/abstract-062.svg&quot; alt=&quot;&lt;&lt;_item1.name&gt;&gt; icon&quot; style=&quot;width: 50px; height: 50px; margin-bottom: 10px;&quot; /&gt;&lt;big&gt;&lt;b&gt;Crowl&lt;/big&gt;&lt;/b&gt;&lt;/html&gt;
+&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="76" name="T1" tags="Outside" position="975,400" size="200,100">&lt;html&gt;&lt;img src=&quot;https://inklings.live/Twines/icons/abstract-062.svg&quot; alt=&quot;&lt;&lt;_item1.name&gt;&gt; icon&quot; style=&quot;width: 50px; height: 50px; margin-bottom: 10px;&quot; /&gt;&lt;big&gt;&lt;b&gt;Crowl&lt;/big&gt;&lt;/b&gt;&lt;/html&gt;
 &lt;b&gt;&lt;u&gt;&lt;&lt;=passage()&gt;&gt;&lt;/u&gt;&lt;/b&gt;
 &lt;b&gt;&lt;i&gt;Where to?&lt;/i&gt;&lt;/b&gt;
 - [[To Square|Square]]
-- [[Mayor&#39;s Pass|CBridgeA]]</tw-passagedata><tw-passagedata pid="67" name="T2" tags="Outside" position="1400,700" size="200,100">&lt;html&gt;&lt;img src=&quot;https://inklings.live/Twines/icons/abstract-062.svg&quot; alt=&quot;&lt;&lt;_item1.name&gt;&gt; icon&quot; style=&quot;width: 50px; height: 50px; margin-bottom: 10px;&quot; /&gt;&lt;big&gt;&lt;b&gt;Crowl&lt;/big&gt;&lt;/b&gt;&lt;/html&gt;
+- [[Mayor&#39;s Pass|CBridgeA]]</tw-passagedata><tw-passagedata pid="77" name="T2" tags="Outside" position="1400,700" size="200,100">&lt;html&gt;&lt;img src=&quot;https://inklings.live/Twines/icons/abstract-062.svg&quot; alt=&quot;&lt;&lt;_item1.name&gt;&gt; icon&quot; style=&quot;width: 50px; height: 50px; margin-bottom: 10px;&quot; /&gt;&lt;big&gt;&lt;b&gt;Crowl&lt;/big&gt;&lt;/b&gt;&lt;/html&gt;
 &lt;b&gt;&lt;u&gt;&lt;&lt;=passage()&gt;&gt;&lt;/u&gt;&lt;/b&gt;
 &lt;b&gt;&lt;i&gt;You travel along the pathway looking around...&lt;/i&gt;&lt;/b&gt;
 
@@ -3464,7 +3732,7 @@ No loose stones nearby.
 - [[Bazaar]] 
 - [[Tents out back...|Witches]]
 &lt;sub&gt;South of Crowl&lt;/sub&gt;
-- [[Center Road|T3]]</tw-passagedata><tw-passagedata pid="68" name="T3" tags="Outside" position="800,1300" size="200,100">&lt;html&gt;&lt;img src=&quot;https://inklings.live/Twines/icons/abstract-062.svg&quot; alt=&quot;&lt;&lt;_item1.name&gt;&gt; icon&quot; style=&quot;width: 50px; height: 50px; margin-bottom: 10px;&quot; /&gt;&lt;big&gt;&lt;b&gt;Crowl&lt;/big&gt;&lt;/b&gt;&lt;/html&gt;
+- [[Center Road|T3]]</tw-passagedata><tw-passagedata pid="78" name="T3" tags="Outside" position="800,1300" size="200,100">&lt;html&gt;&lt;img src=&quot;https://inklings.live/Twines/icons/abstract-062.svg&quot; alt=&quot;&lt;&lt;_item1.name&gt;&gt; icon&quot; style=&quot;width: 50px; height: 50px; margin-bottom: 10px;&quot; /&gt;&lt;big&gt;&lt;b&gt;Crowl&lt;/big&gt;&lt;/b&gt;&lt;/html&gt;
 &lt;b&gt;&lt;u&gt;&lt;&lt;=passage()&gt;&gt;&lt;/u&gt;&lt;/b&gt;
 The central road of Crowl. Many merchants pass through here, never know who you might bump into.
 
@@ -3483,7 +3751,7 @@ The central road of Crowl. Many merchants pass through here, never know who you 
 &lt;&lt;/link&gt;&gt;
 -&lt;&lt;link &quot;Toward Merchant Guild&quot;&gt;&gt;
     &lt;&lt;goto &quot;DockQrts&quot;&gt;&gt;
-&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="69" name="T4" tags="Outside" position="200,800" size="100,200">&lt;html&gt;&lt;img src=&quot;https://inklings.live/Twines/icons/abstract-062.svg&quot; alt=&quot;&lt;&lt;_item1.name&gt;&gt; icon&quot; style=&quot;width: 50px; height: 50px; margin-bottom: 10px;&quot; /&gt;&lt;big&gt;&lt;b&gt;Crowl&lt;/big&gt;&lt;/b&gt;&lt;/html&gt;
+&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="79" name="T4" tags="Outside" position="200,800" size="100,200">&lt;html&gt;&lt;img src=&quot;https://inklings.live/Twines/icons/abstract-062.svg&quot; alt=&quot;&lt;&lt;_item1.name&gt;&gt; icon&quot; style=&quot;width: 50px; height: 50px; margin-bottom: 10px;&quot; /&gt;&lt;big&gt;&lt;b&gt;Crowl&lt;/big&gt;&lt;/b&gt;&lt;/html&gt;
 &lt;b&gt;&lt;u&gt;&lt;&lt;=passage()&gt;&gt;&lt;/u&gt;&lt;/b&gt;
 &lt;&lt;if $spotcard&gt;&gt;
     You have earned access to the privileged few.
@@ -3495,7 +3763,7 @@ The central road of Crowl. Many merchants pass through here, never know who you 
 
 &lt;b&gt;&lt;i&gt;Where to?&lt;/i&gt;&lt;/b&gt;
 - [[North Dock|Dock.1]]
-- [[Mayor&#39;s Pass|CBridgeA]]</tw-passagedata><tw-passagedata pid="70" name="TabSample" tags="" position="3800,900" size="100,100">&lt;&lt;tabs&gt;&gt;
+- [[Mayor&#39;s Pass|CBridgeA]]</tw-passagedata><tw-passagedata pid="80" name="TabSample" tags="" position="3800,900" size="100,100">&lt;&lt;tabs&gt;&gt;
     &lt;&lt;tab &quot;ATM&quot;&gt;&gt;
 \:: Bank Actions
 Enter the amount to deposit or withdraw:
@@ -3551,13 +3819,13 @@ Enter the amount to deposit or withdraw:
 &lt;div id=&quot;transactionResult&quot;&gt;Make a transaction to see the result here.&lt;/div&gt;
 
 [[View Statements|Transactions]]    &lt;&lt;/tab&gt;&gt;
-&lt;&lt;/tabs&gt;&gt;</tw-passagedata><tw-passagedata pid="71" name="Trade Hall" tags="" position="200,2200" size="100,100">&lt;b&gt;&lt;i&gt;Within the massive hall you see materials of all kinds, some core and staples others luxurious with clear signs you won&#39;t be touching them anytime soon...&lt;/i&gt;&lt;/b&gt;
+&lt;&lt;/tabs&gt;&gt;</tw-passagedata><tw-passagedata pid="81" name="Trade Hall" tags="" position="200,2200" size="100,100">&lt;b&gt;&lt;i&gt;Within the massive hall you see materials of all kinds, some core and staples others luxurious with clear signs you won&#39;t be touching them anytime soon...&lt;/i&gt;&lt;/b&gt;
 &lt;&lt;inv $player filter&gt;&gt;
 
 
 - &lt;&lt;link &quot;Main Hall&quot;&gt;&gt;
     &lt;&lt;goto &quot;MerchantGuild&quot;&gt;&gt;
-&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="72" name="Transactions" tags="" position="300,2325" size="100,100">**Transaction History:**
+&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="82" name="Transactions" tags="" position="300,2325" size="100,100">**Transaction History:**
 &lt;&lt;for _entry range $ledger&gt;&gt;
   &lt;&lt;print _entry.type&gt;&gt; of &lt;&lt;print _entry.amount&gt;&gt; coins at passage &lt;&lt;print _entry.passage&gt;&gt; in location &lt;&lt;print _entry.location&gt;&gt;&lt;br&gt;
 &lt;&lt;/for&gt;&gt;
@@ -3568,7 +3836,7 @@ Enter the amount to deposit or withdraw:
 &lt;&lt;/link&gt;&gt;
 - &lt;&lt;link &quot;Money Services&quot;&gt;&gt;
     &lt;&lt;goto &quot;M&amp;M Services&quot;&gt;&gt;
-&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="73" name="View Cart" tags="" position="1325,0" size="100,100">\:: Cart Passage
+&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="83" name="View Cart" tags="" position="1325,0" size="100,100">\:: Cart Passage
 &lt;&lt;script&gt;&gt;
     // Increase the number of cart visits
     State.variables.cartVisits += 1;
@@ -3605,22 +3873,22 @@ Enter the amount to deposit or withdraw:
 
 The long back to the Crowl&#39;s North Gate leaves a debt you&#39;ll need to recover, how did you get back here?...
 
-[[Back to Crowl.|North Gate T.]]</tw-passagedata><tw-passagedata pid="74" name="Wake" tags="" position="825,0" size="100,100">[[To the road ahead.|EndIntro]]</tw-passagedata><tw-passagedata pid="75" name="Well" tags="Outside" position="1800,600" size="100,100">&lt;html&gt;&lt;img src=&quot;https://inklings.live/Twines/icons/abstract-062.svg&quot; alt=&quot;&lt;&lt;_item1.name&gt;&gt; icon&quot; style=&quot;width: 50px; height: 50px; margin-bottom: 10px;&quot; /&gt;&lt;big&gt;&lt;b&gt;Crowl&lt;/big&gt;&lt;/b&gt;&lt;/html&gt;
+[[Back to Crowl.|North Gate T.]]</tw-passagedata><tw-passagedata pid="84" name="Wake" tags="" position="825,0" size="100,100">[[To the road ahead.|EndIntro]]</tw-passagedata><tw-passagedata pid="85" name="Well" tags="Outside" position="1800,600" size="100,100">&lt;html&gt;&lt;img src=&quot;https://inklings.live/Twines/icons/abstract-062.svg&quot; alt=&quot;&lt;&lt;_item1.name&gt;&gt; icon&quot; style=&quot;width: 50px; height: 50px; margin-bottom: 10px;&quot; /&gt;&lt;big&gt;&lt;b&gt;Crowl&lt;/big&gt;&lt;/b&gt;&lt;/html&gt;
 &lt;b&gt;&lt;u&gt;&lt;&lt;=passage()&gt;&gt;&lt;/u&gt;&lt;/b&gt;
 You see two pulleys hanging over the well, each holding something mysterious. Come back later and maybe something will occur.
 
 &lt;b&gt;&lt;i&gt;Where to?&lt;/i&gt;&lt;/b&gt;
 - [[Back to Square|Square]]
 - [[North Merchants|Loc1]] 
-- [[South Merchants|Loc2]]</tw-passagedata><tw-passagedata pid="76" name="Wishbone" tags="" position="425,0" size="100,100">&lt;&lt;fadein 5s 1s&gt;&gt;\
+- [[South Merchants|Loc2]]</tw-passagedata><tw-passagedata pid="86" name="Wishbone" tags="" position="425,0" size="100,100">&lt;&lt;fadein 5s 1s&gt;&gt;\
         &quot;You arrived at the Wishbone like anyone else—empty pockets and a head full of schemes. The journey was supposed to be simple: pass through the basin, maybe haggle with a few merchants, then on to Crowl. But something about this place held you, wrapped you in its strange comfort. Strangers offered drinks, stories were shared in passing, and, somewhere in between the crackling fire and a soft lull of song, you let your guard down.&quot;\
 &lt;&lt;/fadein&gt;&gt;
 
-[[You shouldn&#39;t have.|Dream]]</tw-passagedata><tw-passagedata pid="77" name="Witches" tags="Outside" position="1100,700" size="100,100">&lt;html&gt;&lt;img src=&quot;https://inklings.live/Twines/icons/abstract-062.svg&quot; alt=&quot;&lt;&lt;_item1.name&gt;&gt; icon&quot; style=&quot;width: 50px; height: 50px; margin-bottom: 10px;&quot; /&gt;&lt;big&gt;&lt;b&gt;Crowl&lt;/big&gt;&lt;/b&gt;&lt;/html&gt;
+[[You shouldn&#39;t have.|Dream]]</tw-passagedata><tw-passagedata pid="87" name="Witches" tags="Outside" position="1100,700" size="100,100">&lt;html&gt;&lt;img src=&quot;https://inklings.live/Twines/icons/abstract-062.svg&quot; alt=&quot;&lt;&lt;_item1.name&gt;&gt; icon&quot; style=&quot;width: 50px; height: 50px; margin-bottom: 10px;&quot; /&gt;&lt;big&gt;&lt;b&gt;Crowl&lt;/big&gt;&lt;/b&gt;&lt;/html&gt;
 &lt;b&gt;&lt;u&gt;&lt;&lt;=passage()&gt;&gt;&lt;/u&gt;&lt;/b&gt;
 &lt;b&gt;&lt;i&gt;Where to?&lt;/i&gt;&lt;/b&gt;
 - [[Bazaar]] 
-- [[Southern Pass|T2]]</tw-passagedata><tw-passagedata pid="78" name="Wood" tags="" position="2700,1300" size="100,100">&lt;html&gt;&lt;img src=&quot;https://inklings.live/Twines/icons/hand%20%(2).svg&quot; alt=&quot;&lt;&lt;Hand&gt;&gt; icon&quot; style=&quot;width: 50px; height: 50px; margin-bottom: 10px;&quot; /&gt;&lt;/html&gt;&lt;&lt;if $equipment.has(&quot;axe&quot;)&gt;&gt;&lt;html&gt;&lt;img src=&quot;https://inklings.live/Twines/icons/battered-axe.svg&quot; alt=&quot;&lt;&lt;Axe&gt;&gt; icon&quot; style=&quot;width: 50px; height: 50px; margin-bottom: 10px;&quot; /&gt;&lt;big&gt;&lt;b&gt;Wilds&lt;/big&gt;&lt;/b&gt;&lt;/html&gt;&lt;&lt;/if&gt;&gt;
+- [[Southern Pass|T2]]</tw-passagedata><tw-passagedata pid="88" name="Wood" tags="" position="2700,1300" size="100,100">&lt;html&gt;&lt;img src=&quot;https://inklings.live/Twines/icons/hand%20%(2).svg&quot; alt=&quot;&lt;&lt;Hand&gt;&gt; icon&quot; style=&quot;width: 50px; height: 50px; margin-bottom: 10px;&quot; /&gt;&lt;/html&gt;&lt;&lt;if $equipment.has(&quot;axe&quot;)&gt;&gt;&lt;html&gt;&lt;img src=&quot;https://inklings.live/Twines/icons/battered-axe.svg&quot; alt=&quot;&lt;&lt;Axe&gt;&gt; icon&quot; style=&quot;width: 50px; height: 50px; margin-bottom: 10px;&quot; /&gt;&lt;big&gt;&lt;b&gt;Wilds&lt;/big&gt;&lt;/b&gt;&lt;/html&gt;&lt;&lt;/if&gt;&gt;
 &lt;b&gt;&lt;u&gt;&lt;&lt;=passage()&gt;&gt;&lt;/u&gt;&lt;/b&gt;
 Wood: @@#mats;&lt;&lt;= $materials.count(&quot;wood&quot;)&gt;&gt;@@
 
@@ -3636,7 +3904,7 @@ You go to gather some wood.
 &lt;&lt;/button&gt;&gt;&lt;&lt;/if&gt;&gt;
 
 
-[[Back to Workshop|Workshop]]</tw-passagedata><tw-passagedata pid="79" name="Workshop" tags="" position="2500,800" size="100,100">&lt;html&gt;&lt;img src=&quot;https://inklings.live/Twines/icons/house.svg&quot; alt=&quot;&lt;&lt;_item1.name&gt;&gt; icon&quot; style=&quot;width: 50px; height: 50px; margin-bottom: 10px;&quot; /&gt;&lt;big&gt;&lt;b&gt;Crowl&lt;/big&gt;&lt;/b&gt;&lt;/html&gt;
+[[Back to Workshop|Workshop]]</tw-passagedata><tw-passagedata pid="89" name="Workshop" tags="" position="2500,800" size="100,100">&lt;html&gt;&lt;img src=&quot;https://inklings.live/Twines/icons/house.svg&quot; alt=&quot;&lt;&lt;_item1.name&gt;&gt; icon&quot; style=&quot;width: 50px; height: 50px; margin-bottom: 10px;&quot; /&gt;&lt;big&gt;&lt;b&gt;Crowl&lt;/big&gt;&lt;/b&gt;&lt;/html&gt;
 &lt;b&gt;&lt;u&gt;&lt;&lt;=passage()&gt;&gt;&lt;/u&gt;&lt;/b&gt;
 Entering the shop you hear a odd jingle: &lt;i&gt;&quot;Ah yea someones present.&quot;&lt;/i&gt;, accompanied by a handful of clanks and hammering further within.
 
@@ -3651,7 +3919,7 @@ There seem to be a flyer on a nearby desk:
 &lt;sub&gt;&lt;sub&gt;This will cost the same respect focus used to travel normally.&lt;/sub&gt;&lt;/sub&gt;
 - [[To Quarry|Stone]]
 - [[To Forest|Wood]]
-- [[To Mine|Iron]]</tw-passagedata><tw-passagedata pid="80" name="widgets" tags="widget nobr" position="0,300" size="100,100">&lt;&lt;widget &quot;funds&quot;&gt;&gt;
+- [[To Mine|Iron]]</tw-passagedata><tw-passagedata pid="90" name="widgets" tags="widget nobr" position="0,300" size="100,100">&lt;&lt;widget &quot;funds&quot;&gt;&gt;
     &lt;&lt;set $funds = Math.max($funds + _args[0], 0)&gt;&gt;
     &lt;&lt;replace &quot;#funds&quot;&gt;&gt;&lt;&lt;= $funds&gt;&gt;&lt;&lt;/replace&gt;&gt;
 &lt;&lt;/widget&gt;&gt;
@@ -3715,275 +3983,7 @@ There seem to be a flyer on a nearby desk:
             &lt;&lt;/capture&gt;&gt;
         &lt;/span&gt;
     &lt;/p&gt;
-&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="81" name="ShopRnd1" tags="" position="3400,1700" size="100,100">&lt;!-- Randomly select a single item from the $allItems list --&gt;
-&lt;&lt;set _randomItem to $allItems.random()&gt;&gt;
-
-&lt;div class=&quot;shop&quot;&gt;
-    &lt;div id=&quot;feedback&quot;&gt;&lt;/div&gt; &lt;!-- Message area for purchase feedback --&gt;
-
-    &lt;!-- Display the randomly chosen item --&gt;
-    &lt;div class=&quot;item&quot;&gt;
-        &lt;strong&gt;&lt;&lt;=_randomItem.name&gt;&gt;&lt;/strong&gt;&lt;br&gt;
-        &lt;&lt;=_randomItem.description&gt;&gt;&lt;br&gt;
-        Price: &lt;&lt;=_randomItem.value&gt;&gt; coins&lt;br&gt;
-        
-        &lt;&lt;button &quot;Buy&quot;&gt;&gt;
-            &lt;&lt;if $funds &gt;= _randomItem.value&gt;&gt;
-                &lt;&lt;set $funds -= _randomItem.value&gt;&gt;
-                &lt;&lt;pickup $player _randomItem.name 1&gt;&gt; &lt;!-- Add the random item to inventory --&gt;
-                &lt;&lt;replace &quot;#feedback&quot;&gt;&gt;You purchased &lt;&lt;=_randomItem.name&gt;&gt;!&lt;&lt;/replace&gt;&gt;
-            &lt;&lt;else&gt;&gt;
-                &lt;&lt;replace &quot;#feedback&quot;&gt;&gt;Not enough coins for this item.&lt;&lt;/replace&gt;&gt;
-            &lt;&lt;/if&gt;&gt;
-        &lt;&lt;/button&gt;&gt;
-    &lt;/div&gt;
-&lt;/div&gt;
-[[BazaarShop]]</tw-passagedata><tw-passagedata pid="82" name="ShopRnd2" tags="" position="3500,1700" size="100,100">\:: RandomItemShop
-&lt;!-- This passage displays one random item for sale each time it&#39;s accessed --&gt;
-
-&lt;&lt;set _randomItem to $allItems.random()&gt;&gt;
-
-&lt;div class=&quot;shop&quot;&gt;
-    &lt;div id=&quot;feedback&quot;&gt;&lt;/div&gt; &lt;!-- Message area for purchase feedback --&gt;
-
-    &lt;!-- Display the randomly chosen item --&gt;
-    &lt;div class=&quot;item&quot;&gt;
-        &lt;strong&gt;&lt;&lt;=_randomItem.name&gt;&gt;&lt;/strong&gt;&lt;br&gt;
-        &lt;&lt;=_randomItem.description&gt;&gt;&lt;br&gt;
-        Price: &lt;&lt;=_randomItem.value&gt;&gt; coins&lt;br&gt;
-        
-        &lt;&lt;button &quot;Buy&quot;&gt;&gt;
-            &lt;&lt;if $funds &gt;= _randomItem.value&gt;&gt;
-                &lt;&lt;set $funds -= _randomItem.value&gt;&gt;
-                &lt;&lt;pickup $player _randomItem.name 1&gt;&gt; &lt;!-- Add the random item to inventory --&gt;
-                &lt;&lt;replace &quot;#feedback&quot;&gt;&gt;You purchased &lt;&lt;=_randomItem.name&gt;&gt;!&lt;&lt;/replace&gt;&gt;
-            &lt;&lt;else&gt;&gt;
-                &lt;&lt;replace &quot;#feedback&quot;&gt;&gt;Not enough coins for this item.&lt;&lt;/replace&gt;&gt;
-            &lt;&lt;/if&gt;&gt;
-        &lt;&lt;/button&gt;&gt;
-    &lt;/div&gt;
-&lt;/div&gt;
-[[Market]]</tw-passagedata><tw-passagedata pid="83" name="Market" tags="" position="3625,1700" size="100,100">&lt;&lt;nobr&gt;&gt;&lt;html&gt;&lt;img src=&quot;https://inklings.live/Twines/icons/abstract-062.svg&quot; alt=&quot;&lt;&lt;_item1.name&gt;&gt; icon&quot; style=&quot;width: 50px; height: 50px; margin-bottom: 10px;&quot; &lt;big&gt;&lt;b&gt;Crowl |&lt;/big&gt;&lt;/b&gt;&lt;/html&gt;
-
-&lt;!-- Filter items by &quot;bazaar&quot; category and shuffle to pick 6 random items --&gt;
-&lt;&lt;set $bazaarItems to $allItems.filter(item =&gt; item.category === &quot;bazaar&quot;)&gt;&gt;
-&lt;&lt;set $displayItems to $bazaarItems.slice().sort(() =&gt; Math.random() - 0.5).slice(0, 6)&gt;&gt; &lt;!-- Shuffle and select 6 items --&gt;
-
-\:: BazaarShopTest
-&lt;!-- Setting up feedback area for purchase confirmation --&gt;
-&lt;div id=&quot;feedback&quot; style=&quot;width: 100%; margin-bottom: 15px; color: green;&quot;&gt;&lt;/div&gt;
-
-&lt;!-- Display each item with manual purchase links --&gt;
-&lt;div style=&quot;display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;&quot;&gt;
-
-    &lt;!-- Item 1 --&gt;
-    &lt;&lt;set _item1 to $displayItems[0]&gt;&gt;
-    &lt;div&gt;
-&lt;img @src=&quot;_item1.icon&quot; style=&quot;width: 50px; height: 50px; margin-bottom: 10px;&quot;&gt;
-        &lt;strong&gt;&lt;&lt;=_item1.name&gt;&gt;&lt;/strong&gt; - Price: &lt;&lt;=_item1.value&gt;&gt; funds&lt;br&gt;
-        &lt;&lt;link &quot;Buy &lt;&lt;=_item1.name&gt;&gt;&quot;&gt;&gt;
-            &lt;&lt;if $funds &gt;= _item1.value&gt;&gt;
-                &lt;&lt;set $funds -= _item1.value&gt;&gt;
-                &lt;&lt;set $mgcoffer += Math.floor(_item1.value / 5)&gt;&gt;
-                &lt;&lt;pickup $player _item1.name 1&gt;&gt;
-                &lt;&lt;replace &quot;#feedback&quot;&gt;&gt;You purchased &lt;&lt;=_item1.name&gt;&gt;! Funds left: &lt;&lt;=$funds&gt;&gt;&lt;&lt;/replace&gt;&gt;
-            &lt;&lt;else&gt;&gt;
-                &lt;&lt;replace &quot;#feedback&quot;&gt;&gt;Not enough funds to buy &lt;&lt;=_item1.name&gt;&gt;&lt;&lt;/replace&gt;&gt;
-            &lt;&lt;/if&gt;&gt;
-        &lt;&lt;/link&gt;&gt;
-    &lt;/div&gt;
-
-    &lt;!-- Item 2 --&gt;
-    &lt;&lt;set _item2 to $displayItems[1]&gt;&gt;
-    &lt;div&gt;
-    &lt;img @src=&quot;_item2.icon&quot; style=&quot;width: 50px; height: 50px; margin-bottom: 10px;&quot;&gt;
-        &lt;strong&gt;&lt;&lt;=_item2.name&gt;&gt;&lt;/strong&gt; - Price: &lt;&lt;=_item2.value&gt;&gt; funds&lt;br&gt;
-        &lt;&lt;link &quot;Buy &lt;&lt;=_item2.name&gt;&gt;&quot;&gt;&gt;
-            &lt;&lt;if $funds &gt;= _item2.value&gt;&gt;
-                &lt;&lt;set $funds -= _item2.value&gt;&gt;
-                &lt;&lt;set $mgcoffer += Math.floor(_item2.value / 5)&gt;&gt;
-                &lt;&lt;pickup $player _item2.name 1&gt;&gt;
-                &lt;&lt;replace &quot;#feedback&quot;&gt;&gt;You purchased &lt;&lt;=_item2.name&gt;&gt;! Funds left: &lt;&lt;=$funds&gt;&gt;&lt;&lt;/replace&gt;&gt;
-            &lt;&lt;else&gt;&gt;
-                &lt;&lt;replace &quot;#feedback&quot;&gt;&gt;Not enough funds to buy &lt;&lt;=_item2.name&gt;&gt;&lt;&lt;/replace&gt;&gt;
-            &lt;&lt;/if&gt;&gt;
-        &lt;&lt;/link&gt;&gt;
-    &lt;/div&gt;
-
-    &lt;!-- Item 3 --&gt;
-    &lt;&lt;set _item3 to $displayItems[2]&gt;&gt;
-    &lt;div&gt;
-    &lt;img @src=&quot;_item3.icon&quot; style=&quot;width: 50px; height: 50px; margin-bottom: 10px;&quot;&gt;
-        &lt;strong&gt;&lt;&lt;=_item3.name&gt;&gt;&lt;/strong&gt; - Price: &lt;&lt;=_item3.value&gt;&gt; funds&lt;br&gt;
-        &lt;&lt;link &quot;Buy &lt;&lt;=_item3.name&gt;&gt;&quot;&gt;&gt;
-            &lt;&lt;if $funds &gt;= _item3.value&gt;&gt;
-                &lt;&lt;set $funds -= _item3.value&gt;&gt;
-                &lt;&lt;set $mgcoffer += Math.floor(_item3.value / 5)&gt;&gt;
-                &lt;&lt;pickup $player _item3.name 1&gt;&gt;
-                &lt;&lt;replace &quot;#feedback&quot;&gt;&gt;You purchased &lt;&lt;=_item3.name&gt;&gt;! Funds left: &lt;&lt;=$funds&gt;&gt;&lt;&lt;/replace&gt;&gt;
-            &lt;&lt;else&gt;&gt;
-                &lt;&lt;replace &quot;#feedback&quot;&gt;&gt;Not enough funds to buy &lt;&lt;=_item3.name&gt;&gt;&lt;&lt;/replace&gt;&gt;
-            &lt;&lt;/if&gt;&gt;
-        &lt;&lt;/link&gt;&gt;
-    &lt;/div&gt;
-
-    &lt;!-- Item 4 --&gt;
-    &lt;&lt;set _item4 to $displayItems[3]&gt;&gt;
-    &lt;div&gt;
-    &lt;img @src=&quot;_item4.icon&quot; style=&quot;width: 50px; height: 50px; margin-bottom: 10px;&quot;&gt;
-        &lt;strong&gt;&lt;&lt;=_item4.name&gt;&gt;&lt;/strong&gt; - Price: &lt;&lt;=_item4.value&gt;&gt; funds&lt;br&gt;
-        &lt;&lt;link &quot;Buy &lt;&lt;=_item4.name&gt;&gt;&quot;&gt;&gt;
-            &lt;&lt;if $funds &gt;= _item4.value&gt;&gt;
-                &lt;&lt;set $funds -= _item4.value&gt;&gt;
-                &lt;&lt;set $mgcoffer += Math.floor(_item4.value / 5)&gt;&gt;
-                &lt;&lt;pickup $player _item4.name 1&gt;&gt;
-                &lt;&lt;replace &quot;#feedback&quot;&gt;&gt;You purchased &lt;&lt;=_item4.name&gt;&gt;! Funds left: &lt;&lt;=$funds&gt;&gt;&lt;&lt;/replace&gt;&gt;
-            &lt;&lt;else&gt;&gt;
-                &lt;&lt;replace &quot;#feedback&quot;&gt;&gt;Not enough funds to buy &lt;&lt;=_item4.name&gt;&gt;&lt;&lt;/replace&gt;&gt;
-            &lt;&lt;/if&gt;&gt;
-        &lt;&lt;/link&gt;&gt;
-    &lt;/div&gt;
-
-    &lt;!-- Item 5 --&gt;
-    &lt;&lt;set _item5 to $displayItems[4]&gt;&gt;
-    &lt;div&gt;
-    &lt;img @src=&quot;_item5.icon&quot; style=&quot;width: 50px; height: 50px; margin-bottom: 10px;&quot;&gt;
-        &lt;strong&gt;&lt;&lt;=_item5.name&gt;&gt;&lt;/strong&gt; - Price: &lt;&lt;=_item5.value&gt;&gt; funds&lt;br&gt;
-        &lt;&lt;link &quot;Buy &lt;&lt;=_item5.name&gt;&gt;&quot;&gt;&gt;
-            &lt;&lt;if $funds &gt;= _item5.value&gt;&gt;
-                &lt;&lt;set $funds -= _item5.value&gt;&gt;
-                &lt;&lt;set $mgcoffer += Math.floor(_item5.value / 5)&gt;&gt;
-                &lt;&lt;pickup $player _item5.name 1&gt;&gt;
-                &lt;&lt;replace &quot;#feedback&quot;&gt;&gt;You purchased &lt;&lt;=_item5.name&gt;&gt;! Funds left: &lt;&lt;=$funds&gt;&gt;&lt;&lt;/replace&gt;&gt;
-            &lt;&lt;else&gt;&gt;
-                &lt;&lt;replace &quot;#feedback&quot;&gt;&gt;Not enough funds to buy &lt;&lt;=_item5.name&gt;&gt;&lt;&lt;/replace&gt;&gt;
-            &lt;&lt;/if&gt;&gt;
-        &lt;&lt;/link&gt;&gt;
-    &lt;/div&gt;
-
-    &lt;!-- Item 6 --&gt;
-    &lt;&lt;set _item6 to $displayItems[5]&gt;&gt;
-    &lt;div&gt;
-    &lt;img @src=&quot;_item6.icon&quot; style=&quot;width: 50px; height: 50px; margin-bottom: 10px;&quot;&gt;
-        &lt;strong&gt;&lt;&lt;=_item6.name&gt;&gt;&lt;/strong&gt; - Price: &lt;&lt;=_item6.value&gt;&gt; funds&lt;br&gt;
-        &lt;&lt;link &quot;Buy &lt;&lt;=_item6.name&gt;&gt;&quot;&gt;&gt;
-            &lt;&lt;if $funds &gt;= _item6.value&gt;&gt;
-                &lt;&lt;set $funds -= _item6.value&gt;&gt;
-                &lt;&lt;set $mgcoffer += Math.floor(_item6.value / 5)&gt;&gt;
-                &lt;&lt;pickup $player _item6.name 1&gt;&gt;
-                &lt;&lt;replace &quot;#feedback&quot;&gt;&gt;You purchased &lt;&lt;=_item6.name&gt;&gt;! Funds left: &lt;&lt;=$funds&gt;&gt;&lt;&lt;/replace&gt;&gt;
-            &lt;&lt;else&gt;&gt;
-                &lt;&lt;replace &quot;#feedback&quot;&gt;&gt;Not enough funds to buy &lt;&lt;=_item6.name&gt;&gt;&lt;&lt;/replace&gt;&gt;
-            &lt;&lt;/if&gt;&gt;
-        &lt;&lt;/link&gt;&gt;
-    &lt;/div&gt;
-
-&lt;/div&gt;&lt;&lt;/nobr&gt;&gt;
-
-
-[[ShopRnd2]]</tw-passagedata><tw-passagedata pid="84" name="BazaarShop" tags="" position="3625,1825" size="100,100">&lt;html&gt;&lt;img src=&quot;https://inklings.live/Twines/icons/abstract-062.svg&quot; alt=&quot;&lt;&lt;_item1.name&gt;&gt; icon&quot; style=&quot;width: 50px; height: 50px; margin-bottom: 10px;&quot; /&gt;&lt;big&gt;&lt;b&gt;Crowl&lt;/big&gt;&lt;/b&gt;&lt;/html&gt;
-&lt;!-- Setting up feedback area for purchase confirmation --&gt;
-&lt;div id=&quot;feedback&quot; style=&quot;width: 100%; margin-bottom: 15px; color: green;&quot;&gt;&lt;/div&gt;
-
-&lt;!-- Display focus-based purchase counter --&gt;
-&lt;&lt;set $maxPurchases to Math.floor($focus / 20)&gt;&gt; &lt;!-- Set max purchases based on focus (e.g., 1 purchase per 20 focus) --&gt;
-&lt;&lt;set $purchasesLeft to $maxPurchases&gt;&gt;
-&lt;div&gt;Purchases available: &lt;span id=&quot;purchase-counter&quot;&gt;&lt;&lt;=$purchasesLeft&gt;&gt;&lt;/span&gt;&lt;/div&gt;
-&lt;div&gt;&lt;em&gt;&quot;I can tell you’re feeling a bit weary,&quot; says the shopkeeper, glancing at your posture.&lt;/em&gt;&lt;/div&gt;
-
-&lt;!-- Display item pool with manual purchase links --&gt;
-&lt;div style=&quot;display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;&quot;&gt;
-
-    &lt;!-- Item 1 --&gt;
-    &lt;&lt;set _item1 to $displayItems[0]&gt;&gt;
-    &lt;div&gt;
-        &lt;html&gt;&lt;img src=&quot;&lt;&lt;print _item1.icon&gt;&gt;&quot; alt=&quot;&lt;&lt;_item1.name&gt;&gt; icon&quot; style=&quot;width: 50px; height: 50px; margin-bottom: 10px;&quot; /&gt;&lt;/html&gt;
-        &lt;strong&gt;&lt;&lt;=_item1.name&gt;&gt;&lt;/strong&gt; - Price: &lt;&lt;=_item1.value&gt;&gt; funds&lt;br&gt;
-        &lt;&lt;link &quot;Buy &lt;&lt;=_item1.name&gt;&gt;&quot;&gt;&gt;
-            &lt;&lt;if $funds &gt;= _item1.value and _item1.quantity &gt; 0 and $purchasesLeft &gt; 0&gt;&gt;
-                &lt;&lt;set $funds -= _item1.value&gt;&gt;
-                &lt;&lt;set $mgcoffer += Math.floor(_item1.value / 5)&gt;&gt;
-                &lt;&lt;pickup $player _item1.name 1&gt;&gt;
-                &lt;&lt;set _item1.quantity -= 1&gt;&gt;
-                &lt;&lt;set $purchasesLeft -= 1&gt;&gt;
-
-                &lt;!-- Update quantity and purchase counter --&gt;
-                &lt;&lt;replace &quot;#feedback&quot;&gt;&gt;You purchased &lt;&lt;=_item1.name&gt;&gt;! Funds left: &lt;&lt;=$funds&gt;&gt;&lt;&lt;/replace&gt;&gt;
-                &lt;&lt;replace &quot;#purchase-counter&quot;&gt;&gt;&lt;&lt;=$purchasesLeft&gt;&gt;&lt;&lt;/replace&gt;&gt;
-
-                &lt;!-- Sidebar Update for Funds --&gt;
-                &lt;&lt;run UI.update()&gt;&gt;
-
-                &lt;!-- Notify when out of purchases --&gt;
-                &lt;&lt;if $purchasesLeft === 0&gt;&gt;
-                    &lt;&lt;replace &quot;#feedback&quot;&gt;&gt;&quot;You seem to be out of energy to make more purchases,&quot; the shopkeeper observes.&lt;&lt;/replace&gt;&gt;
-                &lt;&lt;/if&gt;&gt;
-
-            &lt;&lt;elseif $purchasesLeft &lt;= 0&gt;&gt;
-                &lt;&lt;replace &quot;#feedback&quot;&gt;&gt;&quot;It looks like you’re too tired to continue shopping,&quot; the shopkeeper remarks.&lt;&lt;/replace&gt;&gt;
-            &lt;&lt;elseif $funds &lt; _item1.value&gt;&gt;
-                &lt;&lt;replace &quot;#feedback&quot;&gt;&gt;Not enough funds to buy &lt;&lt;=_item1.name&gt;&gt;&lt;&lt;/replace&gt;&gt;
-            &lt;&lt;/if&gt;&gt;
-        &lt;&lt;/link&gt;&gt;
-    &lt;/div&gt;
-
-    &lt;!-- Repeat this block for each item (2-6) --&gt;
-
-&lt;/div&gt;
-
-&lt;&lt;set $shopVisitCount to $shopVisitCount + 1&gt;&gt;
-&lt;&lt;if $shopVisitCount &gt;= 12&gt;&gt;
-    &lt;&lt;set $shopVisitCount to 0&gt;&gt;
-    &lt;&lt;set $displayItems to $bazaarItems.slice().sort(() =&gt; Math.random() - 0.5).slice(0, 6)&gt;&gt;
-&lt;&lt;/if&gt;&gt;
-
-[[ShopRnd2]]
-
-[[ShopRnd1]]</tw-passagedata><tw-passagedata pid="85" name="Caretakers" tags="" position="2400,625" size="100,100">&lt;b&gt;&lt;i&gt;Do you..&lt;/i&gt;&lt;/b&gt;
-- [[Back to Barn.|CityFarm]]
-- [[Look around East.|Wheatfield]]
-- [[Look around north.|Stalls]]
-
-&lt;sub&gt;&lt;u&gt;Back to Crowl&lt;/u&gt;&lt;/sub&gt;
-- [[Slums]] 
-- [[Lower Slums]]</tw-passagedata><tw-passagedata pid="86" name="CityFarm" tags="Outside" position="2400,400" size="200,200">A massive farm sprawls the area from where you stand. Up ahead a handful of land caretakers seem to be in a meeting...
-
-&lt;b&gt;&lt;i&gt;Do you..&lt;/i&gt;&lt;/b&gt;
-- [[Inquire the huddle.|Caretakers]]
-- [[Look around north.|Stalls]]
-- [[Look around East.|Wheatfield]]
-
-&lt;sub&gt;&lt;u&gt;Back to Crowl&lt;/u&gt;&lt;/sub&gt;
-- [[Slums]] 
-- [[Lower Slums]]</tw-passagedata><tw-passagedata pid="87" name="Lower Slums" tags="Outside" position="2100,900" size="100,200">&lt;html&gt;&lt;img src=&quot;https://inklings.live/Twines/icons/abstract-062.svg&quot; alt=&quot;&lt;&lt;_item1.name&gt;&gt; icon&quot; style=&quot;width: 50px; height: 50px; margin-bottom: 10px;&quot; /&gt;&lt;big&gt;&lt;b&gt;Crowl&lt;/big&gt;&lt;/b&gt;&lt;/html&gt;
-&lt;b&gt;&lt;u&gt;&lt;&lt;=passage()&gt;&gt;&lt;/u&gt;&lt;/b&gt;
-&lt;b&gt;&lt;i&gt;Where to?&lt;/i&gt;&lt;/b&gt;
--&lt;&lt;link &quot; South&quot;&gt;&gt;
-    &lt;&lt;goto &quot;SouthGate&quot;&gt;&gt;
-&lt;&lt;/link&gt;&gt;
-- [[Slums]]
-- [[CityFarm]]</tw-passagedata><tw-passagedata pid="88" name="Stalls" tags="" position="2400,250" size="100,100">&lt;b&gt;&lt;i&gt;Do you..&lt;/i&gt;&lt;/b&gt;
-- [[Back to Barn.|CityFarm]]
-- [[Look around East.|Wheatfield]]
-- [[Inquire the huddle.|Caretakers]]
-
-&lt;sub&gt;&lt;u&gt;Back to Crowl&lt;/u&gt;&lt;/sub&gt;
-- [[Slums]] 
-- [[Lower Slums]]</tw-passagedata><tw-passagedata pid="89" name="Slums" tags="Indoor" position="2000,200" size="100,200">&lt;html&gt;&lt;img src=&quot;https://inklings.live/Twines/icons/abstract-062.svg&quot; alt=&quot;&lt;&lt;_item1.name&gt;&gt; icon&quot; style=&quot;width: 50px; height: 50px; margin-bottom: 10px;&quot; /&gt;&lt;big&gt;&lt;b&gt;Crowl&lt;/big&gt;&lt;/b&gt;&lt;/html&gt;
-&lt;b&gt;&lt;u&gt;&lt;&lt;=passage()&gt;&gt;&lt;/u&gt;&lt;/b&gt;
-&lt;b&gt;&lt;i&gt;Where to?&lt;/i&gt;&lt;/b&gt;
--&lt;&lt;link &quot;Toward the Norther Gate.&quot;&gt;&gt;
-    &lt;&lt;goto &quot;North Gate&quot;&gt;&gt;
-&lt;&lt;/link&gt;&gt;
-- [[CityFarm]]
-- [[Lower Slums]]</tw-passagedata><tw-passagedata pid="90" name="Wheatfield" tags="" position="2650,450" size="100,100">&lt;b&gt;&lt;i&gt;Do you..&lt;/i&gt;&lt;/b&gt;
-- [[Back to Barn.|CityFarm]]
-- [[Look around north.|Stalls]]
-- [[Inquire the huddle.|Caretakers]]
-
-&lt;sub&gt;&lt;u&gt;Back to Crowl&lt;/u&gt;&lt;/sub&gt;
-- [[Slums]] 
-- [[Lower Slums]]</tw-passagedata><tw-passagedata pid="91" name="Apple Picking" tags="" position="3575,1250" size="100,100">You enthusastically take part in the harvest, hauling in the wheat from the fields.
+&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="91" name="Apple Picking" tags="" position="3575,1250" size="100,100">You enthusastically take part in the harvest, hauling in the wheat from the fields.
 
 &lt;&lt;link [[Back to the Farm|Farm]]&gt;&gt;&lt;&lt;sequenceadvance &quot;$season&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="92" name="Assignation" tags="" position="3700,1375" size="100,100">There&#39;s work to be done, but you slip away. Rowan left a note tucked under your pillow on the last saint&#39;s day — &quot;Meet me by the lychgate when our fathers are busy.&quot;
 
