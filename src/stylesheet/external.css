@@ -1,0 +1,52 @@
+/* Simple Inventory, for SugarCube 2, by Chapel 
+v3.0.1, 2024-07-22, 8c9749dbafa5f12948d743a8dedd4e1c74bb9e26 */
+
+ul.simple-inventory-list {
+  margin: 0 auto;
+  padding: 0;
+}
+
+.simple-inventory-listing {
+  list-style: none;
+  padding: 0.3rem 0.3rem 0.3rem 1rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+}
+
+.simple-inventory-listing:nth-child(2n) {
+  background-color: #000;
+}
+
+.simple-inventory-listing > a,
+.simple-inventory-listing > span {
+  display: inline-block;
+}
+
+.all-listing.simple-inventory-listing {
+  border-top: 1px solid #fafafa;
+  background-color: transparent;
+}
+
+.drop-link {
+  color: #e33;
+}
+
+.drop-link:active,
+.drop-link:focus,
+.drop-link:hover {
+  color: #f88;
+}
+
+.simple-inventory-filter {
+  text-align: right;
+}
+
+.simple-inventory-filter input {
+  display: inline-block;
+}
+
+/* End Simple Inventory */
+
+/* notify.min.css, by chapel; for use with notify.js; v1.0.0 */
+#notify{position:fixed;display:block;width:16em;right:-20em;top:2em;padding:.5em;background-color:#fff;color:#000;-webkit-transition:right .3s;-moz-transition:right .3s;-o-transition:right .3s;transition:right .3s}#notify.open{right:0}
+/* end notify.min.css */

@@ -1,0 +1,240 @@
+
+:: ShopRnd1 {"position":"3400,1700","size":"100,100"}
+<!-- Randomly select a single item from the $allItems list -->
+<<set _randomItem to $allItems.random()>>
+
+<div class="shop">
+    <div id="feedback"></div> <!-- Message area for purchase feedback -->
+
+    <!-- Display the randomly chosen item -->
+    <div class="item">
+        <strong><<=_randomItem.name>></strong><br>
+        <<=_randomItem.description>><br>
+        Price: <<=_randomItem.value>> coins<br>
+        
+        <<button "Buy">>
+            <<if $funds >= _randomItem.value>>
+                <<set $funds -= _randomItem.value>>
+                <<pickup $player _randomItem.name 1>> <!-- Add the random item to inventory -->
+                <<replace "#feedback">>You purchased <<=_randomItem.name>>!<</replace>>
+            <<else>>
+                <<replace "#feedback">>Not enough coins for this item.<</replace>>
+            <</if>>
+        <</button>>
+    </div>
+</div>
+[[BazaarShop]]
+
+
+:: ShopRnd2 {"position":"3500,1700","size":"100,100"}
+\:: RandomItemShop
+<!-- This passage displays one random item for sale each time it's accessed -->
+
+<<set _randomItem to $allItems.random()>>
+
+<div class="shop">
+    <div id="feedback"></div> <!-- Message area for purchase feedback -->
+
+    <!-- Display the randomly chosen item -->
+    <div class="item">
+        <strong><<=_randomItem.name>></strong><br>
+        <<=_randomItem.description>><br>
+        Price: <<=_randomItem.value>> coins<br>
+        
+        <<button "Buy">>
+            <<if $funds >= _randomItem.value>>
+                <<set $funds -= _randomItem.value>>
+                <<pickup $player _randomItem.name 1>> <!-- Add the random item to inventory -->
+                <<replace "#feedback">>You purchased <<=_randomItem.name>>!<</replace>>
+            <<else>>
+                <<replace "#feedback">>Not enough coins for this item.<</replace>>
+            <</if>>
+        <</button>>
+    </div>
+</div>
+[[Market]]
+
+
+:: Market {"position":"3625,1700","size":"100,100"}
+<<nobr>><html><img src="https://inklings.live/Twines/icons/abstract-062.svg" alt="<<_item1.name>> icon" style="width: 50px; height: 50px; margin-bottom: 10px;" <big><b>Crowl |</big></b></html>
+
+<!-- Filter items by "bazaar" category and shuffle to pick 6 random items -->
+<<set $bazaarItems to $allItems.filter(item => item.category === "bazaar")>>
+<<set $displayItems to $bazaarItems.slice().sort(() => Math.random() - 0.5).slice(0, 6)>> <!-- Shuffle and select 6 items -->
+
+\:: BazaarShopTest
+<!-- Setting up feedback area for purchase confirmation -->
+<div id="feedback" style="width: 100%; margin-bottom: 15px; color: green;"></div>
+
+<!-- Display each item with manual purchase links -->
+<div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;">
+
+    <!-- Item 1 -->
+    <<set _item1 to $displayItems[0]>>
+    <div>
+<img @src="_item1.icon" style="width: 50px; height: 50px; margin-bottom: 10px;">
+        <strong><<=_item1.name>></strong> - Price: <<=_item1.value>> funds<br>
+        <<link "Buy <<=_item1.name>>">>
+            <<if $funds >= _item1.value>>
+                <<set $funds -= _item1.value>>
+                <<set $mgcoffer += Math.floor(_item1.value / 5)>>
+                <<pickup $player _item1.name 1>>
+                <<replace "#feedback">>You purchased <<=_item1.name>>! Funds left: <<=$funds>><</replace>>
+            <<else>>
+                <<replace "#feedback">>Not enough funds to buy <<=_item1.name>><</replace>>
+            <</if>>
+        <</link>>
+    </div>
+
+    <!-- Item 2 -->
+    <<set _item2 to $displayItems[1]>>
+    <div>
+    <img @src="_item2.icon" style="width: 50px; height: 50px; margin-bottom: 10px;">
+        <strong><<=_item2.name>></strong> - Price: <<=_item2.value>> funds<br>
+        <<link "Buy <<=_item2.name>>">>
+            <<if $funds >= _item2.value>>
+                <<set $funds -= _item2.value>>
+                <<set $mgcoffer += Math.floor(_item2.value / 5)>>
+                <<pickup $player _item2.name 1>>
+                <<replace "#feedback">>You purchased <<=_item2.name>>! Funds left: <<=$funds>><</replace>>
+            <<else>>
+                <<replace "#feedback">>Not enough funds to buy <<=_item2.name>><</replace>>
+            <</if>>
+        <</link>>
+    </div>
+
+    <!-- Item 3 -->
+    <<set _item3 to $displayItems[2]>>
+    <div>
+    <img @src="_item3.icon" style="width: 50px; height: 50px; margin-bottom: 10px;">
+        <strong><<=_item3.name>></strong> - Price: <<=_item3.value>> funds<br>
+        <<link "Buy <<=_item3.name>>">>
+            <<if $funds >= _item3.value>>
+                <<set $funds -= _item3.value>>
+                <<set $mgcoffer += Math.floor(_item3.value / 5)>>
+                <<pickup $player _item3.name 1>>
+                <<replace "#feedback">>You purchased <<=_item3.name>>! Funds left: <<=$funds>><</replace>>
+            <<else>>
+                <<replace "#feedback">>Not enough funds to buy <<=_item3.name>><</replace>>
+            <</if>>
+        <</link>>
+    </div>
+
+    <!-- Item 4 -->
+    <<set _item4 to $displayItems[3]>>
+    <div>
+    <img @src="_item4.icon" style="width: 50px; height: 50px; margin-bottom: 10px;">
+        <strong><<=_item4.name>></strong> - Price: <<=_item4.value>> funds<br>
+        <<link "Buy <<=_item4.name>>">>
+            <<if $funds >= _item4.value>>
+                <<set $funds -= _item4.value>>
+                <<set $mgcoffer += Math.floor(_item4.value / 5)>>
+                <<pickup $player _item4.name 1>>
+                <<replace "#feedback">>You purchased <<=_item4.name>>! Funds left: <<=$funds>><</replace>>
+            <<else>>
+                <<replace "#feedback">>Not enough funds to buy <<=_item4.name>><</replace>>
+            <</if>>
+        <</link>>
+    </div>
+
+    <!-- Item 5 -->
+    <<set _item5 to $displayItems[4]>>
+    <div>
+    <img @src="_item5.icon" style="width: 50px; height: 50px; margin-bottom: 10px;">
+        <strong><<=_item5.name>></strong> - Price: <<=_item5.value>> funds<br>
+        <<link "Buy <<=_item5.name>>">>
+            <<if $funds >= _item5.value>>
+                <<set $funds -= _item5.value>>
+                <<set $mgcoffer += Math.floor(_item5.value / 5)>>
+                <<pickup $player _item5.name 1>>
+                <<replace "#feedback">>You purchased <<=_item5.name>>! Funds left: <<=$funds>><</replace>>
+            <<else>>
+                <<replace "#feedback">>Not enough funds to buy <<=_item5.name>><</replace>>
+            <</if>>
+        <</link>>
+    </div>
+
+    <!-- Item 6 -->
+    <<set _item6 to $displayItems[5]>>
+    <div>
+    <img @src="_item6.icon" style="width: 50px; height: 50px; margin-bottom: 10px;">
+        <strong><<=_item6.name>></strong> - Price: <<=_item6.value>> funds<br>
+        <<link "Buy <<=_item6.name>>">>
+            <<if $funds >= _item6.value>>
+                <<set $funds -= _item6.value>>
+                <<set $mgcoffer += Math.floor(_item6.value / 5)>>
+                <<pickup $player _item6.name 1>>
+                <<replace "#feedback">>You purchased <<=_item6.name>>! Funds left: <<=$funds>><</replace>>
+            <<else>>
+                <<replace "#feedback">>Not enough funds to buy <<=_item6.name>><</replace>>
+            <</if>>
+        <</link>>
+    </div>
+
+</div><</nobr>>
+
+
+[[ShopRnd2]]
+
+
+:: BazaarShop {"position":"3625,1825","size":"100,100"}
+<html><img src="https://inklings.live/Twines/icons/abstract-062.svg" alt="<<_item1.name>> icon" style="width: 50px; height: 50px; margin-bottom: 10px;" /><big><b>Crowl</big></b></html>
+<!-- Setting up feedback area for purchase confirmation -->
+<div id="feedback" style="width: 100%; margin-bottom: 15px; color: green;"></div>
+
+<!-- Display focus-based purchase counter -->
+<<set $maxPurchases to Math.floor($focus / 20)>> <!-- Set max purchases based on focus (e.g., 1 purchase per 20 focus) -->
+<<set $purchasesLeft to $maxPurchases>>
+<div>Purchases available: <span id="purchase-counter"><<=$purchasesLeft>></span></div>
+<div><em>"I can tell you’re feeling a bit weary," says the shopkeeper, glancing at your posture.</em></div>
+
+<!-- Display item pool with manual purchase links -->
+<div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;">
+
+    <!-- Item 1 -->
+    <<set _item1 to $displayItems[0]>>
+    <div>
+        <html><img src="<<print _item1.icon>>" alt="<<_item1.name>> icon" style="width: 50px; height: 50px; margin-bottom: 10px;" /></html>
+        <strong><<=_item1.name>></strong> - Price: <<=_item1.value>> funds<br>
+        <<link "Buy <<=_item1.name>>">>
+            <<if $funds >= _item1.value and _item1.quantity > 0 and $purchasesLeft > 0>>
+                <<set $funds -= _item1.value>>
+                <<set $mgcoffer += Math.floor(_item1.value / 5)>>
+                <<pickup $player _item1.name 1>>
+                <<set _item1.quantity -= 1>>
+                <<set $purchasesLeft -= 1>>
+
+                <!-- Update quantity and purchase counter -->
+                <<replace "#feedback">>You purchased <<=_item1.name>>! Funds left: <<=$funds>><</replace>>
+                <<replace "#purchase-counter">><<=$purchasesLeft>><</replace>>
+
+                <!-- Sidebar Update for Funds -->
+                <<run UI.update()>>
+
+                <!-- Notify when out of purchases -->
+                <<if $purchasesLeft === 0>>
+                    <<replace "#feedback">>"You seem to be out of energy to make more purchases," the shopkeeper observes.<</replace>>
+                <</if>>
+
+            <<elseif $purchasesLeft <= 0>>
+                <<replace "#feedback">>"It looks like you’re too tired to continue shopping," the shopkeeper remarks.<</replace>>
+            <<elseif $funds < _item1.value>>
+                <<replace "#feedback">>Not enough funds to buy <<=_item1.name>><</replace>>
+            <</if>>
+        <</link>>
+    </div>
+
+    <!-- Repeat this block for each item (2-6) -->
+
+</div>
+
+<<set $shopVisitCount to $shopVisitCount + 1>>
+<<if $shopVisitCount >= 12>>
+    <<set $shopVisitCount to 0>>
+    <<set $displayItems to $bazaarItems.slice().sort(() => Math.random() - 0.5).slice(0, 6)>>
+<</if>>
+
+[[ShopRnd2]]
+
+[[ShopRnd1]]
+

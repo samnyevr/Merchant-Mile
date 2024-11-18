@@ -5,8 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "compile": "rm ./build/index.html && tweego -o ./build/index.html src/",
-    "watch": "tweego -o index.html src/ -w",
+    "build": "rm -f ./build/index.html && tweego -o ./build/index.html src/",
+    "decompile" : "rm -f ./main.twee && tweego -d -o main.twee ./build/index.html",
+    "watch": "rm -f ./build/index.html && tweego -o ./build/index.html src/ -w",
     "open": "open index.html"
   },
   "author": "",

@@ -1,0 +1,64 @@
+:: Caretakers {"position":"2400,625","size":"100,100"}
+<b><i>Do you..</i></b>
+- [[Back to Barn.|CityFarm]]
+- [[Look around East.|Wheatfield]]
+- [[Look around north.|Stalls]]
+
+<sub><u>Back to Crowl</u></sub>
+- [[Slums]] 
+- [[Lower Slums]]
+
+:: CityFarm [Outside] {"position":"2400,400","size":"200,200"}
+A massive farm sprawls the area from where you stand. Up ahead a handful of land caretakers seem to be in a meeting...
+
+<b><i>Do you..</i></b>
+- [[Inquire the huddle.|Caretakers]]
+- [[Look around north.|Stalls]]
+- [[Look around East.|Wheatfield]]
+
+<sub><u>Back to Crowl</u></sub>
+- [[Slums]] 
+- [[Lower Slums]]
+
+
+:: Lower Slums [Outside] {"position":"2100,900","size":"100,200"}
+<html><img src="https://inklings.live/Twines/icons/abstract-062.svg" alt="<<_item1.name>> icon" style="width: 50px; height: 50px; margin-bottom: 10px;" /><big><b>Crowl</big></b></html>
+<b><u><<=passage()>></u></b>
+<b><i>Where to?</i></b>
+-<<link " South">>
+    <<goto "SouthGate">>
+<</link>>
+- [[Slums]]
+- [[CityFarm]]
+
+:: Stalls {"position":"2400,250","size":"100,100"}
+<b><i>Do you..</i></b>
+- [[Back to Barn.|CityFarm]]
+- [[Look around East.|Wheatfield]]
+- [[Inquire the huddle.|Caretakers]]
+
+<sub><u>Back to Crowl</u></sub>
+- [[Slums]] 
+- [[Lower Slums]]
+
+
+:: Slums [Indoor] {"position":"2000,200","size":"100,200"}
+<html><img src="https://inklings.live/Twines/icons/abstract-062.svg" alt="<<_item1.name>> icon" style="width: 50px; height: 50px; margin-bottom: 10px;" /><big><b>Crowl</big></b></html>
+<b><u><<=passage()>></u></b>
+<b><i>Where to?</i></b>
+-<<link "Toward the Norther Gate.">>
+    <<goto "North Gate">>
+<</link>>
+- [[CityFarm]]
+- [[Lower Slums]]
+
+
+:: Wheatfield {"position":"2650,450","size":"100,100"}
+<b><i>Do you..</i></b>
+- [[Back to Barn.|CityFarm]]
+- [[Look around north.|Stalls]]
+- [[Inquire the huddle.|Caretakers]]
+
+<sub><u>Back to Crowl</u></sub>
+- [[Slums]] 
+- [[Lower Slums]]

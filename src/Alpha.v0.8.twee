@@ -1,10 +1,10 @@
 :: StoryTitle
-ALPHA.v2.8.6
+ALPHA.v0.8
 
 
 :: StoryData
 {
-  "ifid": "a4616cc7-9c51-4f5e-83ab-35fd582ad1fb",
+  "ifid": "c606c113-539e-46f6-a082-f3dbf61619f3",
   "format": "SugarCube",
   "format-version": "2.37.3",
   "start": "Opener",
@@ -16,22 +16,6 @@ ALPHA.v2.8.6
   },
   "zoom": 0.6
 }
-
-
-:: Apple Picking {"position":"3575,1250","size":"100,100"}
-You enthusastically take part in the harvest, hauling in the wheat from the fields.
-
-<<link [[Back to the Farm|Farm]]>><<sequenceadvance "$season">><</link>>
-
-
-:: Assignation {"position":"3700,1375","size":"100,100"}
-There's work to be done, but you slip away. Rowan left a note tucked under your pillow on the last saint's day — "Meet me by the lychgate when our fathers are busy."
-
-Stolen kisses, sweet promises, a brief caress under the drooping lychgate roof ... it's all you have time for before you are discovered and all hell breaks loose.
-
-Afterwards, chastened and punished, you are allowed to return to farm duties, but you are constantly watched, this won't happen again.
-
-<<link [[Back to the Farm|Farm]]>><<sequenceadvance "$season">><</link>>
 
 
 :: Bandit Dock [Outside] {"position":"1700,1300","size":"100,100"}
@@ -64,71 +48,6 @@ Musty interior tells you how likely anyone bathes between posts.
 - [[Witches]]
 
 
-:: BazaarShop {"position":"3625,1825","size":"100,100"}
-<html><img src="https://inklings.live/Twines/icons/abstract-062.svg" alt="<<_item1.name>> icon" style="width: 50px; height: 50px; margin-bottom: 10px;" /><big><b>Crowl</big></b></html>
-<!-- Setting up feedback area for purchase confirmation -->
-<div id="feedback" style="width: 100%; margin-bottom: 15px; color: green;"></div>
-
-<!-- Display focus-based purchase counter -->
-<<set $maxPurchases to Math.floor($focus / 20)>> <!-- Set max purchases based on focus (e.g., 1 purchase per 20 focus) -->
-<<set $purchasesLeft to $maxPurchases>>
-<div>Purchases available: <span id="purchase-counter"><<=$purchasesLeft>></span></div>
-<div><em>"I can tell you’re feeling a bit weary," says the shopkeeper, glancing at your posture.</em></div>
-
-<!-- Display item pool with manual purchase links -->
-<div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;">
-
-    <!-- Item 1 -->
-    <<set _item1 to $displayItems[0]>>
-    <div>
-        <html><img src="<<print _item1.icon>>" alt="<<_item1.name>> icon" style="width: 50px; height: 50px; margin-bottom: 10px;" /></html>
-        <strong><<=_item1.name>></strong> - Price: <<=_item1.value>> funds<br>
-        <<link "Buy <<=_item1.name>>">>
-            <<if $funds >= _item1.value and _item1.quantity > 0 and $purchasesLeft > 0>>
-                <<set $funds -= _item1.value>>
-                <<set $mgcoffer += Math.floor(_item1.value / 5)>>
-                <<pickup $player _item1.name 1>>
-                <<set _item1.quantity -= 1>>
-                <<set $purchasesLeft -= 1>>
-
-                <!-- Update quantity and purchase counter -->
-                <<replace "#feedback">>You purchased <<=_item1.name>>! Funds left: <<=$funds>><</replace>>
-                <<replace "#purchase-counter">><<=$purchasesLeft>><</replace>>
-
-                <!-- Sidebar Update for Funds -->
-                <<run UI.update()>>
-
-                <!-- Notify when out of purchases -->
-                <<if $purchasesLeft === 0>>
-                    <<replace "#feedback">>"You seem to be out of energy to make more purchases," the shopkeeper observes.<</replace>>
-                <</if>>
-
-            <<elseif $purchasesLeft <= 0>>
-                <<replace "#feedback">>"It looks like you’re too tired to continue shopping," the shopkeeper remarks.<</replace>>
-            <<elseif $funds < _item1.value>>
-                <<replace "#feedback">>Not enough funds to buy <<=_item1.name>><</replace>>
-            <</if>>
-        <</link>>
-    </div>
-
-    <!-- Repeat this block for each item (2-6) -->
-
-</div>
-
-<<set $shopVisitCount to $shopVisitCount + 1>>
-<<if $shopVisitCount >= 12>>
-    <<set $shopVisitCount to 0>>
-    <<set $displayItems to $bazaarItems.slice().sort(() => Math.random() - 0.5).slice(0, 6)>>
-<</if>>
-
-[[ShopRnd2]]
-
-
-
-
-[[ShopRnd1]]
-
-
 :: BlackoutPassage {"position":"1100,200","size":"100,100"}
 \:: BlackoutPassage
 You feel the world spinning... and then everything goes black.
@@ -151,6 +70,82 @@ When you awaken, a few coins seem to be missing, but you're not quite sure what 
 
 [[North Gate]] 
 [[Continue|View Cart]]
+
+
+:: BlankAccording {"position":"4400,1200","size":"100,100"}
+<<nobr>>
+<div class="accordion-container">
+    <div class="accordion-content">
+        <div id="corePassage" class="accordion-panel show">
+          ::Trading Lottery
+<<set $funds to 100>>  <!-- Starting funds -->
+<<set $items to []>>    <!-- Player's inventory -->
+
+<h2>Welcome to the Trading Lottery</h2>
+<p>You have <<print $funds>> coins to use for bidding. Each bid costs 10 coins.</p>
+
+<p><b>Items for Lottery:</b></p>
+<<set _items = ["Golden Ring", "Mystic Amulet", "Silk Robe", "Ancient Coin", "Sapphire"]>>
+<<for _item range _items>>
+    * <<print _item>><br>
+<</for>>
+
+<<link "Place a bid">>
+    <<if $funds >= 10>>
+        <<set $funds -= 10>>
+        <<set _result = random(1, 10)>>
+
+        <!-- Determine outcome -->
+        <<if _result <= 4>>  <!-- Common loss outcome -->
+            <p>You lost this bid and 10 coins!</p>
+        <<elseif _result <= 7>>  <!-- Win item -->
+            <<set _item = _items[random(0, _items.length - 1)]>>
+            <<set $items.push(_item)>>
+            <p>Congratulations! You won <<print _item>>!</p>
+        <<elseif _result == 8>> <!-- Win item and extra coins -->
+            <<set _item = _items[random(0, _items.length - 1)]>>
+            <<set $items.push(_item)>>
+            <<set $funds += 20>>
+            <p>You won <<print _item>> and 20 extra coins!</p>
+        <<else>> <!-- Mystery bonus -->
+            <<set _bonus = random(-20, 30)>>
+            <<set $funds += _bonus>>
+            <p>Mystery Bonus! Your funds are adjusted by <<print _bonus>> coins.</p>
+        <</if>>
+    <<else>>
+        <p>You don’t have enough coins to bid.</p>
+    <</if>>
+<</link>>
+
+<<link "End Game">>
+    <p>You ended the Trading Lottery with <<print $funds>> coins and the following items:</p>
+    <<for _item range $items>>
+        * <<print _item>><br>
+    <</for>>
+<</link>>
+
+        </div>
+        <div id="miniMap" class="accordion-panel">
+            <p>This is the Mini Map content area.</p>
+        </div>
+        <div id="journal" class="accordion-panel">
+            <p>This is the Journal content area.</p>
+        </div>
+        <div id="inventory" class="accordion-panel">
+            <p>This is the Inventory content area.</p>
+        </div>
+    </div>
+
+    <!-- Bottom-centered buttons including Save/Load Game -->
+    <div class="accordion-buttons">
+        <button class="accordion-button" onclick="togglePanel('corePassage')">Core Passage</button>
+        <button class="accordion-button" onclick="togglePanel('miniMap')">Mini Map</button>
+        <button class="accordion-button" onclick="togglePanel('journal')">Journal</button>
+        <button class="accordion-button" onclick="togglePanel('inventory')">Inventory</button>
+    </div>
+</div>
+<</nobr>>
+
 
 
 :: CBridgeA [Outside] {"position":"975,575","size":"100,100"}
@@ -176,28 +171,62 @@ When you awaken, a few coins seem to be missing, but you're not quite sure what 
 <</link>>
 
 
-:: Caretakers {"position":"2400,625","size":"100,100"}
-<b><i>Do you..</i></b>
-- [[Back to Barn.|CityFarm]]
-- [[Look around East.|Wheatfield]]
-- [[Look around north.|Stalls]]
+:: ClickMap {"position":"4100,1200","size":"100,100"}
+<<nobr>>
+	<div class="resizable imageMapObserve">
+    	<img src="https://media.discordapp.net/attachments/1295277017167691846/1304700483243606027/Cape_Crowl_mp.jpg?ex=67305883&is=672f0703&hm=e2e99dfee886067d58a730e5a43fb336d96b049677d4362e2d99f5cb61afb29e&=&format=webp&width=619&height=619" usemap="#image-map">
+	</div>
 
-<sub><u>Back to Crowl</u></sub>
-- [[Slums]] 
-- [[Lower Slums]]
+<map name="image-map">
+	<area 
+               data-passage="Area1"
+               alt="Area1"
+               title="Area1"  
+               coords="202,124,230,161" 
+               shape="rect">
+	<area
+              data-passage="Area2"
+              alt="Area2"
+              title="Area2"  
+              coords="225,181,283,222" 
+              shape="rect">
+</map>
 
+<<script>>
+	$(document).one(":passagerender", function (event) {
+		$(event.content).find("map").imageMapResize();
+	});
+<</script>>
 
-:: CityFarm [Outside] {"position":"2400,400","size":"200,200"}
-A massive farm sprawls the area from where you stand. Up ahead a handful of land caretakers seem to be in a meeting...
+<<done>>
+	<<script>>
+		/* Apply maphilight to all images that have a usemap attribute */
+		$("img[usemap]").maphilight({
+				fill: true,
+				fillColor: 'dd319b',
+				fillOpacity: 0.5,
+				stroke: true,
+				strokeColor: 'ef9ace',
+				strokeOpacity: 1,
+				strokeWidth: 3,
+				fade: true,
+				alwaysOn: false,
+				neverOn: false,
+				groupBy: false,
+				wrapClass: true,
+				shadow: false,
+				shadowX: 0,
+				shadowY: 0,
+				shadowRadius: 6,
+				shadowColor: '000000',
+				shadowOpacity: 0.8,
+				shadowPosition: 'outside',
+				shadowFrom: false
+		});
+	<</script>>
+<</done>>
+<</nobr>>
 
-<b><i>Do you..</i></b>
-- [[Inquire the huddle.|Caretakers]]
-- [[Look around north.|Stalls]]
-- [[Look around East.|Wheatfield]]
-
-<sub><u>Back to Crowl</u></sub>
-- [[Slums]] 
-- [[Lower Slums]]
 
 
 :: Crafting {"position":"2625,800","size":"100,100"}
@@ -286,14 +315,6 @@ Spwarling with live of all kinds is the coastal neighborhood of Crowl. Some are 
 <<fadein 10s>>The voices drift into your half-conscious mind—snatches of conversations that sound like riddles folded over riddles. You aren’t sure who’s speaking, but the tales are clear enough. They whisper of Crowl, of merchants who speak in riddles, cursed bazaars where every bargain costs more than coin, and a mayor whose smile could hide a dagger. Someone mutters about a "cart without wheels, sitting forever at a farmhouse, its price rising like a snake uncoiling in the sun."<</fadein>>
 
 <<fadein 5s 11s>>[[Then you hear the strangest thing of all.|Listen...]]<</fadein>>
-
-
-:: End {"position":"3825,1500","size":"100,100"}
-Years pass ... 
-
-There's a new life, a new home, a new profession, new children, Everything changes, and you are happy, but sometimes you miss the rhythm of the farm ...
-
-! THE END
 
 
 :: End Game {"position":"825,275","size":"100,100"}
@@ -477,27 +498,6 @@ I saw a <span id="dog">dog</span>.
 I saw a <span id="dog"><span class="macro-replace-insert">Catahoula Cur</span></span>.
 
 
-:: Farm {"position":"3425,1250","size":"100,100"}
-! $season (year $season.count)
-
-It's $season, down on the farm, and as ever there's things to do.
-
-<<nobr>>
-	<<set _events = MQBN.getStorylets(3)>>
-    <<if _events.length>>
-      <ul>
-      <<for _event range _events>>
-          <li><<storyletlink _event>><</storyletlink>></li>
-      <</for>>
-      </ul>
-    <<else>>
-    	Although, in fact, there is nothing to do //this// season. <<link [[Advance to next season|Farm]]>>
-        	<<sequenceadvance "$season">>
-        <</link>>
-    <</if>>
-<</nobr>>
-
-
 :: FarmC {"position":"825,150","size":"100,100"}
 [[View Cart]]
 
@@ -546,15 +546,6 @@ Along the entirety of the walls in this room hold all the statistics of an indiv
 - <<link "Main Hall">>
     <<goto "MayorOffice">>
 <</link>>
-
-
-:: Harvest {"position":"3575,1375","size":"100,100"}
-You join the women and children harvesting the orchard, shaking the trees to bring down the apples and then gathering them in broad woven baskets. All this will go to ale, or to feed the pigs.
-
-<<if !MQBN.played("Leave")>>As you head home, Rowan catches your eye and smiles shyly.
-<</if>>\
-
-<<link [[Back to the Farm|Farm]]>><<sequenceadvance "$season">><</link>>
 
 
 :: Homes [Outside] {"position":"700,1975","size":"200,100"}
@@ -665,17 +656,6 @@ A fine looking establishment, oddly though adhesive strips seem to be patching a
 - [[South Pass|T2]]
 
 
-:: Leave {"position":"3825,1375","size":"100,100"}
-Time has passed, as it ever does, but you can't shake the memory of that stolen kiss.
-
-There's no future here for you and Rowan — your families are sworn rivals. There's only one option, to steal away together and make a new life, far from here.
-
-The plans are all made. Rowan will be waiting by the Lychgate once more. If you don't go now, you never will. You have to decide
-
-* [[Leave|End]]
-* [[Stay|Farm]]
-
-
 :: Listen... {"position":"675,0","size":"100,100"}
 <<fadein 5s 1s>>
 	<<fadeout 5s 6s>>
@@ -709,15 +689,57 @@ As you linger by the buildings nearby you hear tinks, and hammering nearby...
 [[SoundsofCreation|Workshop]]
 
 
-:: Lower Slums [Outside] {"position":"2100,900","size":"100,200"}
-<html><img src="https://inklings.live/Twines/icons/abstract-062.svg" alt="<<_item1.name>> icon" style="width: 50px; height: 50px; margin-bottom: 10px;" /><big><b>Crowl</big></b></html>
-<b><u><<=passage()>></u></b>
-<b><i>Where to?</i></b>
--<<link " South">>
-    <<goto "SouthGate">>
+:: Lottery Bd {"position":"4025,1525","size":"100,100"}
+\::Trading Lottery
+<<set $funds to 100>>  <!-- Starting funds -->
+<<set $player to []>>    <!-- Player's inventory, initialized as an array -->
+
+<h2>Welcome to the Trading Lottery</h2>
+<p>You have <<print $funds>> coins to use for bidding. Each bid costs 10 coins.</p>
+
+<!-- List of all items that can be won -->
+<<set $allItems = ["Golden Ring", "Mystic Amulet", "Silk Robe", "Ancient Coin", "Sapphire"]>>
+
+<<link "Place a bid">>
+    <<if $funds >= 10>>
+        <<set $funds -= 10>>
+        <<set _result = random(1, 10)>>
+
+        <!-- Outcome determination -->
+        <<if _result <= 4>>  <!-- Loss outcome -->
+            <p>You lost this bid and 10 coins!</p>
+        <<elseif _result <= 7>>  <!-- Win an item -->
+            <<set _item = $allItems[random(0, $allItems.length - 1)]>>
+            <<set $player.push(_item)>>
+            <p>Congratulations! You won <<print _item>>!</p>
+        <<elseif _result == 8>> <!-- Win an item and extra coins -->
+            <<set _item = $allItems[random(0, $allItems.length - 1)]>>
+            <<set $player.push(_item)>>
+            <<set $funds += 20>>
+            <p>You won <<print _item>> and 20 extra coins!</p>
+        <<else>> <!-- Mystery bonus -->
+            <<set _bonus = random(-20, 30)>>
+            <<set $funds += _bonus>>
+            <p>Mystery Bonus! Your funds changed by <<print _bonus>> coins.</p>
+        <</if>>
+    <<else>>
+        <p>You don’t have enough coins to place another bid.</p>
+    <</if>>
+
+    <!-- Display current funds and items after each bid -->
+    <p>Current funds: <<print $funds>> coins</p>
+    <p>Items won:</p>
+    <<for _item range $player>>
+        * <<print _item>><br>
+    <</for>>
 <</link>>
-- [[Slums]]
-- [[CityFarm]]
+
+<<link "End Game">>
+    <p>You ended the Trading Lottery with <<print $funds>> coins and the following items:</p>
+    <<for _item range $player>>
+        * <<print _item>><br>
+    <</for>>
+<</link>>
 
 
 :: M&M Services {"position":"300,2200","size":"100,100"}
@@ -741,129 +763,6 @@ Enter the amount to deposit or withdraw:
 - <<link "Main Hall">>
     <<goto "MerchantGuild">>
 <</link>>
-
-
-:: Market [nobr] {"position":"3625,1700","size":"100,100"}
-<html><img src="https://inklings.live/Twines/icons/abstract-062.svg" alt="<<_item1.name>> icon" style="width: 50px; height: 50px; margin-bottom: 10px;" /><big><b>Crowl</big></b></html>
-<!-- Filter items by "bazaar" category and shuffle to pick 6 random items -->
-<<set $bazaarItems to $allItems.filter(item => item.category === "bazaar")>>
-<<set $displayItems to $bazaarItems.slice().sort(() => Math.random() - 0.5).slice(0, 6)>> <!-- Shuffle and select 6 items -->
-
-\:: BazaarShopTest
-<!-- Setting up feedback area for purchase confirmation -->
-<div id="feedback" style="width: 100%; margin-bottom: 15px; color: green;"></div>
-
-<!-- Display each item with manual purchase links -->
-<div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;">
-
-    <!-- Item 1 -->
-    <<set _item1 to $displayItems[0]>>
-    <div>
-        <img @src="_item1.icon" style="width: 50px; height: 50px; margin-bottom: 10px;">
-        <strong><<=_item1.name>></strong> - Price: <<=_item1.value>> funds<br>
-        <<link "Buy <<=_item1.name>>">>
-            <<if $funds >= _item1.value>>
-                <<set $funds -= _item1.value>>
-                <<set $mgcoffer += Math.floor(_item1.value / 5)>>
-                <<pickup $player _item1.name 1>>
-                <<replace "#feedback">>You purchased <<=_item1.name>>! Funds left: <<=$funds>><</replace>>
-            <<else>>
-                <<replace "#feedback">>Not enough funds to buy <<=_item1.name>><</replace>>
-            <</if>>
-        <</link>>
-    </div>
-
-    <!-- Item 2 -->
-    <<set _item2 to $displayItems[1]>>
-    <div>
-        <img @src="_item2.icon" style="width: 50px; height: 50px; margin-bottom: 10px;">
-        <strong><<=_item2.name>></strong> - Price: <<=_item2.value>> funds<br>
-        <<link "Buy <<=_item2.name>>">>
-            <<if $funds >= _item2.value>>
-                <<set $funds -= _item2.value>>
-                <<set $mgcoffer += Math.floor(_item2.value / 5)>>
-                <<pickup $player _item2.name 1>>
-                <<replace "#feedback">>You purchased <<=_item2.name>>! Funds left: <<=$funds>><</replace>>
-            <<else>>
-                <<replace "#feedback">>Not enough funds to buy <<=_item2.name>><</replace>>
-            <</if>>
-        <</link>>
-    </div>
-
-    <!-- Item 3 -->
-    <<set _item3 to $displayItems[2]>>
-    <div>
-        <img @src="_item3.icon" style="width: 50px; height: 50px; margin-bottom: 10px;">
-        <strong><<=_item3.name>></strong> - Price: <<=_item3.value>> funds<br>
-        <<link "Buy <<=_item3.name>>">>
-            <<if $funds >= _item3.value>>
-                <<set $funds -= _item3.value>>
-                <<set $mgcoffer += Math.floor(_item3.value / 5)>>
-                <<pickup $player _item3.name 1>>
-                <<replace "#feedback">>You purchased <<=_item3.name>>! Funds left: <<=$funds>><</replace>>
-            <<else>>
-                <<replace "#feedback">>Not enough funds to buy <<=_item3.name>><</replace>>
-            <</if>>
-        <</link>>
-    </div>
-
-    <!-- Item 4 -->
-    <<set _item4 to $displayItems[3]>>
-    <div>
-        <img @src="_item4.icon" style="width: 50px; height: 50px; margin-bottom: 10px;">
-        <strong><<=_item4.name>></strong> - Price: <<=_item4.value>> funds<br>
-        <<link "Buy <<=_item4.name>>">>
-            <<if $funds >= _item4.value>>
-                <<set $funds -= _item4.value>>
-                <<set $mgcoffer += Math.floor(_item4.value / 5)>>
-                <<pickup $player _item4.name 1>>
-                <<replace "#feedback">>You purchased <<=_item4.name>>! Funds left: <<=$funds>><</replace>>
-            <<else>>
-                <<replace "#feedback">>Not enough funds to buy <<=_item4.name>><</replace>>
-            <</if>>
-        <</link>>
-    </div>
-
-    <!-- Item 5 -->
-    <<set _item5 to $displayItems[4]>>
-    <div>
-        <img @src="_item5.icon" style="width: 50px; height: 50px; margin-bottom: 10px;">
-        <strong><<=_item5.name>></strong> - Price: <<=_item5.value>> funds<br>
-        <<link "Buy <<=_item5.name>>">>
-            <<if $funds >= _item5.value>>
-                <<set $funds -= _item5.value>>
-                <<set $mgcoffer += Math.floor(_item5.value / 5)>>
-                <<pickup $player _item5.name 1>>
-                <<replace "#feedback">>You purchased <<=_item5.name>>! Funds left: <<=$funds>><</replace>>
-            <<else>>
-                <<replace "#feedback">>Not enough funds to buy <<=_item5.name>><</replace>>
-            <</if>>
-        <</link>>
-    </div>
-
-    <!-- Item 6 -->
-    <<set _item6 to $displayItems[5]>>
-    <div>
-        <img @src="_item6.icon" style="width: 50px; height: 50px; margin-bottom: 10px;">
-        <strong><<=_item6.name>></strong> - Price: <<=_item6.value>> funds<br>
-        <<link "Buy <<=_item6.name>>">>
-            <<if $funds >= _item6.value>>
-                <<set $funds -= _item6.value>>
-                <<set $mgcoffer += Math.floor(_item6.value / 5)>>
-                <<pickup $player _item6.name 1>>
-                <<replace "#feedback">>You purchased <<=_item6.name>>! Funds left: <<=$funds>><</replace>>
-            <<else>>
-                <<replace "#feedback">>Not enough funds to buy <<=_item6.name>><</replace>>
-            <</if>>
-        <</link>>
-    </div>
-
-</div>
-
-
-
-
-[[ShopRnd2]]
 
 
 :: MaterialInventory {"position":"2800,950","size":"100,100"}
@@ -937,11 +836,137 @@ Enter the amount to deposit or withdraw:
 <sub><u>Back to Crowl.</u></sub>
 - [[Moon Pass|T4]]
 
+:: NestingPage {"position":"4200,1300","size":"100,100"}
+<h1><u>M&M Service Cart</u></h1>
+<<nobr>>
+<div class="accordion-container">
+    <div class="accordion-content">
+        <div id="corePassage" class="accordion-panel show">
+            <b><i>A long desk made of mahogony is present, on it three different stacks of aggressive paperwork. The current receptionist reacts to your arrival:</i></b>
+<<set _greetings = [
+    "Hi traveler, looks like you're in the trade.",
+    "Welcome, please take a form and return it with the proper funds.",
+    "Good to see you again, what’s your business today?",
+    "Ah, another seeker of fortune. You’ll need a license for that.",
+    "Greetings, merchant. May your trade be prosperous!"
+]>>
+<div style="display: flex; gap: 10px; justify-content: center; margin-top: 20px;">
 
-:: Mowing {"position":"3700,1250","size":"100,100"}
-It's time to mow, and you take up a scythe along with the rest, swinging it in long arcs in time to the mowing song.
+    <!-- Entry License -->
+    <div style="width: 200px; padding: 10px; border: 1px solid #ccc; text-align: center;">
+        <<message 'Entry' btn>>
+        <h3>Entry License</h3>
+        <p>Cost: 45 Focus, 100 Funds</p>
+        <p>Description: A basic license for entry-level merchants.</p>
+        <<if $hasEntryLicense>>
+            <p style="color: gray;">Already have this license.</p>
+        <<else>>
+            <<if $focus >= 45 && $funds >= 100>>
+                <<link "Purchase Entry License">>
+                    <<set $focus -= 45>>
+                    <<set $funds -= 100>>
+                    <<set $hasEntryLicense = true>>
+                    <<replace "#confirmation">>You purchased the Entry License!<</replace>>
+                <</link>>
+            <<else>>
+                <p style="color: gray;">Not enough resources</p>
+            <</if>>
+        <</if>>
+        <</message>>
+    </div>
 
-<<link [[Back to the Farm|Farm]]>><<sequenceadvance "$season">><</link>>
+    <!-- Middleman License -->
+    <div style="width: 200px; padding: 10px; border: 1px solid #ccc; text-align: center;">
+ <<message 'Middleman' btn>>      
+  <h3>Middleman License</h3>
+        <p>Cost: 60 Focus, 500 Funds</p>
+        <p>Description: A license for experienced traders facilitating larger transactions.</p>
+        <<if $hasMiddlemanLicense>>
+            <p style="color: gray;">Already have this license.</p>
+        <<else>>
+            <<if $focus >= 60 && $funds >= 500>>
+                <<link "Purchase Middleman License">>
+                    <<set $focus -= 60>>
+                    <<set $funds -= 500>>
+                    <<set $hasMiddlemanLicense = true>>
+                    <<replace "#confirmation">>You purchased the Middleman License!<</replace>>
+                <</link>>
+            <<else>>
+                <p style="color: gray;">Not enough resources</p>
+            <</if>>
+        <</if>>
+        <</message>>
+    </div>
+
+    <!-- Prestige License -->
+    <div style="width: 200px; padding: 10px; border: 1px solid #ccc; text-align: center;">
+         <<message 'Pretige' btn>>
+        <h3>Prestige License</h3>
+        <p>Cost: 85 Focus, 1200 Funds</p>
+        <p>Description: An elite license, allows resetting with Prestige 1 active.</p>
+        <<if $hasPrestigeLicense>>
+            <p style="color: gray;">Already have this license.</p>
+        <<else>>
+            <<if $focus >= 85 && $funds >= 1200>>
+                <<link "Purchase Prestige License">>
+                    <<set $focus -= 85>>
+                    <<set $funds -= 1200>>
+                    <<set $hasPrestigeLicense = true>>
+                    <<set $prestige = 1>>  <!-- Activate Prestige 1 -->
+                    <<replace "#confirmation">>You purchased the Prestige License!<</replace>>
+                <</link>>
+            <<else>>
+                <p style="color: gray;">Not enough resources</p>
+            <</if>>
+        <</if>>
+        <</message>>
+    </div>
+
+</div>
+
+<div id="confirmation" style="text-align: center; margin-top: 20px;">
+    <!-- This will display purchase confirmations -->
+</div>
+        </div>
+        <div id="miniMap" class="accordion-panel">
+            **Transaction History:**
+<<for _entry range $ledger>>
+  <<print _entry.type>> of <<print _entry.amount>> coins at passage <<print _entry.passage>> in location <<print _entry.location>><br>
+<</for>>
+        </div>
+        <div id="journal" class="accordion-panel">
+            Enter the amount to deposit or withdraw:
+
+<input type="number" id="transactionAmount" placeholder="Enter amount">
+<!-- Deposit Button -->
+<<button "Deposit">>
+    <<bankTransaction "deposit" "Merchant Guild">>
+<</button>>
+<!-- Withdraw Button -->
+<<button "Withdraw">>
+    <<bankTransaction "withdraw" "Merchant Guild">>
+<</button>>
+<!-- Display Transaction Result Here -->
+<div id="transactionResult">Make a transaction to see the result here.</div>
+        </div>
+        <div id="inventory" class="accordion-panel">
+            <h2>On hand:</h2>\
+<<give $player $storage stack all filter>>
+<h2>In storage:</h2>\
+<<take $storage $player stack all filter>>
+        </div>
+    </div>
+
+    <!-- Bottom-centered buttons including Save/Load Game -->
+    <div class="accordion-buttons">
+        <button class="accordion-button" onclick="togglePanel('corePassage')">Lic. Registration</button>
+        <button class="accordion-button" onclick="togglePanel('miniMap')">Ledger</button>
+        <button class="accordion-button" onclick="togglePanel('journal')">Finance</button>
+        <button class="accordion-button" onclick="togglePanel('inventory')">Storage</button>
+    </div>
+</div>
+<</nobr>>
+
 
 
 :: NextPath {"position":"2900,225","size":"100,100"}
@@ -973,15 +998,15 @@ It's time to mow, and you take up a scythe along with the rest, swinging it in l
 [[Wake up.|NextPath]]
 
 
-:: North Gate [Outside] {"position":"1400,200","size":"100,100"}
-<html><img src="https://inklings.live/Twines/icons/abstract-062.svg" alt="<<_item1.name>> icon" style="width: 50px; height: 50px; margin-bottom: 10px;" /><big><b>Crowl</big></b></html>
-<b><u><<=passage()>></u></b>
+:: North Gate [zone_forest] {"position":"1400,200","size":"100,100"}
+<html><img src="https://inklings.live/Twines/icons/abstract-062.svg" alt="<<_item1.name>> icon" style="width: 50px; height: 50px; margin-bottom: 10px;" /><big><b>Crowl |</big></b></html><b><u><<=passage()>></u></b>
 
 <h3>Crowl’s Key Locations</h3>
 *<b> The Bazaar:</b> Enchanted wares and mysterious artifacts are sold, each item hiding a secret enchantment or curse.
 *<b> The Dripping Kettle Tavern:</b> The heart of the town, where deals are made over drink. Owned by Jim—who is definitely not the original owner.
 *<b> Merchant Guild Office:</b> A front for a hidden organization, with deep connections to the city's shadowy underbelly.
 *<b> The Well:</b> A mysterious well said to hold the lost secrets of the giants, a remnant of a forgotten age.
+
 
 <b><i>Where to?</i></b>
 - [[Travelers Square|Square]]
@@ -1098,8 +1123,6 @@ Whatever pull this cart has its strong, and now you realize how strong....
 :: Opener {"position":"300,0","size":"100,100"}
 \:: Prologue
 
-Test??
-
 
 <<fadein 5s 1s>>\
         "The Wishbone hums with the sound of murmuring voices, the low crackle of a campfire, and the occasional clink of worn coin. It’s the kind of place where travelers meet on accident, stay too long by misfortune, and leave with stories they’ll never tell the same way twice. Tonight, a subtle sense of unease lingers in the air, carried by the way the flames dance just a bit too wildly in the evening breeze."!\
@@ -1112,11 +1135,38 @@ Test??
 <<inv $player use drop inspect all filter>>
 
 
-:: Planting {"position":"3825,1250","size":"100,100"}
-The spring thaw has softened the dark loam of the fields, so its time to plant the spring corn. The farm horses turn the furrows, and you follow behind, scattering seed till the light fails.
+:: PassageDone [PassageDone] {"position":"125,250","size":"100,100"}
+<<script>>
 
-<<link [[Back to the Farm|Farm]]>><<sequenceadvance "$season">><</link>>
+// Apply maphilight to all images that have a usemap attribute, e.g.
+// all the maps that are in this twine. This sets the default styling
+// for all the maps. These are all the possible styling options.
+// Note: for picking colors, check out http://hslpicker.com/. You can
+// copy the HEX value as long as you leave off the "#".
+$("img[usemap]").maphilight({
+  fill: true,             	// Fill the area?
+  fillColor: 'dd319b',    	// HEX format without the starting "#"
+  fillOpacity: 0.5,       	// Opacity of the filled area
+  stroke: true,           	// Outline the area?
+  strokeColor: 'ef9ace',
+  strokeOpacity: 1,
+  strokeWidth: 3,			// Outline width
+  fade: true,             	// Animate when hovered with a fade?
+  alwaysOn: false,        	// Always show the areas?
+  neverOn: false,
+  groupBy: false,
+  wrapClass: true,
+  shadow: false,
+  shadowX: 0,
+  shadowY: 0,
+  shadowRadius: 6,
+  shadowColor: '000000',
+  shadowOpacity: 0.8,
+  shadowPosition: 'outside',
+  shadowFrom: false
+});
 
+<</script>>
 
 :: PlayerStats {"position":"2925,850","size":"100,100"}
 Focus: <<print $focus>>
@@ -1242,106 +1292,6 @@ Reflection
 
 [[North Gate]]
 
-
-:: ShopRnd1 {"position":"3400,1700","size":"100,100"}
-<!-- Randomly select a single item from the $allItems list -->
-<<set _randomItem to $allItems.random()>>
-
-<div class="shop">
-    <div id="feedback"></div> <!-- Message area for purchase feedback -->
-
-    <!-- Display the randomly chosen item -->
-    <div class="item">
-        <strong><<=_randomItem.name>></strong><br>
-        <<=_randomItem.description>><br>
-        Price: <<=_randomItem.value>> coins<br>
-        
-        <<button "Buy">>
-            <<if $funds >= _randomItem.value>>
-                <<set $funds -= _randomItem.value>>
-                <<pickup $player _randomItem.name 1>> <!-- Add the random item to inventory -->
-                <<replace "#feedback">>You purchased <<=_randomItem.name>>!<</replace>>
-            <<else>>
-                <<replace "#feedback">>Not enough coins for this item.<</replace>>
-            <</if>>
-        <</button>>
-    </div>
-</div>
-[[BazaarShop]]
-
-
-:: ShopRnd2 {"position":"3500,1700","size":"100,100"}
-\:: RandomItemShop
-<!-- This passage displays one random item for sale each time it's accessed -->
-
-<<set _randomItem to $allItems.random()>>
-
-<div class="shop">
-    <div id="feedback"></div> <!-- Message area for purchase feedback -->
-
-    <!-- Display the randomly chosen item -->
-    <div class="item">
-        <strong><<=_randomItem.name>></strong><br>
-        <<=_randomItem.description>><br>
-        Price: <<=_randomItem.value>> coins<br>
-        
-        <<button "Buy">>
-            <<if $funds >= _randomItem.value>>
-                <<set $funds -= _randomItem.value>>
-                <<pickup $player _randomItem.name 1>> <!-- Add the random item to inventory -->
-                <<replace "#feedback">>You purchased <<=_randomItem.name>>!<</replace>>
-            <<else>>
-                <<replace "#feedback">>Not enough coins for this item.<</replace>>
-            <</if>>
-        <</button>>
-    </div>
-</div>
-[[Market]]
-
-
-:: Slot Machine {"position":"3225,900","size":"100,100"}
-<<silently>>
-<<set _slot1 to either("🗡️ Sword", "🛡️ Shield", "🧪 Potion")>>
-<<set _slot2 to either("🗡️ Sword", "🛡️ Shield", "🧪 Potion")>>
-<<set _slot3 to either("🗡️ Sword", "🛡️ Shield", "🧪 Potion")>>
-
-<<if _slot1 is _slot2 and _slot2 is _slot3>>
-    <<set _win to true>>
-    <<set $funds += 15>>  <!-- Add winnings -->
-<<else>>
-    <<set _win to false>>
-    <<set $funds -= 5>>  <!-- Deduct for loss -->
-<</if>>
-<</silently>>
-
-<b><i>Before you a large orb appears with unique symbols of familiarity.</i></b>
-
-<<timed 1s>>
-<<print _slot1>>
-<<next>><<print _slot2>>
-<<next>><<print _slot3>>
-<<next>>
-
-YOU <<if _win>>WIN<<else>>LOSE<</if>>!
-
-Your money now: <<print $funds>>
-
-[[Once again!->Slot Machine]]
-[[Stop gambling!]]
-<</timed>>
-
-
-:: Slums [Indoor] {"position":"2000,200","size":"100,200"}
-<html><img src="https://inklings.live/Twines/icons/abstract-062.svg" alt="<<_item1.name>> icon" style="width: 50px; height: 50px; margin-bottom: 10px;" /><big><b>Crowl</big></b></html>
-<b><u><<=passage()>></u></b>
-<b><i>Where to?</i></b>
--<<link "Toward the Norther Gate.">>
-    <<goto "North Gate">>
-<</link>>
-- [[CityFarm]]
-- [[Lower Slums]]
-
-
 :: SouthGate [Outside] {"position":"1700,1000","size":"100,100"}
 The southern gate of Crowl, facing the coast and nothing much more, mostly acting as a small buffer from nearby bandits south of here.
 
@@ -1385,17 +1335,6 @@ The fresh air here makes you feel like anything is possible until you witness th
 - [[South Path|T2]]
 
 
-:: Stalls {"position":"2400,250","size":"100,100"}
-<b><i>Do you..</i></b>
-- [[Back to Barn.|CityFarm]]
-- [[Look around East.|Wheatfield]]
-- [[Inquire the huddle.|Caretakers]]
-
-<sub><u>Back to Crowl</u></sub>
-- [[Slums]] 
-- [[Lower Slums]]
-
-
 :: Stone {"position":"2500,1300","size":"100,100"}
 <html><img src="https://inklings.live/Twines/icons/hand%20%(2).svg" alt="<<Hand>> icon" style="width: 50px; height: 50px; margin-bottom: 10px;" /></html><<if $equipment.has("axe")>><html><img src="https://inklings.live/Twines/icons/battered-axe.svg" alt="<<Axe>> icon" style="width: 50px; height: 50px; margin-bottom: 10px;" /><big><b>Wilds</big></b></html><</if>>
 <b><u><<=passage()>></u></b>
@@ -1432,10 +1371,6 @@ No loose stones nearby.
 <</if>>
 
 [[Back to Crowl|SouthGate]]
-
-
-:: Stop gambling! {"position":"3162.5,1025","size":"100,100"}
-
 
 
 :: Storage {"position":"200,2100","size":"100,100"}
@@ -1866,17 +1801,6 @@ You see two pulleys hanging over the well, each holding something mysterious. Co
 - [[South Merchants|Loc2]]
 
 
-:: Wheatfield {"position":"2650,450","size":"100,100"}
-<b><i>Do you..</i></b>
-- [[Back to Barn.|CityFarm]]
-- [[Look around north.|Stalls]]
-- [[Inquire the huddle.|Caretakers]]
-
-<sub><u>Back to Crowl</u></sub>
-- [[Slums]] 
-- [[Lower Slums]]
-
-
 :: Wishbone {"position":"425,0","size":"100,100"}
 <<fadein 5s 1s>>\
         "You arrived at the Wishbone like anyone else—empty pockets and a head full of schemes. The journey was supposed to be simple: pass through the basin, maybe haggle with a few merchants, then on to Crowl. But something about this place held you, wrapped you in its strange comfort. Strangers offered drinks, stories were shared in passing, and, somewhere in between the crackling fire and a soft lull of song, you let your guard down."\
@@ -1998,1327 +1922,3 @@ There seem to be a flyer on a nearby desk:
         </span>
     </p>
 <</widget>>
-
-
-:: StoryScript [script]
-State.prng.init();
-
-window.MQBN = class MQBN {
-
-  static getStorylets(limit,store="storylets",needAvailable=true) {
-    const available = [];
-    let   priority  = 0;
-    let   count     = 0;
-    for (let s of setup[store].sort(MQBN.prioritySort)) {
-      if (this.meetsRequirements(s,store)) {
-        count ++;
-        if ((s.priority ?? 0) >= priority) {
-          available.push(s);
-        }
-        if (count == limit) { 
-          priority = s.priority ?? 0; 
-          if (!needAvailable) { break; }
-        } 
-      }
-    };
-    temporary()[store+'_available'] = available;
-    return available.slice(0,limit).sort(MQBN.weightSort);
-  }
-
-  static prioritySort(a, b) {
-    if (a.priority && !b.priority) {
-      return -1;
-    } else if (a.priority != b.priority) {
-      return a.priority > b.priority ? -1 : 1;
-    } else {
-      return randomFloat(0,1) - 0.5;
-    }
-  }
-
-  static weightSort(a, b) {
-    if (a.priority && !b.priority) {
-      return 1;
-    } else if (a.weight != b.weight) {
-      return a.weight > b.weight ? 1 : -1;
-    } else {
-      return 0;
-    }
-  }
-  
-  static meetsRequirements(s,store="storylets") {
-    if (!s.sticky && variables()[store+"_used"].has(s.id ? s.id : s.title)) { return false; }
-    if (s.all) {
-      for (const r of s.all) {
-        if (!this[r.type+"Requirement"](r,store)) { return false; }
-      }
-    }
-    if (s.any) {
-      for (const r of s.any) {
-        if (this[r.type+"Requirement"](r,store)) { return true; }
-      }
-      return false;
-    }
-    return true;
-  }
-  
-  static anyRequirement(r,store) { return this.meetsRequirements(r,store); }
-  static allRequirement(r,store) { return this.meetsRequirements(r,store); }
-  
-  static visitedRequirement(r) {
-    if (r.op == "not") {
-      return !visited(r.passage);
-    } else {
-      return visited(r.passage);
-    }
-  }
-  
-  static varRequirement(r) {
-    return this.operators[r.op ?? "eq"](State.getVar(r.var),r.value);
-  }
-  
-  static sequenceRequirement(r) {
-    if (r.count) {
-      return this.operators[r.op ?? "eq"](State.getVar(r.seq).count,r.count);
-    } else if (r.value) {
-      return this.operators[r.op ?? "eq"](State.getVar(r.seq).value,r.value);
-    } else {
-      return this.operators[r.op == "not" ? "neq" : "eq"](State.getVar(r.seq).name,r.name);
-    }
-  }
-  
-  static playedRequirement(r,store) {
-    if (r.op == "not") {
-      return !variables()[store+"_used"].has(r.story);
-    } else {
-      return variables()[store+"_used"].has(r.story);
-    }
-  }
-
-  static collectionRequirement(r) {
-    const _var = State.getVar(r.var);
-    let   val;
-    if (_var instanceof Set || _var instanceof Map) {
-      val = _var.has(r.has);
-    } else if (_var instanceof Array) {
-      val = _var.includes(r.has);
-    } else if (Util.toStringTag(_var) == "Object") {
-      val = Object.hasOwn(r.has) && _var[r.has];
-    } else {
-      throw(`The variable ${r.var} is not any kind of collection`);
-    }
-    if (r.op == "not") {
-      return !val;
-    } else {
-      return val;
-    }
-  }
-
-  static functionRequirement(r,store) {
-    return r.func(r,store);
-  }
-  
-  static randRequirement(r) {
-    let x = this.getRandomInt(1,100);
-    return (x <= r.chance);
-  }
-
-  static operators = {
-    eq:  function(a, b) { return a == b },
-    neq: function(a, b) { return a != b },
-    lt:  function(a, b) { return a < b  },
-    gt:  function(a, b) { return a > b  },
-    lte: function(a, b) { return a <= b },
-    gte: function(a, b) { return a >= b },
-    includes: function(a, b) { return Array.isArray(a) && a.includes(b) },
-    notincludes: function(a, b) { return Array.isArray(a) && !a.includes(b) },
-    has: function(a, b) { 
-      return (a instanceof Set || a instanceof Map) && a.has(b) 
-    }
-  }
-
-  /* UTILITY */
-
-  static trigger(story) {
-    $(document).trigger({ type: ":storyletchosen", storylet: story});
-  }
-
-  // helper to avoid a seeded prng
-  static getRandomInt(min, max) {
-    return Math.random() * (max - min) + min;
-  }
-
-  static played(story,store="storylets") {
-    return this.playedRequirement({ story : story },store);
-  }
-
-  /* SCAN */
-  
-  static storyletscan(store = "storylets") {
-    const st      = (store == "storylets") ? "" : ` ['"]{0,1}*${store}['"]{0,1}`;
-    const match   = new RegExp(`<<storylet${st}>>`);
-    const replace = new RegExp(`<<storylet${st}>>(.*)<<\/storylet>>`,"s");
-    const ps      = Story.lookupWith((p) => p.text.match(match));
-    const storylets = [];
-    for (let p of ps) {
-      const s = p.text.replace(replace,"$1");
-      const storylet   = Scripting.evalJavaScript(`(${s.trim()})`);
-      storylet.title   = storylet.title ?? p.title;
-      storylet.passage = p.title;
-      storylets.push(storylet);
-    }
-    setup[store] = setup[store].concat(storylets);
-  }
-  
-  static storyletsinit(store = "storylets") {
-    State.setVar('$'+store+'_used',new Map());
-    State.setVar('$'+store+'_current',false);
-  }
-
-  static pruneStorylets(store = "storylets") {
-    setup[store] = setup[store].filter((s) => !variables()[store+'_used'].has(s.id ?? s.title));
-  }
-
-  /* SEQUENCES */
-
-  static createSequence(name, values, mode = "linear") {
-    setup.MQBNsequences = setup.MQBNsequences || {};
-    let initial = 0;
-    if (Util.toStringTag(values) == "Object") {
-      let va = [];
-      let setinitial = false;
-      for (let val in values) {
-        if (!setinitial) { initial = val; setinitial = true; }
-        va[val] = values[val];
-      }
-      values = va;
-    }
-    setup.MQBNsequences[name] = { values: values, mode: mode };
-    const seq = new Sequence(name,values[initial],initial);
-    State.setVar(name,seq);
-  }
-
-  static sequenceChange(name, inc) {
-    const seq   = State.getVar(name);
-    const idx   = seq.value;
-    const len   = setup.MQBNsequences[name].values.length;
-    let   newidx;
-
-    if (setup.MQBNsequences[name].mode == "linear") {
-      newidx = Math.max(Math.min(idx + inc,len -1),0);
-    } else if (setup.MQBNsequences[name].mode == "cycling") {
-      newidx = idx + inc;
-      if (inc > 0 && newidx > len -1) {
-        seq.count += Math.floor(newidx / len);
-      } else if (inc < 0 && newidx < 0) {
-        seq.count -= Math.abs(Math.floor(newidx / len));
-      }
-      newidx = Math.abs(newidx % len);
-    }
-    seq.name  = this.sequenceName(name,newidx);
-    seq.val   = newidx;
-    State.setVar(name,seq);
-  }
-
-  static sequenceName(name,value) {
-    let previous = "";
-    for (let val in setup.MQBNsequences[name].values) {
-      if (val > value) {
-        return previous;
-      }
-      previous = setup.MQBNsequences[name].values[val];
-    }
-    return previous;
-  }
-  
-};
-
-window.Sequence = class Sequence {
-  constructor(type, name, value, count = 1) {
-    this.type  = type;
-    this.name  = name;
-    this.val   = value;
-    this.count = count;
-  }
-
-  toString() {
-    return this.name;
-  }
-
-  [Symbol.toPrimitive](hint) {
-    if (hint == "string") {
-    	return this.name;
-    } else {
-    	return this.value;
-    }
-  }
-  
-  set value(newval) {
-    MQBN.sequenceChange(this.type, newval - this.value);
-  }
-  get value() { return this.val }
-  
-  toJSON() { // the custom revive wrapper for SugarCube's state tracking
-      // use `setup` version in case the global version is unavailable
-      return JSON.reviveWrapper(String.format("new Sequence({0},{1},{2},{3})",
-        JSON.stringify(this.type),
-        JSON.stringify(this.name),
-        JSON.stringify(this.val),
-        JSON.stringify(this.count)
-      ));
-  }
-  
-  clone() { return new Sequence(this.type,this.name,this.val,this.count); }
-};
-
-window.macroPairedArgsParser = function(args,start=0) {
-  const parsed = {};
-  for (let i = start; i < args.length; i += 2) {
-    parsed[args[i].replace(/[^a-zA-Z0-9_]/g,'')] = args[i+1];
-  }
-  return parsed;
-}
-
-Macro.add(["storyletsinit","initstorylets"],{
-  handler: function() {
-      MQBN.storyletsinit(this.args[0]);
-  }
-});
-
-Macro.add(["storyletsprune","prunestorylets"],{
-  handler: function() {
-      MQBN.pruneStorylets(this.args[0]);
-  }
-});
-
-Macro.add("storyletgoto",{
-  handler: function() {
-    if (this.args.length === 0) {
-        return this.error(`no storylet specified`);
-    }
-
-    const args    = macroPairedArgsParser(this.args,1);
-    const store   = args.store ?? 'storylets';
-    const ifopen  = args.open  ?? false;
-    let   storylet;
-
-    if (typeof this.args[0] === 'object') {
-      // Argument was a storylet object
-      storylet = this.args[0]; 
-    } else {
-      // Argument was a storylet name
-      const storylets = setup[store].find((s) => { return s.title == this.args[0] || s.id == this.args[0]});
-      if (ifopen) {
-        // we wish to use the first open one
-        const filtered = storylets.toSorted(MQBN.prioritySort).filter((s) => MQBN.meetsRequirements(s));
-        storylet = filtered.length ? filtered[0] : storylets[0];
-      } else {
-        storylet = storylets[0];
-      }
-    }
-
-    if (storylet) {
-      const passage = storylet.passage ?? storylet.title;
-      variables()[store+'_used'].set(storylet.id ?? storylet_title);
-      variables()[store+'_current'] = storylet;
-      MQBN.trigger(storylet);
-      Engine.play(passage);
-    }
-  }
-});
-
-Macro.add("storyletlink",{
-  tags    : null,
-  handler() {
-    if (this.args.length === 0) {
-      return this.error("no storylet specified");
-    }
-
-    const args    = macroPairedArgsParser(this.args,1);
-    const store   = args.store ?? 'storylets';
-    const style   = args.behaviour ?? 'hidden'; 
-    const payload = this.payload[0].contents.trim();
-    const $link   = jQuery(document.createElement('a'));
-      
-    let storylet;
-    if (typeof this.args[0] === 'object') {
-      // Argument was a storylet object
-      storylet = this.args[0]; 
-    }
-    else {
-      // Argument was a storylet name
-      if (!temporary()[store+'_available']) {
-          MQBN.getStorylets(0,store);
-      }
-      const s = temporary()[store+'_available'].find((s) => { return s.title == this.args[0] || s.id == this.args[0] });
-      if (s) {
-        storylet = s;
-      }
-    }
-    
-    if (storylet) {
-          
-      $link.append(document.createTextNode(args.text ?? (storylet.link ?? storylet.title)));
-      
-      let passage = storylet.passage ?? storylet.title;
-      
-      if (passage != null) { // lazy equality for null
-        $link.attr('data-passage', passage);
-        if (Story.has(passage)) {
-          if (Config.addVisitedLinkClass && State.hasPlayed(passage)) {
-            $link.addClass('link-visited');
-          }
-        }
-        else {
-          $link.addClass('link-broken');
-        }
-      }
-
-      $link
-        .addClass('macro-storylet-link')
-        .addClass('link-internal')
-        .ariaClick({
-          namespace : '.macros',
-          role      : passage != null ? 'link' : 'button', // lazy equality for null
-          one       : passage != null // lazy equality for null
-        }, this.createShadowWrapper(
-            function() {
-                variables()[store+'_used'].set(storylet.id ?? storylet.title);
-                variables()[store+'_current'] = storylet;
-                if (payload) {
-                  Wikifier.wikifyEval(payload)
-                }
-              },
-          passage != null // lazy equality for null
-            ? () => { MQBN.trigger(storylet); Engine.play(passage); }
-            : null
-        ))
-        .appendTo(this.output);
-          
-    } else if (style == "disabled" && typeof this.args[0] === "string") {
-      storylet = setup[store].find((s) => s.id == this.args[0] || s.title == this.args[0]);
-      if (storylet) {
-        jQuery(this.output).wiki(`<span class="link-disabled">${args.disabledtext ?? (storylet.link ?? storylet.title)}</span>`);
-      } else {
-        return this.error(`storylet ${this.args[0]} cannot be found`);
-      }
-    }
-  }
-});
-
-Macro.add("storyletuse",{
-  handler: function() {
-    if (this.args.length === 0) {
-        return this.error(`no storylet specified`);
-    }
-
-    const args    = macroPairedArgsParser(this.args,1);
-    const store   = args.store ?? 'storylets';
-    let   storylet;
-
-    if (typeof this.args[0] === 'object') {
-      // Argument was a storylet object
-      storylet = this.args[0]; 
-    } else {
-      // Argument was a storylet name
-      const storylets = setup[store].find((s) => { return s.title == this.args[0] || s.id == this.args[0]});
-    }
-
-    if (storylet) {
-      variables()[store+'_used'].set(storylet.id ?? storylet_title);
-      variables()[store+'_current'] = storylet;
-    }
-  }
-});
-
-/* SCAN MACROS */
-
-Macro.add("storyletscan",{
-  handler: function() {
-    MQBN.storyletscan(this.args[0]);
-  }
-});
-
-Macro.add("storylet",{
-  handler: function() {
-    // null placeholder to allow the <<storylet>> syntax
-  }
-});
-
-/* SEQUENCE MACROS */
-
-Macro.add("sequence",{
-  handler: function() {
-    if (this.args.length === 0) {
-      return this.error("no sequence name specified");
-    }
-    if (this.args[1] != "linear" && this.args[1] != "cycling") {
-      return this.error(`argument 2 must be either linear or cycling, ${this.args[1]} found`);
-    }
-    if (this.args.length < 3) {
-      return this.error("no sequence values specified");
-    }
-    if (Array.isArray(this.args[1]) || Util.toStringTag(this.args[1]) == "Object") {
-      MQBN.createSequence(this.args[0],this.args[2],this.args[1]);
-    } else {
-      MQBN.createSequence(this.args[0],this.args.slice(2),this.args[1]);
-    }
-  }
-});
-
-Macro.add(["sequenceadvance","sequencerewind"],{
-  handler: function() {
-    if (this.args.length === 0) {
-      return this.error("no sequence name specified");
-    }
-    if (!setup.MQBNsequences) {
-      return this.error("you must create a sequence using <<sequence>> before ${this.name == 'sequenceadvance' ? 'advancing' : 'rewinding'} it");
-    }
-    if (!setup.MQBNsequences[this.args[0]]) {
-      return this.error(`sequence ${this.args[0]} has not been defined`);
-    }
-    let   inc   = this.args[1] ?? 1;
-    if (this.name == "sequencerewind") { inc = -1 * inc; }
-    MQBN.sequenceChange(this.args[0],inc);
-  }
-});
-
-///////////////////////
-
-
-$(document).one(':passagedisplay', function () {
-    console.log("Passage fully displayed. JavaScript ready.");
-    // Place all your initialization code here.
-});
-
-// Blackout Sys //
-// Hijack passage transitions by intercepting all link clicks
-$(document).on('click', 'a.link-internal', function (event) {
-    // If focus is 0 or below, trigger blackout immediately
-    if (State.variables.focus <= 0 && !State.variables.blackoutTriggered) {
-        event.preventDefault();  // Stop the normal link behavior
-        State.variables.blackoutTriggered = true;  // Prevent multiple triggers
-        Engine.play('BlackoutPassage');  // Redirect to blackout
-    }
-});
-
-
-window.updateFocusSidebar = async function () {
-    // Check if the sidebar exists and clear it to force a refresh
-    if ($('#sidebar').length) {
-        $('#sidebar').empty();  // Clear the existing content
-
-        // Optional: Add placeholder content to ensure something renders
-        $('#sidebar').html(`
-            <div class="sidebar-placeholder">
-                <p>Sidebar refreshed!</p>
-            </div>
-        `);
-    }
-
-    console.log("Sidebar refreshed without tracking.");
-};
-
-
-
-
-// Track the number of passages and update rent logic
-window.updatePassageCount = function () {
-    SugarCube.State.variables.Totalpassages += 1;
-    console.log(`Total passages: ${SugarCube.State.variables.Totalpassages}`);
-};
-
-// Check if rent is due and apply it to funds
-window.checkRentDue = function () {
-    const state = SugarCube.State.variables;
-    
-    if (state.Totalpassages % state.rentnxt === 0) {
-        state.rentdue = state.rent;  // Calculate rent due
-        if (state.funds >= state.rentdue) {
-            state.funds -= state.rentdue;
-            console.log(`Rent of ${state.rentdue} coins paid.`);
-        } else {
-            console.log("Not enough funds to pay rent!");
-            // Handle scenarios like penalties or warnings here if needed
-        }
-    }
-    console.log(`Funds remaining: ${state.funds}`);
-};
-
-
-
-
-
-
-// 4. Deplete focus on passage display with immunity handling
-$(document).on(':passagerender', function () {
-    console.log("Passage rendered. Checking focus depletion...");
-
-    window.depleteFocus();  // Deplete focus on passage change
-    window.updateFocusSidebar();  // Update sidebar with new focus values
-});
-
-window.depleteFocus = function () {
-    if (State.variables.rewardActive) {
-        console.log("Immunity active: Focus not depleted.");
-        return;
-    }
-
-    const prestige = State.variables.prestige || 0;
-    const baseDrain = 1;
-    const drainAmount = Math.max(0, baseDrain - (prestige * 0.5));
-
-    State.variables.focus = Math.max(0, State.variables.focus - drainAmount);
-    console.log(`Focus drained by ${drainAmount}%. Current focus: ${State.variables.focus}%`);
-};
-
-
-
-
-
-//// Track Passage Immunity
-// Track passage changes and manage immunity effect
-$(document).on(':passagerender', function () {
-    if (State.variables.rewardActive) {
-        // Decrement the remaining passage count
-        State.variables.rewardPassagesLeft -= 1;
-
-        console.log(`Immunity active: ${State.variables.rewardPassagesLeft} passages left.`);
-
-        // If the reward expires, disable it
-        if (State.variables.rewardPassagesLeft <= 0) {
-            State.variables.rewardActive = false;
-            console.log("Immunity expired.");
-        }
-    }
-});
-
-
-
-//////////////
-/// Core Menu //////////
-// Function to inject the logo, slogan, location notifier, and mini-map into the sidebar
-window.injectLogoAndLocation = function () {
-    if (!$('#sidebar-header').length) {
-        $('#ui-bar').prepend(`
-            <div id="sidebar-header" style="
-                text-align: center;
-                               padding: 35px 10px 10px 10px;  /* Add 80px padding to the top */
-                border-bottom: 1px solid #ccc;
-                margin-bottom: 10px;">
-                <img src="https://inklings.live/Twines/MMP/a.2.yoyo.nobeef.webp" 
-                     alt="Game Logo" 
-                     style="max-width: 250px; display: block; margin: 0 auto;">
-                <p style="font-style: italic; margin-top: 5px;">
-                    "Your journey begins here..."
-                </p>
-                <div id="location-notifier" style="
-                    font-weight: bold;
-                    margin-top: 10px;
-                    font-size: 1.2em;
-                ">
-                    Location: <span id="current-location">Unknown</span>
-                </div>
-                <div id="mini-map" style="
-                    margin-top: 10px;
-                    width: 250px;
-                    height: 150px;
-                    background-size: cover;
-                    background-position: center;
-                    border: 1px solid #ddd;
-                ">
-                    <!-- Mini-map image will be displayed here -->
-                </div>
-            </div>
-        `);
-
-        console.log("Logo, slogan, location notifier, and mini-map injected.");
-    }
-};
-
-// Function to update the location notifier and mini-map with the current passage title
-// Function to update the location notifier and mini-map with the current passage title
-window.updateLocationNotifier = function () {
-    const currentLocation = SugarCube.State.passage || "Unknown Location";
-    $('#current-location').text(currentLocation);
-
-    // Update the mini-map with the appropriate image
-    const mapImage = getMiniMapImage(currentLocation);
-    $('#mini-map').css('background-image', `url(${mapImage})`);
-
-    console.log(`Location updated to: ${currentLocation}`);
-};
-
-// Function to return the appropriate mini-map image URL based on the location name
-function getMiniMapImage(location) {
-    const baseUrl = "https://inklings.live/Twines/MMP/mapgui/";
-
-    const mapImages = {
-        "Bandit Dock": "BanditDock.webp",
-        "Bandits": "Bandits.webp",
-        "Barracks": "Barracks.webp",
-        "Bazaar": "Bazaar.webp",
-        "CBridgeA": "CBridgeA.webp",
-        "Dock.1": "Dock.1.webp",
-        "Dock.2": "Dock.2.webp",
-        "DockQrts": "DockQrts.webp",
-        "Homes": "Homes.webp",
-        "Jewelers": "Jewlers.webp",
-        "JimsTavern": "JimsTavern.webp",
-        "Loc1": "Loc1.webp",
-        "Loc2": "Loc2.webp",
-        "LowerSlums": "LowerSlums.webp",
-        "MayorOffice": "MayorOffice.webp",
-        "MerchantGuild": "MerchantGuild.webp",
-        "MoonBr": "MoonBr.webp",
-        "MoonDock": "MoonDock.webp",
-        "MoonIsle": "MoonIsle.webp",
-        "North Gate": "NorthGate.webp",
-        "Post": "Post.webp",
-        "Slums": "Slums.webp",
-        "SouthGate": "SouthGate.webp",
-        "Square": "Square.webp",
-        "T1": "T1.webp",
-        "T2": "T2.webp",
-        "T3": "T3.webp",
-        "T4": "T4.webp",
-        "Well": "Well.webp",
-        "Witches": "Witches.webp",
-      	"CityFarm": "CityFarm.webp",
-      	"Lower Slums": "LowerSlums.webp"
-    };
-
-    // Return the corresponding image URL or the default image URL
-    return `${baseUrl}${mapImages[location] || 'default.webp'}`;
-}
-
-// Inject the logo, location notifier, and mini-map on story load
-$(document).on(':storyready', function () {
-    console.log("SugarCube engine ready.");
-    window.injectLogoAndLocation();  // Inject logo, slogan, location notifier, and mini-map
-    window.updateLocationNotifier();  // Set the initial location and map
-});
-
-// Update the location notifier and mini-map every time a passage is rendered
-$(document).on(':passagerender', function () {
-    console.log("Passage rendered. Updating location...");
-    window.updateLocationNotifier();  // Update the location and mini-map
-});
-
-
-// Inject the logo, location notifier, and mini-map on story load
-$(document).on(':storyready', function () {
-    console.log("SugarCube engine ready.");
-    window.injectLogoAndLocation();  // Inject logo, slogan, location notifier, and mini-map
-    window.updateLocationNotifier();  // Set the initial location and map
-});
-
-// Update the location notifier and mini-map every time a passage is rendered
-$(document).on(':passagerender', function () {
-    console.log("Passage rendered. Updating location...");
-    window.updateLocationNotifier();  // Update the location and mini-map
-});
-
-/// TYPEWRITER //
-window.typewriter = function (element, text, speed = 1, batchSize = 5) {
-    let i = 0;
-    function type() {
-        if (i < text.length) {
-            element.innerHTML += text.slice(i, i + batchSize);  // Add characters in batches
-            i += batchSize;
-            setTimeout(type, speed);
-        }
-    }
-    type();
-};
-
-importScripts(
-	"./javascript/macro.js",
-);
-
-
-// Dyslexia
-Macro.add('dyslexia', {
-	tags: null,
-	handler  : function () {
-		// Dyslexia by SjoerdHekking
-		'use strict';
-
-		let out = $(`<span class="macro-mess-up-words" />`)
-        	.wiki(this.payload[0].contents)
-          	.appendTo(this.output);
-
-		// returns texts
-		let getTextNodesIn = function(el) {
-		    return $(el).find(":not(iframe,script)").addBack().contents().filter(function() {
-		        return this.nodeType === 3;
-		    });
-		};
-
-		// only allow scanning within these tags
-		let textNodes = getTextNodesIn(out);
-
-		let errorArray = [];
-
-		let storeArg = this.args[0] || 10;
-		let storeArg2 = this.args[1] || 3;
-		let storeArg3 = this.args[2] || 50;
-
-		if (storeArg) {
-			storeArg = parseInt(storeArg);
-			if (isNaN(storeArg) || storeArg < 0 || storeArg > 100) {
-				errorArray.push("Check first argument. Invalid value.");
-			}
-		} 
-		if (storeArg2) {
-			storeArg2 = parseInt(storeArg2);
-			if (isNaN(storeArg2) || storeArg2 < 2) {
-				errorArray.push("Check second argument. Invalid value.");
-			}
-		} 
-		if (storeArg3) {
-			storeArg3 = parseInt(storeArg3);
-			if (isNaN(storeArg3) || storeArg3 < 50) {
-				errorArray.push("Check third argument. Invalid value.");
-			}
-		} 
-
-		if (errorArray.length > 0) {
-			let joinedArray = errorArray.join('\n')
-			return this.error(joinedArray);
-		}
-
-		let wordsInTextNodes = [];
-		for (let i = 0; i < textNodes.length; i++) {
-			const node = textNodes[i];
-			const wordsInNode = node.nodeValue.match(/\w+/g) || [];
-		
-			wordsInTextNodes[i] = wordsInNode.map((word, index) => ({
-				length: word.length,
-				position: node.nodeValue.indexOf(word, index === 0 ? 0 : wordsInNode[index - 1].length + wordsInNode[index - 1].index)
-			}));
-		}
-
-		/**
-		 * Messes up the words in text nodes according to the probability and word length delay set in the dyslexia macro.
-		 */
-		function messUpWords () {
-			for (let i = 0; i < textNodes.length; i++) {
-				let node = textNodes[i];
-
-				for (let j = 0; j < wordsInTextNodes[i].length; j++) {
-					
-					if (Math.random() < (100 - storeArg) / 100 ) {
-						continue;
-					}
-
-					let wordMeta = wordsInTextNodes[i][j];
-					let word = node.nodeValue.slice(wordMeta.position, wordMeta.position + wordMeta.length);
-					node.nodeValue = node.nodeValue.slice(0, wordMeta.position) + messUpWord(word) + node.nodeValue.slice(wordMeta.position + wordMeta.length);
-				};
-			};
-		}
-
-		/**
-		 * Messes up a single word by swapping random letters in the "messy part" of the word (i.e. all letters except the first and last).
-		 * @param {string} word - The word to mess up.
-		 * @returns {string} The messed up word, or the original word if its length is less than the minimum word length specified in the dyslexia macro.
-		 */
-		function messUpWord (word) {
-			if (word.length < storeArg2) return word;
-			const middle = messUpMessyPart(word.slice(1, -1));
-  			return `${word[0]}${middle}${word.slice(-1)}`;
-		}
-
-		/**
-		 * Messes up the "messy part" of a word by swapping two random letters.
-		 * @param {string} messyPart - The "messy part" of a word to mess up.
-		 * @returns {string} The messed up "messy part", or the original "messy part" if its length is less than 2.
-		 */
-		function messUpMessyPart (messyPart) {
-			if (messyPart.length < 2) return messyPart;
-
-			let a, b;
-			while (!(a < b)) {
-				a = getRandomInt(0, messyPart.length - 1);
-				b = getRandomInt(0, messyPart.length - 1);
-			}
-
-			function getRandomInt(min, max) {
-				return Math.floor(Math.random() * (max - min + 1) + min);
-			}
-
-			return `${messyPart.slice(0, a)}${messyPart[b]}${messyPart.slice(a+1, b)}${messyPart[a]}${messyPart.slice(b+1)}`;
-		}
-
-		setInterval(messUpWords, storeArg3);
-	}
-});
-
-
-
-// Spoiler
-Macro.add("spoiler", {
-	tags: null,
-	handler: function () {
-		// Spoiler macro by SjoerdHekking
-        // with the help of Cyrus Firheir
-		"use strict";
-
-		let errorArray = [];
-		const storeArg = Math.min(10, Math.max(0, parseInt(this.args[0] ?? 4)));
-		const storeArg2 = Math.min(10, Math.max(0, parseInt(this.args[1] ?? 2)));
-		const storeArg3 = String(this.args[2] ?? "Click to reveal completely");
-		
-		if (isNaN(storeArg)) {
-			errorArray.push("Check first argument. The spoiler macro used the default");
-		}
-		
-		if (isNaN(storeArg2)) {
-			errorArray.push("Check second argument. The spoiler macro used the default");
-		}
-
-		if (errorArray.length > 0) {
-		  let joinedArray = errorArray.join("\n")
-		  return this.error(joinedArray);
-		}
-
-		let out = $(`<span class="macro-spoiler" />`)
-			.wiki(this.payload[0].contents)
-			.appendTo(this.output);
-
-		spoiler(out, {
-			max: storeArg,
-			partial: storeArg2,
-			hintText: storeArg3
-		});
-
-		function spoiler(selector, options) {
-			const elements = $(selector);
-		
-			elements.each(function(index, el) {
-				el.dataset.spoilerState = "shrouded";
-				el.style.transition = "filter 250ms";
-		
-				function applyBlur(radius) {
-					el.style.filter = `blur(${radius}px)`;
-				}
-		
-				applyBlur(options.max);
-		
-				el.addEventListener("mouseover", function () {
-					el.style.cursor = "pointer";
-					el.title = options.hintText;
-					if (el.dataset.spoilerState === "shrouded") applyBlur(options.partial);
-				});
-		
-				el.addEventListener("mouseout", function () {
-					el.title = options.hintText;
-					if (el.dataset.spoilerState === "shrouded") applyBlur(options.max);
-				});
-		
-				el.addEventListener("click", function () {
-					if (el.dataset.spoilerState === "shrouded") {
-						el.dataset.spoilerState = "revealed";
-						el.title = "";
-						el.style.cursor = "auto";
-						applyBlur(0);
-					} else {
-						el.dataset.spoilerState = "shrouded";
-						el.title = options.hintText;
-						el.style.cursor = "pointer";
-						applyBlur(options.max);
-					}
-				});
-			});
-		}
-	}
-});
-
-////
-
-///** Banking / ATM  by: AZEREP**///
-//
-Macro.add("bankTransaction",{handler:function(){let a=this.args[0],e=parseInt(document.getElementById("transactionAmount").value),n=this.args[1]||"Unknown Location";if(isNaN(e)||e<=0){this.output.append("<p>Please enter a valid amount.</p>");return}let t="";"deposit"===a?State.variables.funds>=e?(State.variables.funds-=e,State.variables.bankBalance+=e,State.variables.ledger.push({type:"Deposit",amount:e,passage:Story.get("passage").title,location:n}),t=`Deposited ${e} coins. New bank balance: ${State.variables.bankBalance} coins. Funds remaining: ${State.variables.funds} coins.`):t="You don’t have enough funds to deposit this amount.":"withdraw"===a?State.variables.bankBalance>=e?(State.variables.bankBalance-=e,State.variables.funds+=e,State.variables.ledger.push({type:"Withdraw",amount:e,passage:Story.get("passage").title,location:n}),t=`Withdrew ${e} coins. New funds total: ${State.variables.funds} coins. Bank balance remaining: ${State.variables.bankBalance} coins.`):t="You don’t have enough in your bank balance to withdraw this amount.":t="Invalid action specified.",$(document.getElementById("transactionResult")).wiki(`<<replace "#transactionResult">>${t}<</replace>>`)}});
-
-
-Macro.add('tabs', {
-  skipArgs: false,
-  tags: null,
-  handler : function() {
-    const $wrapper  = $("<div class='tabs-tabset'>");
-    const $tabs     = $("<div class='tabs-tabs'>");
-    const $contents = $("<div class='tabs-contents'>");
-    
-    let   prefix    = '';
-    let   responsive = false;
-    let   responseWidth = 0;
-    let   responseSide  = 'left';
-
-    for (const arg of this.args) {
-      if (["left","right","top","stacked","wrapped","responsive-left","responsive-right","responsive-stacked","responsive-wrapped"].includes(arg)) {
-        if (arg.substring(0,10) == "responsive") {
-          responsive = true;
-          responseSide = arg.substring(11);
-        } else {
-          $wrapper.addClass(arg);
-        }
-      } else if (parseInt(arg)) {
-        responseWidth = parseInt(arg);
-      } else {
-        prefix = this.args[0] + '-';
-        $wrapper.attr("id",this.args[0]);
-      }
-    }
-    
-    this.context = {
-      selected: 0,
-      tabs: [],
-      contents: [],
-      tabCount: 0,
-      wrapper: $wrapper,
-      prefix: prefix
-    };
-    
-    $contents.wiki(this.payload[0].contents);
-    
-    this.context.tabs[this.context.selected].addClass("selected");
-    this.context.contents[this.context.selected].removeClass("hidden");
-    $tabs.append(...this.context.tabs);
-    $wrapper.attr("style",`--cols:${this.context.tabCount}`).append($tabs, $contents);
-    $(this.output).append($wrapper);
-    
-    if (responsive) {
-      const resizeObserver = new ResizeObserver((entries) => {
-        window.requestAnimationFrame(() => {
-          let entry = entries[0];
-          let width = 0;
-          if (entry.contentBoxSize) {
-              width = entry.contentBoxSize[0].inlineSize;
-          } else {
-              width = entry.contentRect.width;
-          }
-          $("#out").html("comparing "+width+" with "+responseWidth+" to set "+responseSide);
-          if (width && width <= responseWidth) {
-              $wrapper.addClass(responseSide);
-          } else {
-              $wrapper.removeClass(responseSide);
-          }
-        });
-      });
-
-      resizeObserver.observe($wrapper[0]);
-    }
-  }
-});
-
-Macro.add('tab', {
-  skipArgs: false,
-  tags: null,
-  handler : function() {
-    const parent = this.contextSelect(ctx => ctx.name === 'tabs');
-    if (!parent) {
-        return this.error('must only be used in conjunction with its parent macro <<tabs>>');
-    }
-
-    let tabname = this.args[0];
-    let tabid   = 'tabs-contents-' + tabname.trim().toLowerCase().replace(/[^a-z0-9]/g,'').replace(/\s+/g, '-');
-    let label   = `<span>${tabname}</span>`;
-    if (this.args[1] && typeof this.args[1] == "string") {
-      label = `<img src="${this.args[1]}">`;
-    }
-    
-    let $contents = $(`<div class="tabs-content hidden" id="${parent.context.prefix}${tabid}">`).wiki(this.payload[0].contents.trim());
-    parent.context.contents.push($contents);
-    
-    let $tab = $(`<button id="${tabid}-control">${label}</button>`).ariaClick(function() {
-      parent.context.tabs.forEach((tab) => tab.removeClass("selected"));
-      parent.context.contents.forEach((tab) => tab.addClass("hidden"));
-      $contents.removeClass("hidden");
-      $(this).addClass("selected");
-    });
-    parent.context.tabs.push($tab);
-    if (this.args.length > 1 && this.args[this.args.length -1] === true) { parent.context.selected = parent.context.tabCount; }
-    parent.context.tabCount ++;
-    
-    $(this.output).append($contents);
-  }
-});
-
-Macro.add(['id','style','class','attr'], {
-    skipArgs: false,
-    tags: null,
-    handler : function() {
-        if (this.args[0]) {
-            let parsedContent = $("<div>").wiki(this.payload[0].contents.trim()).children();
-            if (this.name == "class") {
-                parsedContent.first().addClass(this.args[0]);
-            } else if (this.name == "attr") {
-                if (this.args.length % 2 == 0) {
-                    for (let i = 0; i < this.args.length; i += 2) {
-                        parsedContent.first().attr(this.args[i],this.args[i+1]);
-                    }
-                } else {
-                    return this.error('You must specify pairs of attribute names and values you wish to add');
-                }
-            } else {
-                parsedContent.first().attr(this.name,this.args[0]);
-            }
-            jQuery(this.output).append(parsedContent);
-        } else {
-            return this.error('You must specify the content for the attribute you wish to add');
-        }
-    }
-});
-
-:: StoryStylesheet [stylesheet]
-/* Simple Inventory, for SugarCube 2, by Chapel 
-v3.0.1, 2024-07-22, 8c9749dbafa5f12948d743a8dedd4e1c74bb9e26 */
-
-ul.simple-inventory-list {
-    margin: 0 auto;
-    padding: 0;
-}
-
-.simple-inventory-listing {
-    list-style: none;
-    padding: 0.3rem 0.3rem 0.3rem 1rem;
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
-}
-
-.simple-inventory-listing:nth-child(2n) {
-    background-color: #000;
-}
-
-.simple-inventory-listing > a,
-.simple-inventory-listing > span {
-    display: inline-block;
-}
-
-.all-listing.simple-inventory-listing {
-    border-top: 1px solid #fafafa;
-    background-color: transparent;
-}
-
-.drop-link {
-    color: #e33;
-}
-
-.drop-link:active,
-.drop-link:focus,
-.drop-link:hover {
-    color: #f88;
-}
-
-.simple-inventory-filter {
-    text-align: right;
-}
-
-.simple-inventory-filter input {
-    display: inline-block;
-}
-
-/* End Simple Inventory */
-
-
-
-#sidebar-header {
-    display: block;
-}
-
-#mini-map {
-    display: block;
-    width: 250px;
-    height: 150px;
-}
-
-/* notify.min.css, by chapel; for use with notify.js; v1.0.0 */
-#notify{position:fixed;display:block;width:16em;right:-20em;top:2em;padding:.5em;background-color:#fff;color:#000;-webkit-transition:right .3s;-moz-transition:right .3s;-o-transition:right .3s;transition:right .3s}#notify.open{right:0}
-/* end notify.min.css */
-
-
-
-#outerCircleText {
-    color: #fff;
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 3000;
-    cursor: default;
-}
-
-#outerCircleText div {
-    position: relative;
-}
-
-#outerCircleText div div {
-    position: absolute;
-    top: 0;
-    left: 0;
-    text-align: center;
-}
-
-
-.macro-mess-up-words {
-    font-size: 20px;
-    color: red;
-}
-
-.macro-spoiler {
-    font-size: 20px;
-    color: red;
-}
-
-/* SILENT */
-.silent-link {
-    text-decoration: none;
-    color: inherit;
-}
-
-/*  HALL OF RECORDS */
-.hall-of-records {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-    gap: 15px;
-    padding: 20px;
-    text-align: center;
-}
-
-.stat-item {
-    background-color: #f3f3f3;  /* Light background for stats */
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    padding: 10px;
-}
-
-.stat-item img {
-    width: 40px;
-    height: 40px;
-    margin-bottom: 8px;
-}
-
-.stat-item p {
-    font-size: 14px;
-    color: #333;
-    margin: 0;
-}
-
-.tabs-tabset {
-	--cols: 1;
-	--button-rounding: 10px;
-	--tab-color: #343434;
-	--tab-selected: #565656;
-}
-
-.tabs-tabs {
-	display: grid;
-	grid-template-columns: repeat(var(--cols),1fr);
-	border-bottom: 1px solid #fff;
-}
-
-.tabs-tabs button {
-	border-top-left-radius: var(--button-rounding);
-	border-top-right-radius: var(--button-rounding);
-	background: var(--tab-color);
-	border: none;
-	margin: 0 5px
-}
-
-.tabs-tabs button.selected {
-	background: var(--tab-selected)
-}
-
-.tabs-contents {
-	padding: 1em
-}
-
-.tabs-content.hidden {
-	display: none
-}
-
-/* WRAPPED */
-
-.tabs-tabset.wrapped .tabs-tabs {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-}
-
-.tabs-tabset.wrapped .tabs-tabs button {
-  transition-duration: 0ms;
-}
-
-.tabs-tabset.wrapped .tabs-tabs button.selected {
-  order: calc(var(--cols) + 1);
-  width: 100%;
-  margin-top: -5px;
-}
-
-/* STACKED */
-
-.tabs-tabset.stacked .tabs-tabs {
-	display: grid;
-	grid-template-columns: 1fr;
-	border-bottom: 1px solid #fff;
-}
-
-.tabs-tabset.stacked .tabs-tabs button {
-	border-bottom: 1px solid #fff;
-    border-radius: 0;
-}
-
-.tabs-tabset.stacked .tabs-tabs button:first-child {
-	border-top-left-radius: var(--button-rounding);
-	border-top-right-radius: var(--button-rounding);
-}
-
-.tabs-tabset.stacked .tabs-tabs button:last-child {
-	border-bottom: none;
-}
-
-/* LEFT & RIGHT */
-
-.tabs-tabset.left {
-	display: grid;
-	grid-template-columns: 2.5em 1fr;
-    grid-template-areas: "tabs content";
-}
-
-.tabs-tabset.right {
-	display: grid;
-	grid-template-columns: 1fr 2.5em;
-    grid-template-areas: "content tabs";
-}
-
-.tabs-tabset.left .tabs-tabs, .tabs-tabset.right .tabs-tabs {
-    border-bottom: none;
-    grid-area: tabs;
-    grid-template-columns: 1fr;
-}
-
-.tabs-tabset.left .tabs-tabs button span, .tabs-tabset.right .tabs-tabs button span {
-    writing-mode: vertical-rl;
-	text-orientation: upright;
-}
-
-.tabs-tabset.left .tabs-tabs {
-	border-right: 1px solid #fff;
-}
-
-.tabs-tabset.right .tabs-tabs {
-	border-left: 1px solid #fff;
-}
-
-.tabs-tabset.left .tabs-tabs button {
-	border-radius: initial;
-	border-top-left-radius: var(--button-rounding);
-	border-bottom-left-radius: var(--button-rounding);
-    margin: 5px 0px;
-}
-
-.tabs-tabset.right .tabs-tabs button {
-	border-radius: initial;
-	border-top-right-radius: var(--button-rounding);
-	border-bottom-right-radius: var(--button-rounding);
-    margin: 5px 0px;
-}

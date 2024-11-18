@@ -1,0 +1,74 @@
+:: Apple Picking {"position":"3575,1250","size":"100,100"}
+You enthusastically take part in the harvest, hauling in the wheat from the fields.
+
+<<link [[Back to the Farm|Farm]]>><<sequenceadvance "$season">><</link>>
+
+
+:: Assignation {"position":"3700,1375","size":"100,100"}
+There's work to be done, but you slip away. Rowan left a note tucked under your pillow on the last saint's day — "Meet me by the lychgate when our fathers are busy."
+
+Stolen kisses, sweet promises, a brief caress under the drooping lychgate roof ... it's all you have time for before you are discovered and all hell breaks loose.
+
+Afterwards, chastened and punished, you are allowed to return to farm duties, but you are constantly watched, this won't happen again.
+
+<<link [[Back to the Farm|Farm]]>><<sequenceadvance "$season">><</link>>
+
+:: End {"position":"3825,1500","size":"100,100"}
+Years pass ... 
+
+There's a new life, a new home, a new profession, new children, Everything changes, and you are happy, but sometimes you miss the rhythm of the farm ...
+
+! THE END
+
+:: Harvest {"position":"3575,1375","size":"100,100"}
+You join the women and children harvesting the orchard, shaking the trees to bring down the apples and then gathering them in broad woven baskets. All this will go to ale, or to feed the pigs.
+
+<<if !MQBN.played("Leave")>>As you head home, Rowan catches your eye and smiles shyly.
+<</if>>\
+
+<<link [[Back to the Farm|Farm]]>><<sequenceadvance "$season">><</link>>
+
+
+:: Farm {"position":"3425,1250","size":"100,100"}
+! $season (year $season.count)
+
+It's $season, down on the farm, and as ever there's things to do.
+
+<<nobr>>
+	<<set _events = MQBN.getStorylets(3)>>
+    <<if _events.length>>
+      <ul>
+      <<for _event range _events>>
+          <li><<storyletlink _event>><</storyletlink>></li>
+      <</for>>
+      </ul>
+    <<else>>
+    	Although, in fact, there is nothing to do //this// season. <<link [[Advance to next season|Farm]]>>
+        	<<sequenceadvance "$season">>
+        <</link>>
+    <</if>>
+<</nobr>>
+
+
+:: Leave {"position":"3825,1375","size":"100,100"}
+Time has passed, as it ever does, but you can't shake the memory of that stolen kiss.
+
+There's no future here for you and Rowan — your families are sworn rivals. There's only one option, to steal away together and make a new life, far from here.
+
+The plans are all made. Rowan will be waiting by the Lychgate once more. If you don't go now, you never will. You have to decide
+
+* [[Leave|End]]
+* [[Stay|Farm]]
+
+
+:: Mowing {"position":"3700,1250","size":"100,100"}
+It's time to mow, and you take up a scythe along with the rest, swinging it in long arcs in time to the mowing song.
+
+<<link [[Back to the Farm|Farm]]>><<sequenceadvance "$season">><</link>>
+
+
+:: Planting {"position":"3825,1250","size":"100,100"}
+The spring thaw has softened the dark loam of the fields, so its time to plant the spring corn. The farm horses turn the furrows, and you follow behind, scattering seed till the light fails.
+
+<<link [[Back to the Farm|Farm]]>><<sequenceadvance "$season">><</link>>
+

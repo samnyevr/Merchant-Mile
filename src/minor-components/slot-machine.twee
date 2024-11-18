@@ -1,0 +1,36 @@
+
+
+
+:: Slot Machine {"position":"3225,900","size":"100,100"}
+<<silently>>
+<<set _slot1 to either("🗡️ Sword", "🛡️ Shield", "🧪 Potion")>>
+<<set _slot2 to either("🗡️ Sword", "🛡️ Shield", "🧪 Potion")>>
+<<set _slot3 to either("🗡️ Sword", "🛡️ Shield", "🧪 Potion")>>
+
+<<if _slot1 is _slot2 and _slot2 is _slot3>>
+    <<set _win to true>>
+    <<set $funds += 15>>  <!-- Add winnings -->
+<<else>>
+    <<set _win to false>>
+    <<set $funds -= 5>>  <!-- Deduct for loss -->
+<</if>>
+<</silently>>
+
+<b><i>Before you a large orb appears with unique symbols of familiarity.</i></b>
+
+<<timed 1s>>
+<<print _slot1>>
+<<next>><<print _slot2>>
+<<next>><<print _slot3>>
+<<next>>
+
+YOU <<if _win>>WIN<<else>>LOSE<</if>>!
+
+Your money now: <<print $funds>>
+
+[[Once again!->Slot Machine]]
+[[Stop gambling!]]
+<</timed>>
+
+
+:: Stop gambling! {"position":"3162.5,1025","size":"100,100"}
