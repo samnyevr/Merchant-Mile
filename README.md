@@ -25,6 +25,31 @@ src
  ┗ merchant-miles.twee
  ```
 
+#### Componenets 
+
+This is where we put all the components of the new layer of the city
+
+#### javascript
+
+This is where we put all of our javascripts files
+
+- ```config.js``` : all the Twine config
+- ```external-macro.js``` : all the macro from external sources
+- ```macro.js``` : all of our self built macros
+- ```main.js``` : the rest of the javascripts
+
+#### minor-components
+
+This is where we put all the components that aren't related or experimental components
+
+#### stylesheet
+
+This is where we put all of our stylesheet files
+
+- ```external.css``` : all of the external stylesheet
+- ```main.css``` : all of our self written stylehseet
+
+
 ## For Developers
 
 ```console
